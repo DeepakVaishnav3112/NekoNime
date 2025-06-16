@@ -1,0 +1,63 @@
+import { MdKeyboardArrowRight } from "react-icons/md";
+import Loader from "../Loader/Loader";
+import { months } from "../../utils/animeGenres";
+import { useGeneralContext } from "../../context/GeneralContext";
+import { useGenreContext } from "../../context/GenreContext";
+
+export default function SearchSuggestions({
+  searchResults,
+  loading,
+  setIsSearchOpen,
+}) {
+
+  const { setSelectedGenre } = useGenreContext();
+  const { setViewAllSection, setSearchAnimeList } = useGeneralContext();
+
+  return (
+    <div className="absolute w-full bg-primary top-12 rounded-md flex flex-col z-50 shadow">
+      {loading ? (
+        <Loader />
+      ) : (
+        <>
+          {searchResults.slice(0, 6).map((anime, index) => (
+            <div
+              key={index}
+              className={`flex gap-2 p-2 border-b-2 border-primary-hover-bg hover:bg-secondary transition cursor-pointer w-full ${
+                index === 0 ? "rounded-t-md" : ""
+              }`}
+            >
+              <img
+                src={anime.coverImage.large}
+                alt=""
+                className="w-10 h-14 rounded-md"
+              />
+              <div className="text-white flex flex-col w-[90%] pr-2">
+                <p className="font-medium truncate overflow-hidden whitespace-nowrap">
+                  {anime.title.english || anime.title.romaji}
+                </p>
+                <span className="text-[#ffffff4a] text-[12px]">{`${
+                  months[anime.startDate.month] || ""
+                } ${anime.startDate.day || ""}, ${
+                  anime.startDate.year || ""
+                }`}</span>
+              </div>
+            </div>
+          ))}
+
+          {/* View All Results */}
+          <div
+            className="flex items-center text-white justify-center bg-primary-hover-bg rounded-b-md py-4 cursor-pointer hover:bg-secondary transition"
+            onClick={() => {
+              setSelectedGenre(null);
+              setViewAllSection("SEARCH RESULTS");
+              setSearchAnimeList(searchResults);
+              setIsSearchOpen(false);
+            }}
+          >
+            View All Results <MdKeyboardArrowRight className="text-xl mt-0.5" />
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
