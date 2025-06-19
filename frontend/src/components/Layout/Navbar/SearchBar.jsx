@@ -1,10 +1,10 @@
 import { use, useEffect, useRef, useState } from "react";
-import { fetchSearchResults } from "../../services/animeService";
+import { fetchSearchResults } from "../../../services/animeService"
 import { FaSearch } from "react-icons/fa";
 import DropDown from "./DropDown";
 import SearchSuggestions from "./SearchSuggestions";
-import { useGeneralContext } from "../../context/GeneralContext";
-import { useGenreContext } from "../../context/GenreContext";
+import { useGeneralContext } from "../../../context/GeneralContext";
+import { useGenreContext } from "../../../context/GenreContext";
 
 export default function SearchBar() {
   const {

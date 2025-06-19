@@ -2,9 +2,11 @@ import { FaStar } from "react-icons/fa";
 import { BsFillBookmarkPlusFill } from "react-icons/bs";
 import { FaShare } from "react-icons/fa";
 import { FaPlay } from "react-icons/fa";
-import { genreColorsMap, genreTextColorsMap } from "../../utils/animeGenres";
-import { months } from "../../utils/animeGenres";
+import { genreColorsMap, genreTextColorsMap } from "../../utils/formatColors";
 import { useState } from "react";
+import GenreTag from "./GenreTag";
+import { formatAnimeDate } from "../../utils/dateUtils";
+import CircleButton from "../Common/CircleButton";
 
 export default function AnimeCard({ anime }) {
   const [isHoverd, setIsHovered] = useState(false);
@@ -13,7 +15,7 @@ export default function AnimeCard({ anime }) {
     <div
       className={`md:min-w-[206px] w-fit ${
         isHoverd ? "scale-102" : ""
-      } transition`} 
+      } transition`}
       onMouseOver={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -23,6 +25,7 @@ export default function AnimeCard({ anime }) {
           <img
             src={anime.coverImage.large}
             alt={anime.title.english || anime.title.romaji}
+            loading="lazy"
             className="w-[140px] md:w-[150px] h-[200px] md:h-[220px] rounded-md shadow-md"
           />
 
@@ -39,40 +42,31 @@ export default function AnimeCard({ anime }) {
 
         {/* Action Buttons */}
         <div className="flex flex-col items-center flex-1/6 gap-4 py-2 px-2">
-          <span className="cursor-pointer bg-primary text-white p-2 rounded-full hover:scale-110 hover:bg-secondary hover:text-primary-hover-text transition">
-            <BsFillBookmarkPlusFill className="text-lg " />
-          </span>
-          <span className="cursor-pointer bg-primary text-white p-2 rounded-full hover:scale-110 hover:bg-secondary hover:text-primary-hover-text transition">
-            <FaStar className="text-lg " />
-          </span>
-          <span className="cursor-pointer bg-primary text-white p-2 rounded-full hover:scale-110 hover:bg-secondary hover:text-primary-hover-text transition">
-            <FaPlay className="text-lg " />
-          </span>
-          <span className="cursor-pointer bg-primary text-white p-2 rounded-full hover:scale-110 hover:bg-secondary hover:text-primary-hover-text transition">
-            <FaShare className="text-lg " />
-          </span>
+          <CircleButton icon={BsFillBookmarkPlusFill} title="Add to List" onClick={() => console.log("Added to List")} />
+          <CircleButton icon={FaStar} title="Rate" onClick={() => console.log("Rated")} />
+          <CircleButton icon={FaPlay} title="Watch" onClick={() => console.log("Watched")} />
+          <CircleButton icon={FaShare} title="Share" onClick={() => console.log("Shared")} />
         </div>
       </div>
 
       <div className="flex flex-col px-1">
         {/* Title */}
-        <h3 title={anime.title.english || anime.title.romaji} className="w-[175px] md:w-[200px] text-primary text-md font-bold cursor-pointer truncate overflow-hidden whitespace-nowrap hover:text-secondary">
+        <h3
+          title={anime.title.english || anime.title.romaji}
+          className="w-[175px] md:w-[200px] text-primary text-md font-bold cursor-pointer truncate overflow-hidden whitespace-nowrap hover:text-secondary"
+        >
           {anime.title.english || anime.title.romaji}
         </h3>
 
         {/* Genres */}
         <div className="flex flex-wrap gap-1 mt-1">
           {anime.genres.slice(0, 3).map((genre) => (
-            <span
+            <GenreTag
               key={genre}
-              className="text-[9px] px-2 py-1 rounded-full"
-              style={{
-                backgroundColor: genreColorsMap[genre] || "#999",
-                color: genreTextColorsMap[genre] || "#fff",
-              }}
-            >
-              {genre}
-            </span>
+              genre={genre}
+              color={genreColorsMap[genre] || "#999"}
+              textColor={genreTextColorsMap[genre] || "#fff"}
+            />
           ))}
         </div>
 
@@ -94,9 +88,7 @@ export default function AnimeCard({ anime }) {
           {/* Release Date */}
           {anime.startDate && (
             <div className="text-secondary pt-1">
-              {`${anime.startDate.month ? months[anime.startDate.month - 1] : ""} ${
-                anime.startDate.day ? anime.startDate.day : ""
-              }, ${anime.startDate.year ? anime.startDate.year : ""}`}
+              {formatAnimeDate(anime.startDate)}
             </div>
           )}
         </div>

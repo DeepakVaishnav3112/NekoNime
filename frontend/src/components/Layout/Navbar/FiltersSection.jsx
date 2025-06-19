@@ -1,6 +1,6 @@
-import { useGeneralContext } from "../../context/GeneralContext";
-import { useGenreContext } from "../../context/GenreContext";
-import { animeGenres } from "../../utils/animeGenres";
+import { useGeneralContext } from "../../../context/GeneralContext";
+import { useGenreContext } from "../../../context/GenreContext";
+import { animeGenres } from "../../../utils/genres";
 
 export default function FiltersSection() {
   const { dropDownOpen, setDropDownOpen } = useGeneralContext();

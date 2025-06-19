@@ -5,59 +5,35 @@ import {
   fetchTrendingAnime,
   fetchUpcomingAnime,
 } from "../services/animeService";
-import AnimeSection from "../components/AnimeList/AnimeSection";
+import useAnimeData from "../hooks/useAnimeData";
+import AnimeSection from "../components/Anime/AnimeSection";
 import { useGenreContext } from "../context/GenreContext";
-import AnimeList from "../components/AnimeList/AnimeList";
+import AnimeList from "../components/Anime/AnimeList";
 import { useGeneralContext } from "../context/GeneralContext";
+import { SECTION_TYPES } from "../utils/sections";
 
 export default function Home() {
   const { selectedGenre } = useGenreContext();
   const { viewAllSection, searchAnimeList, search } = useGeneralContext();
+  const { trending, upcoming, latest, loading } = useAnimeData();
 
-  const [trendingAnimeList, setTrendingAnimeList] = useState([]);
-  const [upcomingAnimeList, setUpcomingAnimeList] = useState([]);
-  const [latestAnimeList, setLatestAnimeList] = useState([]);
   const [genreAnimeList, setGenreAnimeList] = useState([]);
+  const [genreLoading, setGenreLoading] = useState(false);
 
   const [visibleCards, setVisibleCards] = useState(5);
 
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    const loadInitData = async () => {
-      try {
-        setLoading(true);
-        const [trendingRes, upcomingRes, latestRes] = await Promise.all([
-          fetchTrendingAnime(),
-          fetchUpcomingAnime(),
-          fetchLatestAnime(),
-        ]);
-        console.log(upcomingRes.data);
-        setTrendingAnimeList(trendingRes.data);
-        setUpcomingAnimeList(upcomingRes.data);
-        setLatestAnimeList(latestRes.data);
-        // console.log(upcomingRes.data);
-      } catch (error) {
-        console.log("Error fetching data: ", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadInitData();
-  }, []);
 
   useEffect(() => {
     const loadGenreAnime = async () => {
       try {
-        setLoading(true);
+        setGenreLoading(true);
         setGenreAnimeList([]);
         const genreRes = await fetchAnime(selectedGenre);
         setGenreAnimeList(genreRes.data);
       } catch (error) {
         console.log("Error fetching data: ", error);
       } finally {
-        setLoading(false);
+        setGenreLoading(false);
       }
     };
 
@@ -83,9 +59,9 @@ export default function Home() {
 
   return (
     <div>
-      <div className="flex flex-col lg:flex-row gap-2 px-1 sm:px-2 py-2 sm:py-4">
+      <div className="relative flex flex-col lg:flex-row gap-2">
 
-        <div className="hidden lg:flex gap-4 flex-col sm:flex-row lg:flex-col m-1 lg:w-1/3 2xl:w-1/4 h-fit">
+        <div className="sticky top-22 hidden lg:flex gap-4 flex-col sm:flex-row lg:flex-col m-1 lg:w-1/3 2xl:w-1/4 h-fit px-1 sm:px-2">
           <div className="flex-1 w-full border-2 border-primary text-primary p-4 rounded-md">
             <h2 className="text-md font-bold">YOUR LISTS</h2>
           </div>
@@ -94,32 +70,32 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="lg:m-auto">
+        <div className="lg:m-auto px-1 sm:px-2 py-2 sm:py-4">
           {selectedGenre ? (
             <AnimeList
-              title={`${selectedGenre} ANIME`}
+              title={`${selectedGenre.toUpperCase()} ANIME`}
               animeList={genreAnimeList}
-              loading={loading}
+              loading={genreLoading}
             />
-          ) : viewAllSection === "TRENDING NOW" ? (
+          ) : viewAllSection === SECTION_TYPES.TRENDING ? (
             <AnimeList
-              title={"TRENDING NOW"}
-              animeList={trendingAnimeList}
+              title={SECTION_TYPES.TRENDING}
+              animeList={trending}
               loading={loading}
             />
-          ) : viewAllSection === "UPCOMING ANIME" ? (
+          ) : viewAllSection === SECTION_TYPES.UPCOMING ? (
             <AnimeList
-              title={"UPCOMING ANIME"}
-              animeList={upcomingAnimeList}
+              title={SECTION_TYPES.UPCOMING}
+              animeList={upcoming}
               loading={loading}
             />
-          ) : viewAllSection === "LATEST ANIME" ? (
+          ) : viewAllSection === SECTION_TYPES.LATEST ? (
             <AnimeList
-              title={"LATEST ANIME"}
-              animeList={latestAnimeList}
+              title={SECTION_TYPES.LATEST}
+              animeList={latest}
               loading={loading}
             />
-          ) : viewAllSection === "SEARCH RESULTS" ? (
+          ) : viewAllSection === SECTION_TYPES.SEARCH ? (
             <AnimeList
               title={
                 <>
@@ -132,20 +108,20 @@ export default function Home() {
           ) : (
             <>
               <AnimeSection
-                title="TRENDING NOW"
-                animeList={trendingAnimeList}
+                title={SECTION_TYPES.TRENDING}
+                animeList={trending}
                 loading={loading}
                 visibleCards={visibleCards}
               />
               <AnimeSection
-                title="UPCOMING ANIME"
-                animeList={upcomingAnimeList}
+                title={SECTION_TYPES.UPCOMING}
+                animeList={upcoming}
                 loading={loading}
                 visibleCards={visibleCards}
               />
               <AnimeSection
-                title="LATEST ANIME"
-                animeList={latestAnimeList}
+                title={SECTION_TYPES.LATEST}
+                animeList={latest}
                 loading={loading}
                 visibleCards={visibleCards}
               />

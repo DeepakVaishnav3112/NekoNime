@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { TiArrowSortedDown } from "react-icons/ti";
-import { useGeneralContext } from "../../context/GeneralContext";
+import { useGeneralContext } from "../../../context/GeneralContext";
 
 export default function DropDown({ setIsSearchOpen }) {
   const { dropDownOpen, setDropDownOpen } = useGeneralContext();

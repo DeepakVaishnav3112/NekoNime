@@ -1,8 +1,8 @@
 import { MdKeyboardArrowRight } from "react-icons/md";
-import Loader from "../Loader/Loader";
-import { months } from "../../utils/animeGenres";
-import { useGeneralContext } from "../../context/GeneralContext";
-import { useGenreContext } from "../../context/GenreContext";
+import Loader from "../../Common/Loader";
+import { formatAnimeDate } from "../../../utils/dateUtils";
+import { useGeneralContext } from "../../../context/GeneralContext";
+import { useGenreContext } from "../../../context/GenreContext";
 
 export default function SearchSuggestions({
   searchResults,
@@ -28,18 +28,15 @@ export default function SearchSuggestions({
             >
               <img
                 src={anime.coverImage.large}
-                alt=""
+                alt={anime.title.english || anime.title.romaji}
+                loading="lazy"
                 className="w-10 h-14 rounded-md"
               />
               <div className="text-white flex flex-col w-[90%] pr-2">
                 <p className="font-medium truncate overflow-hidden whitespace-nowrap">
                   {anime.title.english || anime.title.romaji}
                 </p>
-                <span className="text-[#ffffff4a] text-[12px]">{`${
-                  months[anime.startDate.month] || ""
-                } ${anime.startDate.day || ""}, ${
-                  anime.startDate.year || ""
-                }`}</span>
+                <span className="text-[#ffffff4a] text-[12px]">{formatAnimeDate(anime.startDate)}</span>
               </div>
             </div>
           ))}

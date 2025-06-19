@@ -1,7 +1,8 @@
 import { MdKeyboardArrowRight, MdKeyboardArrowLeft } from "react-icons/md";
-import Loader from "../Loader/Loader";
-import AnimeCard from "./AnimeCard";
+import Loader from "../Common/Loader";
+import AnimeCard from "../Anime/AnimeCard";
 import { useGeneralContext } from "../../context/GeneralContext";
+import { SECTION_TYPES } from "../../utils/sections";
 
 export default function AnimeList({ title, animeList, loading }) {
   const { setViewAllSection } = useGeneralContext();
@@ -17,9 +18,9 @@ export default function AnimeList({ title, animeList, loading }) {
               {title} 
             </h2>
 
-            { title === "TRENDING NOW" ||
-            title === "UPCOMING ANIME" ||
-            title === "LATEST ANIME" ? (
+            { title === SECTION_TYPES.TRENDING ||
+            title === SECTION_TYPES.UPCOMING ||
+            title === SECTION_TYPES.LATEST ? (
               <button
                 className="flex gap-1 items-center text-primary font-medium text-xs cursor-pointer hover:text-secondary transition"
                 onClick={() => setViewAllSection(null)}

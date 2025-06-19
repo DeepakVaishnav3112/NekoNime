@@ -1,25 +1,3 @@
-export const animeGenres = [
-  "Action",
-  "Adventure",
-  "Comedy",
-  "Drama",
-  "Ecchi",
-  "Fantasy",
-  "Hentai",
-  "Horror",
-  "Mahou Shoujo",
-  "Mecha",
-  "Music",
-  "Mystery",
-  "Psychological",
-  "Romance",
-  "Sci-Fi",
-  "Slice of Life",
-  "Sports",
-  "Supernatural",
-  "Thriller",
-];
-
 export const genreColorsMap = {
   Action: "#FF6B6B",
   Adventure: "#4ECDC4",
@@ -74,18 +52,3 @@ export const formatColors = {
   SPECIAL: "#E91E63",    // Pink
   MUSIC: "#795548"       // Brown
 };
-
-export const months = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "June",
-    "July",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];

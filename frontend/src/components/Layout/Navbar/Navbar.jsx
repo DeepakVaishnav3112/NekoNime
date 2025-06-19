@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { useGenreContext } from "../../context/GenreContext";
+import { useGenreContext } from "../../../context/GenreContext"; 
 import SearchBar from "./SearchBar";
 import { FaSearch } from "react-icons/fa";
-import { useGeneralContext } from "../../context/GeneralContext";
+import { useGeneralContext } from "../../../context/GeneralContext";
 
 export default function Navbar() {
   const { setSelectedGenre } = useGenreContext();
@@ -10,20 +10,6 @@ export default function Navbar() {
   const [showMobileSearch, setShowMobileSearch] = useState(false);
 
   return (
-    // <nav className="sticky top-0 w-full bg-white/30 backdrop-blur-md text-white shadow-md px-6 py-4 flex items-center justify-between z-50">
-    //   <div className="flex items-center gap-5">
-    //     {/* Brand Name */}
-    //     <h1
-    //       className="text-primary text-3xl font-bold cursor-pointer leading-0 text-shadow-lg"
-    //       onClick={() => setSelectedGenre("")}
-    //     >
-    //       Neko<span className="text-secondary">Nime</span>
-    //     </h1>
-
-    //     {/* Search Bar */}
-    //     <SearchBar />
-    //   </div>
-    // </nav>
 
     <nav className="sticky top-0 w-full bg-white/30 backdrop-blur-md text-white shadow-md px-4 py-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0 z-50">
       <div className="w-full sm:w-auto flex items-center justify-between gap-5">

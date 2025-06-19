@@ -1,7 +1,8 @@
 import { useGeneralContext } from "../../context/GeneralContext";
-import AnimeCard from "../AnimeList/AnimeCard";
-import Loader from "../Loader/Loader";
+import AnimeCard from "../Anime/AnimeCard";
+import Loader from "../Common/Loader";
 import { MdKeyboardArrowRight } from "react-icons/md";
+import AnimeGrid from "./AnimeGrid";
 
 export default function AnimeSection({
   title,
@@ -21,16 +22,16 @@ export default function AnimeSection({
             <h2 className="text-md font-bold text-secondary">{title}</h2>
             <button
               className="flex gap-1 items-center text-primary font-medium text-xs cursor-pointer hover:text-secondary transition"
-              onClick={() => setViewAllSection(title)}
+              onClick={() => {
+                setViewAllSection(title);
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
             >
               View All <MdKeyboardArrowRight />
             </button>
           </div>
-          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
-            {animeList.slice(0, visibleCards).map((anime) => (
-              <AnimeCard key={anime.id} anime={anime} />
-            ))}
-          </div>
+
+          <AnimeGrid animeList={animeList} visibleCards={visibleCards} />
         </>
       )}
     </div>
