@@ -11,9 +11,9 @@ export default function AnimeCard({ anime }) {
 
   return (
     <div
-      className={`min-w-[206px] sm:w-[206px] ${
+      className={`md:min-w-[206px] w-fit ${
         isHoverd ? "scale-102" : ""
-      } transition`}
+      } transition`} 
       onMouseOver={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -23,7 +23,7 @@ export default function AnimeCard({ anime }) {
           <img
             src={anime.coverImage.large}
             alt={anime.title.english || anime.title.romaji}
-            className="min-w-[140px] h-[220px] rounded-md shadow-md"
+            className="w-[140px] md:w-[150px] h-[200px] md:h-[220px] rounded-md shadow-md"
           />
 
           {/* Rating */}
@@ -56,7 +56,7 @@ export default function AnimeCard({ anime }) {
 
       <div className="flex flex-col px-1">
         {/* Title */}
-        <h3 title={anime.title.english || anime.title.romaji} className="text-primary text-md font-bold cursor-pointer truncate overflow-hidden whitespace-nowrap hover:text-secondary">
+        <h3 title={anime.title.english || anime.title.romaji} className="w-[175px] md:w-[200px] text-primary text-md font-bold cursor-pointer truncate overflow-hidden whitespace-nowrap hover:text-secondary">
           {anime.title.english || anime.title.romaji}
         </h3>
 

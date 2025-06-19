@@ -7,14 +7,14 @@ export default function AnimeList({ title, animeList, loading }) {
   const { setViewAllSection } = useGeneralContext();
 
   return (
-    <div className="w-fit mt-2 sm:mt-0 pb-5 mb-5 border-b-2 border-primary border-dotted">
+    <div className="w-fit mt-2 sm:mt-0 pb-5 mb-5 mx-auto">
       {loading ? (
         <Loader />
       ) : (
         <>
           <div className="flex justify-between pb-2 px-1 pe-4">
             <h2 className="text-md font-bold text-secondary">
-              {title}
+              {title} 
             </h2>
 
             { title === "TRENDING NOW" ||
@@ -29,13 +29,13 @@ export default function AnimeList({ title, animeList, loading }) {
             ) : null }
 
           </div>
-          <div className="grid grid-cols-2 gap-2 xs:grid-cols-3 sm:grid-cols-4 lg:grid-cols-5">
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
             {animeList.map((anime) => (
               <AnimeCard key={anime.id} anime={anime} />
             ))}
           </div>
 
-          <div className="flex justify-between pt-5">
+          <div className="flex justify-between pt-5 mt-5">
             <button title="Previous Page" className="text-primary text-3xl p-1 border-2 border-primary rounded-md hover:bg-secondary hover:border-secondary hover:text-white transition cursor-pointer"><MdKeyboardArrowLeft /></button>
             <button title="Next Page" className="text-primary text-3xl p-1 border-2 border-primary rounded-md hover:bg-secondary hover:border-secondary hover:text-white transition cursor-pointer"><MdKeyboardArrowRight /></button>
           </div>

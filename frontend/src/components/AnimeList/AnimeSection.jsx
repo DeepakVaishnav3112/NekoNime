@@ -12,7 +12,7 @@ export default function AnimeSection({
   const { setViewAllSection } = useGeneralContext();
 
   return (
-    <div className="w-fit mt-2 sm:mt-0 pb-5 mb-5 border-b-2 border-primary border-dotted">
+    <div className="w-fit mt-2 sm:mt-0 pb-5 mb-5 border-b-2 border-primary border-dotted mx-auto">
       {loading ? (
         <Loader />
       ) : (
@@ -26,7 +26,7 @@ export default function AnimeSection({
               View All <MdKeyboardArrowRight />
             </button>
           </div>
-          <div className="grid grid-cols-2 gap-2 xs:grid-cols-3 sm:grid-cols-4 lg:grid-cols-5">
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
             {animeList.slice(0, visibleCards).map((anime) => (
               <AnimeCard key={anime.id} anime={anime} />
             ))}
