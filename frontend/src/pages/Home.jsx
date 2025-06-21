@@ -1,10 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  fetchAnime,
-  fetchLatestAnime,
-  fetchTrendingAnime,
-  fetchUpcomingAnime,
-} from "../services/animeService";
+import { fetchAnime } from "../services/animeService";
 import useAnimeData from "../hooks/useAnimeData";
 import AnimeSection from "../components/Anime/AnimeSection";
 import { useGenreContext } from "../context/GenreContext";
@@ -14,14 +9,14 @@ import { SECTION_TYPES } from "../utils/sections";
 
 export default function Home() {
   const { selectedGenre } = useGenreContext();
-  const { viewAllSection, searchAnimeList, search } = useGeneralContext();
+  const { viewAllSection, searchAnimeList, search } =
+    useGeneralContext();
   const { trending, upcoming, latest, loading } = useAnimeData();
 
   const [genreAnimeList, setGenreAnimeList] = useState([]);
   const [genreLoading, setGenreLoading] = useState(false);
 
   const [visibleCards, setVisibleCards] = useState(5);
-
 
   useEffect(() => {
     const loadGenreAnime = async () => {
@@ -60,7 +55,6 @@ export default function Home() {
   return (
     <div>
       <div className="relative flex flex-col lg:flex-row gap-2">
-
         <div className="sticky top-22 hidden lg:flex gap-4 flex-col sm:flex-row lg:flex-col m-1 lg:w-1/3 2xl:w-1/4 h-fit px-1 sm:px-2">
           <div className="flex-1 w-full border-2 border-primary text-primary p-4 rounded-md">
             <h2 className="text-md font-bold">YOUR LISTS</h2>
@@ -99,7 +93,8 @@ export default function Home() {
             <AnimeList
               title={
                 <>
-                  SEARCH RESULTS FOR <span className="text-primary">{search.toUpperCase()}</span>
+                  SEARCH RESULTS FOR{" "}
+                  <span className="text-primary">{search.toUpperCase()}</span>
                 </>
               }
               animeList={searchAnimeList}
@@ -129,8 +124,6 @@ export default function Home() {
           )}
         </div>
 
-        <div className="hidden xxl:flex bg-primary w-1/6">SideBar</div>
-
         <div className="flex gap-4 flex-col sm:flex-row lg:flex-col m-1 lg:w-1/3 lg:hidden">
           <div className="flex-1 w-full border-2 border-primary text-primary p-4 rounded-md">
             <h2 className="text-md font-bold">YOUR LISTS</h2>
@@ -139,7 +132,6 @@ export default function Home() {
             <h2 className="text-md font-bold text-white">YOUR LISTS</h2>
           </div>
         </div>
-
       </div>
     </div>
   );

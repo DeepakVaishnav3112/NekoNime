@@ -174,6 +174,37 @@ const animeSearchQuery = {
   variables: {},
 };
 
+const animeDetailsQuery = {
+    query: `
+      query ($id: Int) {
+        Media(id: $id, type: ANIME) {
+          id
+          title {
+            romaji
+            english
+          }
+          coverImage {
+            extraLarge
+          }
+          description(asHtml: false)
+          averageScore
+          format
+          episodes
+          genres
+          status
+          startDate {
+            year
+            month
+            day
+          }
+          season
+          seasonYear
+        }
+      }
+    `,
+    variables: {}
+  };
+
 module.exports = {
   trendingAnimeQuery,
   animeQuery,
@@ -181,4 +212,5 @@ module.exports = {
   upcomingAnimeQuery,
   latestAnimeQuery,
   animeSearchQuery,
+  animeDetailsQuery,
 };

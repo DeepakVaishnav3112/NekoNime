@@ -9,6 +9,7 @@ const {
   upcomingAnimeQuery,
   latestAnimeQuery,
   animeSearchQuery,
+  animeDetailsQuery,
 } = require("./src/utils/query");
 const httpStatus = require("http-status-codes").StatusCodes;
 const { getNextSeasonAndYear } = require("./src/utils/helper.js") 
@@ -143,6 +144,24 @@ app.get("/search", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch search results" });
   }
 });
+
+app.get("/anime/:id", async (req, res) => {
+  const animeId = parseInt(req.params.id);
+
+  try {
+    animeDetailsQuery.variables.id = animeId;
+    const response = await axios.post(API_URL, animeDetailsQuery, {
+      headers: { "Content-Type": "application/json" }
+    });
+
+    console.log(response.data.data.Media);
+    res.json(response.data.data.Media);
+  } catch (error) {
+    console.error("Error fetching anime by ID:", error.message);
+    res.status(500).json({ error: "Failed to fetch anime." });
+  }
+});
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

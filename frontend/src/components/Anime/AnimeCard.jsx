@@ -7,6 +7,7 @@ import { useState } from "react";
 import GenreTag from "./GenreTag";
 import { formatAnimeDate } from "../../utils/dateUtils";
 import CircleButton from "../Common/CircleButton";
+import { Link } from "react-router-dom";
 
 export default function AnimeCard({ anime }) {
   const [isHoverd, setIsHovered] = useState(false);
@@ -21,13 +22,15 @@ export default function AnimeCard({ anime }) {
     >
       <div className="flex w-full p-1 pr-0 cursor-pointer">
         {/* Cover Image */}
-        <div className="relative z-[-1]">
-          <img
-            src={anime.coverImage.large}
-            alt={anime.title.english || anime.title.romaji}
-            loading="lazy"
-            className="w-[140px] md:w-[150px] h-[200px] md:h-[220px] rounded-md shadow-md"
-          />
+        <div className="relative">
+          <Link to={`/anime/${anime.id}`}>
+            <img
+              src={anime.coverImage.large}
+              alt={anime.title.english || anime.title.romaji}
+              loading="lazy"
+              className="w-[140px] md:w-[150px] h-[200px] md:h-[220px] rounded-md shadow-md"
+            />
+          </Link>
 
           {/* Rating */}
           {anime.averageScore && (
@@ -42,21 +45,39 @@ export default function AnimeCard({ anime }) {
 
         {/* Action Buttons */}
         <div className="flex flex-col items-center flex-1/6 gap-4 py-2 px-2">
-          <CircleButton icon={BsFillBookmarkPlusFill} title="Add to List" onClick={() => console.log("Added to List")} />
-          <CircleButton icon={FaStar} title="Rate" onClick={() => console.log("Rated")} />
-          <CircleButton icon={FaPlay} title="Watch" onClick={() => console.log("Watched")} />
-          <CircleButton icon={FaShare} title="Share" onClick={() => console.log("Shared")} />
+          <CircleButton
+            icon={BsFillBookmarkPlusFill}
+            title="Add to List"
+            onClick={() => console.log("Added to List")}
+          />
+          <CircleButton
+            icon={FaStar}
+            title="Rate"
+            onClick={() => console.log("Rated")}
+          />
+          <CircleButton
+            icon={FaPlay}
+            title="Watch"
+            onClick={() => console.log("Watched")}
+          />
+          <CircleButton
+            icon={FaShare}
+            title="Share"
+            onClick={() => console.log("Shared")}
+          />
         </div>
       </div>
 
       <div className="flex flex-col px-1">
         {/* Title */}
+        <Link to={`/anime/${anime.id}`}>
         <h3
           title={anime.title.english || anime.title.romaji}
           className="w-[175px] md:w-[200px] text-primary text-md font-bold cursor-pointer truncate overflow-hidden whitespace-nowrap hover:text-secondary"
         >
           {anime.title.english || anime.title.romaji}
         </h3>
+        </Link>
 
         {/* Genres */}
         <div className="flex flex-wrap gap-1 mt-1">

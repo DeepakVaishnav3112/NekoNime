@@ -1,4 +1,4 @@
-import { useState, useEffect, use } from "react";
+import { useState, useEffect } from "react";
 import { fetchTrendingAnime, fetchUpcomingAnime, fetchLatestAnime } from "../services/animeService";
 
 export default function useAnimeData() {
@@ -19,6 +19,7 @@ export default function useAnimeData() {
                 fetchUpcomingAnime(),
                 fetchLatestAnime(),
             ]);
+            // console.log(trendingRes.data);
             setData({
                 trending: trendingRes.data,
                 upcoming: upcomingRes.data,

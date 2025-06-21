@@ -16,3 +16,5 @@ export const fetchUpcomingAnime = () => axios.get(`${BASE_URL}/upcoming`);
 export const fetchLatestAnime = () => axios.get(`${BASE_URL}/latest`);
 
 export const fetchSearchResults = (searchQuery) => axios.get(`${BASE_URL}/search?q=${searchQuery}`);
+
+export const fetchAnimeDetails = (animeId) => axios.get(`${BASE_URL}/anime/${animeId}`);

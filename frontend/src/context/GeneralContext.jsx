@@ -7,6 +7,7 @@ export const GeneralProvider = ({ children }) => {
   const [dropDownOpen, setDropDownOpen] = useState(false);
   const [viewAllSection, setViewAllSection] = useState(null);
   const [searchAnimeList, setSearchAnimeList] = useState([]);
+  const [showSideBar, setShowSideBar] = useState(false);
 
   return (
     <GeneralContext.Provider
@@ -18,7 +19,9 @@ export const GeneralProvider = ({ children }) => {
         viewAllSection,
         setViewAllSection,
         searchAnimeList,
-        setSearchAnimeList
+        setSearchAnimeList,
+        showSideBar,
+        setShowSideBar,
       }}
     >
       {children}

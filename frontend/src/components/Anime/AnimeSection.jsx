@@ -1,5 +1,4 @@
 import { useGeneralContext } from "../../context/GeneralContext";
-import AnimeCard from "../Anime/AnimeCard";
 import Loader from "../Common/Loader";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import AnimeGrid from "./AnimeGrid";

@@ -1,4 +1,4 @@
-import { use, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { fetchSearchResults } from "../../../services/animeService"
 import { FaSearch } from "react-icons/fa";
 import DropDown from "./DropDown";
@@ -13,6 +13,7 @@ export default function SearchBar() {
     setViewAllSection,
     setSearchAnimeList,
     setDropDownOpen,
+    setShowSideBar,
   } = useGeneralContext();
   const { setSelectedGenre } = useGenreContext();
 
@@ -95,6 +96,7 @@ export default function SearchBar() {
               setSearchAnimeList(searchResults);
               setIsSearchOpen(false);
             }
+            setShowSideBar(false);
           }}
           className="px-4 border-2 border-l-0 border-[#429EA6] rounded-e-full cursor-pointer hover:bg-primary text-primary hover:text-white transition"
         >
