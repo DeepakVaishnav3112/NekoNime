@@ -26,7 +26,7 @@ const animeGenreQuery = {
   query: `
             query ($genre: String) {
                 Page(page: 1, perPage: 20) {
-                    media(genre: $genre, type: ANIME, sort: TRENDING_DESC) {
+                    media(genre: $genre, type: ANIME, sort: POPULARITY_DESC) {
                         id 
                         title {
                             romaji
@@ -80,7 +80,7 @@ const trendingAnimeQuery = {
             }
         }
     `,
-    variables: {}
+  variables: {},
 };
 
 const upcomingAnimeQuery = {
@@ -175,10 +175,11 @@ const animeSearchQuery = {
 };
 
 const animeDetailsQuery = {
-    query: `
+  query: `
       query ($id: Int) {
         Media(id: $id, type: ANIME) {
           id
+          idMal
           title {
             romaji
             english
@@ -186,11 +187,20 @@ const animeDetailsQuery = {
           coverImage {
             extraLarge
           }
+          bannerImage
+          trailer {
+            id
+            site
+            thumbnail
+          }
           description(asHtml: false)
           averageScore
+          popularity
           format
           episodes
+          duration
           genres
+          source
           status
           startDate {
             year
@@ -202,8 +212,134 @@ const animeDetailsQuery = {
         }
       }
     `,
-    variables: {}
-  };
+  variables: {},
+};
+
+const animeCharacterQuery = {
+  query: `
+    query ($id: Int) {
+      Media(id: $id, type: ANIME) {
+        characters(perPage: 20) {
+          edges {
+            role
+            node {
+              id
+              name {
+                full
+                native
+              }
+              image {
+                large
+              }
+              gender
+              age
+              description(asHtml: false)
+              dateOfBirth {
+                year
+                month
+                day
+              }
+            }
+            voiceActors {
+              id
+              name {
+                full
+                native
+              }
+              language
+              image {
+                large
+              }
+            }
+          }
+        }
+      }
+    }
+  `,
+  variables: {},
+};
+
+const animeStaffQuery = {
+  query: `
+    query ($id: Int) {
+      Media(id: $id, type: ANIME) {
+        staff(perPage: 25) {
+          edges {
+            role
+            node {
+            id
+            name {
+              full
+              native
+            }
+            image {
+              large
+            }
+          }
+        }
+      }
+    }
+  }
+  `,
+  variables: {},
+}
+
+const animeMoreInfoQuery = {
+  query: `
+    query ($id: Int) {
+      Media(id: $id, type: ANIME) {
+        id
+        status
+        source
+        startDate {
+          year
+          month
+          day
+        }
+        endDate {
+          year
+          month
+          day
+        }
+        nextAiringEpisode {
+          episode
+          airingAt
+        }
+        favourites
+        studios(isMain: true) {
+          nodes {
+            name
+          }
+        }
+        rankings {
+          id
+          rank
+          type
+          format
+          allTime
+        }
+        tags {
+          name
+          rank
+          isMediaSpoiler
+          description
+        }
+        externalLinks {
+          site
+          url
+          type
+          color
+        }
+        hashtag
+        siteUrl
+        updatedAt
+        isAdult
+        countryOfOrigin
+      }
+    }
+  `,
+  variables: {}
+};
 
 module.exports = {
   trendingAnimeQuery,
@@ -213,4 +349,7 @@ module.exports = {
   latestAnimeQuery,
   animeSearchQuery,
   animeDetailsQuery,
+  animeCharacterQuery,
+  animeStaffQuery,
+  animeMoreInfoQuery,
 };

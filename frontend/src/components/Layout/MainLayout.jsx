@@ -8,7 +8,7 @@ export default function MainLayout({ children }) {
 
   return (
     <div className="relative font-primary">
-      <Navbar />
+      <Navbar isAnimePage={location.pathname.startsWith("/anime/")}/>
       {dropDownOpen && <FiltersSection />}
       <Sidebar />
       <main>{children}</main>

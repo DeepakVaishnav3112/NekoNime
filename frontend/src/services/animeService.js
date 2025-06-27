@@ -9,12 +9,18 @@ export const fetchAnime = (selectedGenre) =>
       : `${BASE_URL}/anime`
   );
 
-export const fetchTrendingAnime = () => axios.get(`${BASE_URL}/trending`);
+export const fetchTrendingAnime = () => axios.get(`${BASE_URL}/anime/trending`);
 
-export const fetchUpcomingAnime = () => axios.get(`${BASE_URL}/upcoming`);
+export const fetchUpcomingAnime = () => axios.get(`${BASE_URL}/anime/upcoming`);
 
-export const fetchLatestAnime = () => axios.get(`${BASE_URL}/latest`);
+export const fetchLatestAnime = () => axios.get(`${BASE_URL}/anime/latest`);
 
-export const fetchSearchResults = (searchQuery) => axios.get(`${BASE_URL}/search?q=${searchQuery}`);
+export const fetchSearchResults = (searchQuery) => axios.get(`${BASE_URL}/anime/search?q=${searchQuery}`);
 
 export const fetchAnimeDetails = (animeId) => axios.get(`${BASE_URL}/anime/${animeId}`);
+
+export const fetchAnimeCharacters = (animeId) => axios.get(`${BASE_URL}/anime/${animeId}/characters`);
+
+export const fetchAnimeStaff = (animeId) => axios.get(`${BASE_URL}/anime/${animeId}/staff`);
+
+export const fetchAnimeMoreInfo = (animeId) => axios.get(`${BASE_URL}/anime/${animeId}/moreinfo`);

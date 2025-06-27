@@ -80,13 +80,14 @@ export default function AnimeCard({ anime }) {
         </Link>
 
         {/* Genres */}
-        <div className="flex flex-wrap gap-1 mt-1">
+        <div className="flex flex-wrap gap-1 mt-1 text-[9px]">
           {anime.genres.slice(0, 3).map((genre) => (
             <GenreTag
               key={genre}
               genre={genre}
               color={genreColorsMap[genre] || "#999"}
               textColor={genreTextColorsMap[genre] || "#fff"}
+              padding={[2, 1]}
             />
           ))}
         </div>
@@ -95,12 +96,12 @@ export default function AnimeCard({ anime }) {
           {/* Format and Episodes */}
           <div className="flex gap-1 items-center font-medium text-white">
             {anime.format && (
-              <span className="bg-secondary px-2 py-1 pt-[5px] rounded-s-md">
+              <span className={`bg-secondary px-2 py-1 pt-[5px] ${anime.episodes ? "rounded-s-md" : "rounded-md"}`}>
                 {anime.format}
               </span>
             )}
             {anime.episodes && (
-              <span className="bg-primary px-2 py-1 pt-[5px] rounded-e-md">
+              <span className={`bg-primary px-2 py-1 pt-[5px] ${anime.format ? "rounded-e-md" : "rounded-md"}`}>
                 {anime.episodes}
               </span>
             )}
