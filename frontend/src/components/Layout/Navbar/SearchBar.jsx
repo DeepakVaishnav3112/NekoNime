@@ -5,6 +5,7 @@ import DropDown from "./DropDown";
 import SearchSuggestions from "./SearchSuggestions";
 import { useGeneralContext } from "../../../context/GeneralContext";
 import { useGenreContext } from "../../../context/GenreContext";
+import { useNavigate } from "react-router-dom";
 
 export default function SearchBar() {
   const {
@@ -12,16 +13,18 @@ export default function SearchBar() {
     setSearch,
     setViewAllSection,
     setSearchAnimeList,
+    serachAnimePage,
     setDropDownOpen,
     setShowSideBar,
   } = useGeneralContext();
   const { setSelectedGenre } = useGenreContext();
 
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState({ list: [], pageInfo: {} });
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const searchRef = useRef();
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Debounce: Wait for 300ms after typing stops
@@ -30,7 +33,11 @@ export default function SearchBar() {
         setLoading(true);
         try {
           const res = await fetchSearchResults(search);
-          setSearchResults(res.data);
+          console.log({ list: res.data.animeList, pageInfo: res.data.pageInfo });
+          setSearchResults({
+            list: res.data.animeList,
+            pageInfo: res.data.pageInfo,
+          });
         } catch (error) {
           console.log("Error fetching search results:", error);
         } finally {
@@ -83,6 +90,7 @@ export default function SearchBar() {
               setViewAllSection("SEARCH RESULTS");
               setSearchAnimeList(searchResults);
               setIsSearchOpen(false);
+              navigate("/browse");
             }
           }}
         />
@@ -95,6 +103,7 @@ export default function SearchBar() {
               setViewAllSection("SEARCH RESULTS");
               setSearchAnimeList(searchResults);
               setIsSearchOpen(false);
+              navigate("/browse");
             }
             setShowSideBar(false);
           }}
@@ -105,9 +114,9 @@ export default function SearchBar() {
       </div>
 
       {/* Search Suggestions */}
-      {isSearchOpen && (searchResults.length > 0 || loading) && (
+      {isSearchOpen && (searchResults?.list?.length > 0 || loading) && (
         <SearchSuggestions
-          searchResults={searchResults}
+          searchResults={searchResults.list}
           loading={loading}
           setIsSearchOpen={setIsSearchOpen}
         />

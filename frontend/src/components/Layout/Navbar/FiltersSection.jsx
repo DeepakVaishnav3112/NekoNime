@@ -2,10 +2,13 @@ import React from "react";
 import { useGeneralContext } from "../../../context/GeneralContext";
 import { useGenreContext } from "../../../context/GenreContext";
 import { animeGenres, genreColors, genreIcons } from "../../../utils/genres";
+import { useNavigate } from "react-router-dom";
 
 export default function FiltersSection() {
   const { dropDownOpen, setDropDownOpen } = useGeneralContext();
   const { selectedGenre, setSelectedGenre } = useGenreContext();
+
+  const navigate = useNavigate();
 
   return (
     <div
@@ -50,6 +53,7 @@ export default function FiltersSection() {
                 onClick={() => {
                   setSelectedGenre(genre);
                   setDropDownOpen(false);
+                  navigate("/browse")
                 }}
               >
                 <span className="text-md">

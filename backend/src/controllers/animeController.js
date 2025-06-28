@@ -24,70 +24,108 @@ const postRequest = async (query) => {
 };
 
 exports.getAnime = async (req, res, next) => {
+  const page = parseInt(req.query.page) || 1;
+
   try {
     const genre = req.query.genre;
     const query = genre
-      ? { ...animeGenreQuery, variables: { genre } }
+      ? { ...animeGenreQuery, variables: { genre, page } }
       : animeQuery;
 
     const response = await postRequest(query);
-    res.json(response.data.data.Page.media);
+    const pageData = response.data.data.Page;
+    const animeList = pageData.media;
+    const pageInfo = pageData.pageInfo;
+
+    res.json({
+      animeList,
+      pageInfo,
+    });
   } catch (err) {
     next(err);
   }
 };
 
 exports.getTrendingAnime = async (req, res, next) => {
-  const page = req.query.page || 1;
+  const page = parseInt(req.query.page) || 1;
   const cacheKey = `trending-${page}`;
 
   try {
-    const cached = getCache(cacheKey);
-    if (cached) return res.json(cached);
+    if (page === 1) {
+      const cached = getCache(cacheKey);
+      if (cached) return res.json(cached);
+    }
 
     trendingAnimeQuery.variables.page = page;
     const response = await postRequest(trendingAnimeQuery);
-    const data = response.data.data.Page.media;
+    const pageData = response.data.data.Page;
+    const animeList = pageData.media;
+    const pageInfo = pageData.pageInfo;
 
-    setCache(cacheKey, data, 3 * 60 * 60 * 1000); // 3 hours
-    res.json(data);
+    if (page === 1)
+      setCache(cacheKey, { animeList, pageInfo }, 3 * 60 * 60 * 1000);
+
+    res.json({
+      animeList,
+      pageInfo,
+    });
   } catch (err) {
     next(err);
   }
 };
 
 exports.getUpcomingAnime = async (req, res, next) => {
-  const cacheKey = `upcoming-${season}-${year}`;
+  const page = parseInt(req.query.page) || 1;
+  const cacheKey = `upcoming-${page}`;
 
   try {
-    const cached = getCache(cacheKey);
-    if (cached) return res.json(cached);
+    if (page === 1) {
+      const cached = getCache(cacheKey);
+      if (cached) return res.json(cached);
+    }
 
-    upcomingAnimeQuery.variables = { season, seasonYear: year };
+    upcomingAnimeQuery.variables = { season, seasonYear: year, page };
     const response = await postRequest(upcomingAnimeQuery);
-    const data = response.data.data.Page.media;
+    const pageData = response.data.data.Page;
+    const animeList = pageData.media;
+    const pageInfo = pageData.pageInfo;
 
-    setCache(cacheKey, data, 3 * 60 * 60 * 1000); // 3 hours
-    res.json(data);
+    if (page === 1)
+      setCache(cacheKey, { animeList, pageInfo }, 3 * 60 * 60 * 1000);
+
+    res.json({
+      animeList,
+      pageInfo,
+    });
   } catch (err) {
     next(err);
   }
 };
 
 exports.getLatestAnime = async (req, res, next) => {
-  const cacheKey = `latest`;
+  const page = parseInt(req.query.page) || 1;
+  const cacheKey = `latest-${page}`;
 
   try {
-    const cached = getCache(cacheKey);
-    if (cached) return res.json(cached);
+    if (page === 1) {
+      const cached = getCache(cacheKey);
+      if (cached) return res.json(cached);
+    }
 
     const response = await postRequest(latestAnimeQuery);
-    const data = response.data.data.Page.media.filter(
+    const pageData = response.data.data.Page;
+    const animeList = pageData.media.filter(
       (a) => a.startDate?.year && a.startDate?.month && a.startDate.day
     );
+    const pageInfo = pageData.pageInfo;
 
-    setCache(cacheKey, data, 3 * 60 * 60 * 1000); // 3 hours
-    res.json(data);
+    if (page === 1)
+      setCache(cacheKey, { animeList, pageInfo }, 3 * 60 * 60 * 1000);
+
+    res.json({
+      animeList,
+      pageInfo,
+    });
   } catch (err) {
     next(err);
   }
@@ -95,12 +133,22 @@ exports.getLatestAnime = async (req, res, next) => {
 
 exports.searchAnime = async (req, res, next) => {
   const search = req.query.q;
+  const page = parseInt(req.query.page) || 1;
+
   if (!search) return res.status(400).json({ error: "Missing search query" });
 
   try {
     animeSearchQuery.variables.search = search;
+    animeSearchQuery.variables.page = page;
     const response = await postRequest(animeSearchQuery);
-    res.json(response.data.data.Page.media);
+    const pageData = response.data.data.Page;
+    const animeList = pageData.media;
+    const pageInfo = pageData.pageInfo;
+    
+    res.json({
+      animeList,
+      pageInfo,
+    });
   } catch (err) {
     next(err);
   }

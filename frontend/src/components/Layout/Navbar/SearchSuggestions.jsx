@@ -3,6 +3,7 @@ import Loader from "../../Common/Loader";
 import { formatAnimeDate } from "../../../utils/dateUtils";
 import { useGeneralContext } from "../../../context/GeneralContext";
 import { useGenreContext } from "../../../context/GenreContext";
+import { useNavigate } from "react-router-dom";
 
 export default function SearchSuggestions({
   searchResults,
@@ -11,7 +12,9 @@ export default function SearchSuggestions({
 }) {
 
   const { setSelectedGenre } = useGenreContext();
-  const { setViewAllSection, setSearchAnimeList } = useGeneralContext();
+  const { setViewAllSection, setSearchAnimeList, } = useGeneralContext();
+
+  const navigate = useNavigate();
 
   return (
     <div className="absolute w-full bg-primary top-12 rounded-md flex flex-col z-50 shadow">
@@ -25,6 +28,10 @@ export default function SearchSuggestions({
               className={`flex gap-2 p-2 border-b-2 border-primary-hover-bg hover:bg-secondary transition cursor-pointer w-full ${
                 index === 0 ? "rounded-t-md" : ""
               }`}
+              onClick={() => {
+                navigate(`/anime/${anime.id}`);
+                setIsSearchOpen(false)
+              }}
             >
               <img
                 src={anime.coverImage.large}
@@ -49,6 +56,7 @@ export default function SearchSuggestions({
               setViewAllSection("SEARCH RESULTS");
               setSearchAnimeList(searchResults);
               setIsSearchOpen(false);
+              navigate("/browse");
             }}
           >
             View All Results <MdKeyboardArrowRight className="text-xl mt-0.5" />

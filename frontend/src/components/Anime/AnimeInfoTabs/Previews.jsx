@@ -3,7 +3,13 @@ import axios from "axios";
 import Loader from "../../Common/Loader";
 import SharedTabContainer from "./SharedTabContainer";
 
-export default function Previews({ idMal, previews, setPreviews, loading, setLoading }) {
+export default function Previews({
+  idMal,
+  previews,
+  setPreviews,
+  loading,
+  setLoading,
+}) {
   const promoAndImagesAPI = `https://api.jikan.moe/v4/anime/${idMal}/videos`;
   // console.log(idMal)
 
@@ -30,22 +36,22 @@ export default function Previews({ idMal, previews, setPreviews, loading, setLoa
         <Loader />
       ) : (
         <>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 2xl:grid-cols-2 gap-4">
-          {/* Promo Videos */}
-          {previews?.promo?.map((item) => (
-            <div
-              key={item.trailer.youtube_id}
-              className="w-full aspect-video rounded-xl overflow-hidden shadow mt-1"
-            >
-              <iframe
-                className="w-full h-full"
-                src={`https://www.youtube.com/embed/${item.trailer.youtube_id}`}
-                title={item.title}
-                allow="autoplay; encrypted-media"
-                allowFullScreen
-              ></iframe>
-            </div>
-          ))}
+          <div className={`grid grid-cols-1 ${previews.length > 2 && "sm:grid-cols-2 lg:grid-cols-1 2xl:grid-cols-2"} gap-4`}>
+            {/* Promo Videos */}
+            {previews?.promo?.map((item) => (
+              <div
+                key={item.trailer.youtube_id}
+                className="w-full aspect-video rounded-xl overflow-hidden shadow mt-1"
+              >
+                <iframe
+                  className="w-full h-full"
+                  src={`https://www.youtube.com/embed/${item.trailer.youtube_id}`}
+                  title={item.title}
+                  allow="autoplay; encrypted-media"
+                  allowFullScreen
+                ></iframe>
+              </div>
+            ))}
           </div>
 
           {previews?.episodes?.length > 0 && (

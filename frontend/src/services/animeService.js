@@ -2,21 +2,24 @@ import axios from "axios";
 
 const BASE_URL = "http://localhost:3000";
 
-export const fetchAnime = (selectedGenre) =>
+export const fetchAnime = (selectedGenre, page = 1) =>
   axios.get(
     selectedGenre
-      ? `${BASE_URL}/anime?genre=${selectedGenre}`
+      ? `${BASE_URL}/anime?genre=${selectedGenre}&page=${page}`
       : `${BASE_URL}/anime`
   );
 
-export const fetchTrendingAnime = () => axios.get(`${BASE_URL}/anime/trending`);
+export const fetchTrendingAnime = (page = 1) =>
+  axios.get(`${BASE_URL}/anime/trending?page=${page}`);
 
-export const fetchUpcomingAnime = () => axios.get(`${BASE_URL}/anime/upcoming`);
+export const fetchUpcomingAnime = (page = 1) =>
+  axios.get(`${BASE_URL}/anime/upcoming?page=${page}`);
 
-export const fetchLatestAnime = () => axios.get(`${BASE_URL}/anime/latest`);
+export const fetchLatestAnime = (page = 1) =>
+  axios.get(`${BASE_URL}/anime/latest?page=${page}`);
 
-export const fetchSearchResults = (searchQuery) =>
-  axios.get(`${BASE_URL}/anime/search?q=${searchQuery}`);
+export const fetchSearchResults = (searchQuery, page = 1) =>
+  axios.get(`${BASE_URL}/anime/search?q=${searchQuery}&page=${page}`);
 
 export const fetchAnimeDetails = (animeId) =>
   axios.get(`${BASE_URL}/anime/${animeId}`);

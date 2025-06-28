@@ -1,39 +1,28 @@
 import { useEffect, useState } from "react";
-import { fetchAnime } from "../services/animeService";
 import useAnimeData from "../hooks/useAnimeData";
 import AnimeSection from "../components/Anime/AnimeSection";
-import { useGenreContext } from "../context/GenreContext";
 import AnimeList from "../components/Anime/AnimeList";
 import { useGeneralContext } from "../context/GeneralContext";
 import { SECTION_TYPES } from "../utils/sections";
 
 export default function Home() {
-  const { selectedGenre } = useGenreContext();
-  const { viewAllSection, searchAnimeList, search } =
-    useGeneralContext();
-  const { trending, upcoming, latest, loading } = useAnimeData();
-
-  const [genreAnimeList, setGenreAnimeList] = useState([]);
-  const [genreLoading, setGenreLoading] = useState(false);
+  const { viewAllSection } = useGeneralContext();
+  const {
+    trending,
+    upcoming,
+    latest,
+    trendingPage,
+    upcomingPage,
+    latestPage,
+    loadingTrending,
+    loadingUpcoming,
+    loadingLatest,
+    setTrendingPage, 
+    setUpcomingPage,
+    setLatestPage,
+  } = useAnimeData();
 
   const [visibleCards, setVisibleCards] = useState(5);
-
-  useEffect(() => {
-    const loadGenreAnime = async () => {
-      try {
-        setGenreLoading(true);
-        setGenreAnimeList([]);
-        const genreRes = await fetchAnime(selectedGenre);
-        setGenreAnimeList(genreRes.data);
-      } catch (error) {
-        console.log("Error fetching data: ", error);
-      } finally {
-        setGenreLoading(false);
-      }
-    };
-
-    selectedGenre && loadGenreAnime();
-  }, [selectedGenre]);
 
   useEffect(() => {
     const updateCardCounter = () => {
@@ -65,59 +54,48 @@ export default function Home() {
         </div>
 
         <div className="lg:m-auto px-1 sm:px-2 py-2 sm:py-4">
-          {selectedGenre ? (
-            <AnimeList
-              title={`${selectedGenre.toUpperCase()} ANIME`}
-              animeList={genreAnimeList}
-              loading={genreLoading}
-            />
-          ) : viewAllSection === SECTION_TYPES.TRENDING ? (
+          {viewAllSection === SECTION_TYPES.TRENDING ? (
             <AnimeList
               title={SECTION_TYPES.TRENDING}
               animeList={trending}
-              loading={loading}
+              loading={loadingTrending}
+              page={trendingPage}
+              setPage={setTrendingPage}
             />
           ) : viewAllSection === SECTION_TYPES.UPCOMING ? (
             <AnimeList
               title={SECTION_TYPES.UPCOMING}
               animeList={upcoming}
-              loading={loading}
+              loading={loadingUpcoming}
+              page={upcomingPage}
+              setPage={setUpcomingPage}
             />
           ) : viewAllSection === SECTION_TYPES.LATEST ? (
             <AnimeList
               title={SECTION_TYPES.LATEST}
               animeList={latest}
-              loading={loading}
-            />
-          ) : viewAllSection === SECTION_TYPES.SEARCH ? (
-            <AnimeList
-              title={
-                <>
-                  SEARCH RESULTS FOR{" "}
-                  <span className="text-primary">{search.toUpperCase()}</span>
-                </>
-              }
-              animeList={searchAnimeList}
-              loading={loading}
+              loading={loadingLatest}
+              page={latestPage}
+              setPage={setLatestPage}
             />
           ) : (
             <>
               <AnimeSection
                 title={SECTION_TYPES.TRENDING}
                 animeList={trending}
-                loading={loading}
+                loading={loadingTrending}
                 visibleCards={visibleCards}
               />
               <AnimeSection
                 title={SECTION_TYPES.UPCOMING}
                 animeList={upcoming}
-                loading={loading}
+                loading={loadingUpcoming}
                 visibleCards={visibleCards}
               />
               <AnimeSection
                 title={SECTION_TYPES.LATEST}
                 animeList={latest}
-                loading={loading}
+                loading={loadingLatest}
                 visibleCards={visibleCards}
               />
             </>

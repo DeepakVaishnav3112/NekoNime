@@ -5,6 +5,7 @@ import { FaSearch } from "react-icons/fa";
 import { useGeneralContext } from "../../../context/GeneralContext";
 import { MdAccountCircle } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import Sidebar from "../Sidebar";
 
 export default function Navbar() {
   const { setSelectedGenre } = useGenreContext();
@@ -66,16 +67,20 @@ export default function Navbar() {
       </div>
 
       {/* Account Button for deesktop */}
-      <div className="max-sm:hidden xxl:hidden">
-        <MdAccountCircle
-          className={`cursor-pointer text-4xl hover:text-primary hover:scale-90 transition ${
-            showSideBar ? "text-primary" : "text-secondary"
-          }`}
-          onClick={() => {
-            setShowSideBar(!showSideBar);
-            setDropDownOpen(false);
-          }}
-        />
+      <div className="relative">
+        <div className="max-sm:hidden">
+          <MdAccountCircle
+            className={`cursor-pointer text-4xl hover:text-primary hover:scale-90 transition ${
+              showSideBar ? "text-primary" : "text-secondary"
+            }`}
+            onClick={() => {
+              setShowSideBar(!showSideBar);
+              setDropDownOpen(false);
+            }}
+          />
+        </div>
+
+        <Sidebar />
       </div>
 
       {/* Mobile Search Bar */}

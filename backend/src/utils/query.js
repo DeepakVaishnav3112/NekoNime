@@ -24,8 +24,14 @@ const animeQuery = {
 
 const animeGenreQuery = {
   query: `
-            query ($genre: String) {
-                Page(page: 1, perPage: 20) {
+            query ($genre: String, $page: Int) {
+                Page(page: $page, perPage: 20) {
+                    pageInfo {
+                      total
+                      currentPage
+                      lastPage
+                      hasNextPage
+                    }
                     media(genre: $genre, type: ANIME, sort: POPULARITY_DESC) {
                         id 
                         title {
@@ -50,43 +56,60 @@ const animeGenreQuery = {
                 }
             }
         `,
-  variables: {},
+  variables: {
+    pagee: 1, // default, will be overridden dynamically
+  },
 };
 
 const trendingAnimeQuery = {
   query: `
-        query ($page: Int) {
-            Page(perPage: 20, page: $page) {
-                media(type: ANIME, sort: TRENDING_DESC) {
-                    id
-                    title {
-                        romaji
-                        english
-                    }
-                    coverImage {
-                        large
-                    }
-                    startDate {
-                    year
-                    month
-                    day
-                    }
-                    description(asHtml: false)
-                    genres
-                    averageScore
-                    format
-                    episodes
-                }
-            }
+    query ($page: Int) {
+      Page(page: $page, perPage: 20) {
+        pageInfo {
+          total
+          currentPage
+          lastPage
+          hasNextPage
         }
-    `,
-  variables: {},
+        media(type: ANIME, sort: TRENDING_DESC) {
+          id
+          title {
+            romaji
+            english
+          }
+          coverImage {
+            large
+          }
+          startDate {
+            year
+            month
+            day
+          }
+          description(asHtml: false)
+          genres
+          averageScore
+          format
+          episodes
+        }
+      }
+    }
+  `,
+  variables: {
+    page: 1, // default, will be overridden dynamically
+  },
 };
+
 
 const upcomingAnimeQuery = {
   query: `
-  query ($season: MediaSeason, $seasonYear: Int) {
-        Page(page: 1, perPage: 20) {
+  query ($season: MediaSeason, $seasonYear: Int, $page: Int) {
+        Page(page: $page, perPage: 20) {
+            pageInfo {
+              total
+              currentPage
+              lastPage
+              hasNextPage
+            }
             media(type: ANIME, season: $season, seasonYear: $seasonYear ,sort: POPULARITY_DESC) {
                 id 
                 title {
@@ -108,45 +131,62 @@ const upcomingAnimeQuery = {
                 episodes
             }
         }
-}
+      }
     `,
-  variables: {},
+  variables: {
+    page: 1, // default, will be overridden dynamically
+  },
 };
 
 const latestAnimeQuery = {
   query: `
-  query {
-        Page(page: 1, perPage: 20) {
-            media(type: ANIME, status_in: RELEASING, sort: START_DATE_DESC) {
-                id 
-                title {
-                    romaji
-                    english
-                }
-                coverImage {
-                    large
-                }
-                startDate {
-                    year
-                    month
-                    day
-                }
-                status
-                description(asHtml: false)
-                genres
-                averageScore
-                format
-                episodes
-            }
+  query ($page: Int) {
+      Page(page: $page, perPage: 20) {
+        pageInfo {
+          total
+          currentPage
+          lastPage
+          hasNextPage
         }
-}
-`,
+        media(type: ANIME, status_in: RELEASING, sort: START_DATE_DESC) {
+          id 
+          title {
+          romaji
+          english
+                }
+          coverImage {
+            large
+          }
+          startDate {
+            year
+            month
+            day
+          }
+          status
+          description(asHtml: false)
+          genres
+          averageScore
+          format
+          episodes
+        }
+      }
+    }
+  `,
+  variables: {
+    page: 1, // default, will be overridden dynamically
+  }
 };
 
 const animeSearchQuery = {
   query: `
-      query ($search: String) {
-        Page(page: 1, perPage: 20) {
+      query ($search: String, $page: Int) {
+        Page(page: $page, perPage: 20) {
+          pageInfo {
+            total
+            currentPage
+            lastPage
+            hasNextPage
+          }
           media(type: ANIME, search: $search, sort: POPULARITY_DESC) {
             id
             title {
@@ -171,7 +211,9 @@ const animeSearchQuery = {
         }
       }
     `,
-  variables: {},
+  variables: {
+    page: 1, // default, will be overridden dynamically
+  },
 };
 
 const animeDetailsQuery = {

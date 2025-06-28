@@ -2,7 +2,7 @@ export default function BannerImage({ src }) {
   if (!src) return null;
 
   return (
-    <div className="relative w-full h-[200px] sm:h-[253px] md:h-[301px] lg:h-[352px] overflow-hidden">
+    <div className="relative w-full h-[201px] sm:h-[253px] md:h-[301px] lg:h-[352px] overflow-hidden">
       <img
         src={src}
         alt="Banner"

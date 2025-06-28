@@ -6,7 +6,7 @@ export const GeneralProvider = ({ children }) => {
   const [search, setSearch] = useState("");
   const [dropDownOpen, setDropDownOpen] = useState(false);
   const [viewAllSection, setViewAllSection] = useState(null);
-  const [searchAnimeList, setSearchAnimeList] = useState([]);
+  const [searchAnimeList, setSearchAnimeList] = useState(null);
   const [showSideBar, setShowSideBar] = useState(false);
 
   return (

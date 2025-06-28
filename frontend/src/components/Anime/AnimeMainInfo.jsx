@@ -12,10 +12,9 @@ export default function AnimeMainInfo({
   showMore,
   setShowMore,
 }) {
-
   return (
     <>
-      <div className="flex-1">
+      <div className="flex-1 flex flex-col">
         <div className="flex gap-4">
           {/* Cover Image */}
           <AnimeCoverImage
@@ -62,12 +61,33 @@ export default function AnimeMainInfo({
             </div>
 
             {/* Rating and Popularity */}
-            <StatDisplay averageScore={animeDetails.averageScore} popularity={animeDetails.popularity} />
+            <StatDisplay
+              averageScore={animeDetails.averageScore}
+              popularity={animeDetails.popularity}
+            />
           </div>
         </div>
 
         {/* Buttons */}
         <ActionButtons />
+
+        {/* NekoNime Summary Box with Neko Girl Image For Desktop */}
+        <div className="hidden md:flex items-center gap-4 grow bg-gradient-to-r from-secondary to-primary-hover-bg shadow mt-2 rounded-md px-3 py-2">
+          <img
+            src="/NekoGirl_1.jpg"
+            alt=""
+            className="w-18 h-18 rounded-full"
+            style={{
+              imageRendering: "crisp-edges",
+              transform: "translateZ(0)",
+            }}
+          />
+          <p className="text-white text-sm pr-4">
+            <span className="text-primary font-bold text-xl">NekoNime</span> lets you explore anime, track what you’ve watched, and
+            manage your personal lists—all in one cute and simple platform made
+            just for anime lovers like you~! 🐾
+          </p>
+        </div>
       </div>
 
       {/* Description for small devices */}
