@@ -9,15 +9,16 @@ export default function CharacterCard({ character }) {
       : character.voiceActors?.english;
 
   return (
-    <div className="flex justify-between items-center bg-primary-hover-bg rounded-md">
+    <div className="flex justify-between items-center bg-primary-hover-bg rounded-md mt-1">
       {/* Character Info */}
-      <div className="flex items-center gap-2">
+      <div className={`flex items-center gap-2`}>
         <img
           src={character.character.image.large}
           alt={character.character.name.full}
-          className={`rounded-l-md h-${20 * voiceActors?.length || 20}`}
+          className={`rounded-l-md`}
+          style={{ height: `${80 * voiceActors?.length}px` }}
         />
-        <div>
+        <div className="py-2 px-1">
           <h3 className="text-white text-xs">{character.character.name.full}</h3>
           <span className="text-[10px] text-primary-hover-text">{character.role}</span>
         </div>
@@ -28,7 +29,7 @@ export default function CharacterCard({ character }) {
         {voiceActors?.length > 0 ? (
           voiceActors.map((va, index) => (
             <div key={va.id} className="flex items-center justify-center gap-2">
-              <div className="text-right">
+              <div className="text-right px-1">
                 <h3 className="text-white text-xs">{va.name.full}</h3>
                 <span className="text-[10px] text-primary-hover-text">{va.language}</span>
               </div>

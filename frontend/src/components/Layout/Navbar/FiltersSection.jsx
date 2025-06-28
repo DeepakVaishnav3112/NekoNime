@@ -1,10 +1,11 @@
+import React from "react";
 import { useGeneralContext } from "../../../context/GeneralContext";
 import { useGenreContext } from "../../../context/GenreContext";
-import { animeGenres } from "../../../utils/genres";
+import { animeGenres, genreColors, genreIcons } from "../../../utils/genres";
 
 export default function FiltersSection() {
   const { dropDownOpen, setDropDownOpen } = useGeneralContext();
-  const { setSelectedGenre } = useGenreContext();
+  const { selectedGenre, setSelectedGenre } = useGenreContext();
 
   return (
     <div
@@ -15,18 +16,49 @@ export default function FiltersSection() {
       <div className="lg:flex-1/2 text-white ">
         <h2 className="font-semibold text-xl">Genres</h2>
         <div className="flex flex-wrap gap-4 pt-3">
-          {animeGenres.map((genre) => (
-            <button
-              key={genre}
-              className="bg-primary-hover-bg text-primary-hover-text px-4 py-2 rounded-md cursor-pointer border-2 border-primary hover:bg-primary hover:border-primary-hover-bg hover:text-white transition hover:shadow hover:scale-105"
-              onClick={() => {
-                setSelectedGenre(genre);
-                setDropDownOpen(false);
-              }}
-            >
-              {genre}
-            </button>
-          ))}
+          {animeGenres.map((genre) => {
+            const colors = genreColors[genre] || {
+              bg: "#ccc",
+              text: "#000",
+              shadow: "#000",
+            };
+
+            const isSelected = selectedGenre === genre;
+
+            const defaultStyles = {
+              backgroundColor: isSelected ? "#fff" : colors.bg,
+              color: isSelected ? colors.bg : colors.text,
+              boxShadow: isSelected ? `0 6px 20px ${colors.shadow}` : "none",
+            };
+            return (
+              <button
+                key={genre}
+                className={`flex items-center gap-2 px-4 py-2 text-sm rounded-md cursor-pointer transition hover:scale-105 hover:shadow-xl`}
+                style={defaultStyles}
+                onMouseEnter={(e) => {
+                  if (isSelected) return;
+                  e.currentTarget.style.boxShadow = `0 6px 20px ${colors.shadow}`;
+                  e.currentTarget.style.backgroundColor = "#fff";
+                  e.currentTarget.style.color = colors.bg;
+                }}
+                onMouseLeave={(e) => {
+                  if (isSelected) return;
+                  e.currentTarget.style.boxShadow = "none";
+                  e.currentTarget.style.backgroundColor = colors.bg;
+                  e.currentTarget.style.color = colors.text;
+                }}
+                onClick={() => {
+                  setSelectedGenre(genre);
+                  setDropDownOpen(false);
+                }}
+              >
+                <span className="text-md">
+                  {genreIcons[genre] && React.createElement(genreIcons[genre])}
+                </span>
+                {genre}
+              </button>
+            );
+          })}
         </div>
       </div>
       <div className="lg:flex-1/2"></div>

@@ -1,4 +1,3 @@
-import React from "react";
 import TabHeader from "./TabHeader";
 
 export default function ReviewsTab() {

@@ -18,11 +18,11 @@ export default function AnimeDescription({
           <p className="">{previewText}</p>
 
           {/* White Bottom fade on hover */}
-          <div className="absolute bottom-0 left-0 w-full h-12 bg-gradient-to-t from-white to-transparent opacity-0 group-hover:opacity-100 transition duration-300 pointer-events-none z-10"></div>
+          <div className="absolute bottom-0 left-0 w-full h-12 bg-gradient-to-t from-white to-transparent opacity-0 group-hover:opacity-100 transition duration-300 pointer-events-none z-10 max-lg:opacity-100"></div>
 
           {/* Show More Button */}
           <button
-            className="absolute bottom-0 left-1/2 transform -translate-x-1/2 text-primary font-semibold hover:underline cursor-pointer opacity-0 group-hover:opacity-100 transition duration-300 z-20 pointer-events-auto"
+            className="absolute bottom-0 left-1/2 transform -translate-x-1/2 text-primary font-semibold hover:underline cursor-pointer opacity-0 group-hover:opacity-100 transition duration-300 z-20 pointer-events-auto max-lg:opacity-100"
             onClick={(e) => {
               e.stopPropagation();
               setShowMore(true);
@@ -32,7 +32,7 @@ export default function AnimeDescription({
           </button>
         </div>
       ) : (
-        <div className="max-h-30 lg:max-h-[113px] overflow-y-auto pr-2">
+        <div className="max-h-30 lg:max-h-[113px] overflow-y-auto custom-scrollbar pr-2">
           <div dangerouslySetInnerHTML={{ __html: description }}></div>
           <button
             onClick={() => setShowMore(false)}

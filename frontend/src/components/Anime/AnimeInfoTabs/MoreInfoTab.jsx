@@ -1,13 +1,17 @@
 import { useEffect, useState } from "react";
-import TabHeader from "./TabHeader";
 import { fetchAnimeMoreInfo } from "../../../services/animeService";
 import Loader from "../../Common/Loader";
 import InfoItem from "./InfoItem";
+import SharedTabContainer from "./SharedTabContainer";
+import InfoItemContainer from "./InfoItemContainer";
 
-export default function MoreInfoTab({ animeId }) {
-  const [moreInfo, setMoreInfo] = useState([]);
-  const [loading, setLoading] = useState(false);
-
+export default function MoreInfoTab({
+  animeId,
+  moreInfo,
+  setMoreInfo,
+  loading,
+  setLoading,
+}) {
   useEffect(() => {
     const loadMoreInfo = async () => {
       try {
@@ -39,8 +43,6 @@ export default function MoreInfoTab({ animeId }) {
     siteUrl,
     isAdult,
     countryOfOrigin,
-    episodes,
-    duration,
     updatedAt,
   } = moreInfo;
 
@@ -50,27 +52,25 @@ export default function MoreInfoTab({ animeId }) {
   };
 
   return (
-    <div className="relative px-3">
-      <TabHeader heading="More Info" />
-
+    <SharedTabContainer heading="More Info">
       {loading || !moreInfo ? (
         <Loader />
       ) : (
-        <div className="h-[400px] overflow-hidden overflow-y-auto custom-scrollbar pr-1 pb-10">
+        <>
           {/* Status And Source */}
-          <div className="text-secondary text-md border-b-2 border-secondary pt-2">
-            Status And Source
-          </div>
-          <div className="w-full flex gap-2 mt-1">
-            <InfoItem label="Status" value={status} />
-            <InfoItem label="Source" value={source} />
-          </div>
+          <InfoItemContainer
+            heading="Status And Source"
+            extraStyle="max-sm:flex-col lg:flex-col xl:flex-row"
+          >
+            <InfoItem label="Status" value={status || "N/A"} />
+            <InfoItem label="Source" value={source || "Unknown"} />
+          </InfoItemContainer>
 
           {/* Date And Schedule */}
-          <div className="text-secondary text-md border-b-2 border-secondary pt-2">
-            Date And Schedule
-          </div>
-          <div className="w-full flex gap-2 mt-1">
+          <InfoItemContainer
+            heading="Date And Schedule"
+            extraStyle="max-sm:flex-col lg:flex-col xl:flex-row"
+          >
             {startDate && (
               <InfoItem label="Start Date" value={formatDate(startDate)} />
             )}
@@ -89,13 +89,10 @@ export default function MoreInfoTab({ animeId }) {
                 }
               />
             )}
-          </div>
+          </InfoItemContainer>
 
           {/* Studios */}
-          <div className="text-secondary text-md border-b-2 border-secondary pt-2">
-            Studios
-          </div>
-          <div className="w-full flex gap-2 mt-1">
+          <InfoItemContainer heading="Studios">
             <InfoItem
               label="Studios"
               value={
@@ -104,70 +101,90 @@ export default function MoreInfoTab({ animeId }) {
                   : "Unknown"
               }
             />
-          </div>
+          </InfoItemContainer>
 
-          {/* Hashtags */}
-          <div className="text-secondary text-md border-b-2 border-secondary pt-2">
-            Hashtags
-          </div>
-          <div className="flex flex-wrap gap-2 items-center mt-1">
-            <div className="flex items-center gap-5 bg-primary p-2 rounded-sm text-sm text-white">
-              {hashtag}
-            </div>
-          </div>
+          {/* Country Of Origin */}
+          <InfoItemContainer heading="Country of Origin">
+            <InfoItem label="Origin" value={countryOfOrigin || "Unknown"} />
+          </InfoItemContainer>
 
-          {/* Tags */}
-          <div className="text-secondary text-md border-b-2 border-secondary pt-2">
-            Tags
-          </div>
-          <div className="flex flex-wrap gap-2 items-center mt-1">
-            {tags?.map((tag) => (
-              <div className="flex items-center gap-5 bg-primary p-2 rounded-sm text-sm text-white">
-                <span>{tag.name}</span>
-                <span className="text-xs text-secondary font-semibold">
-                  {tag.rank}%
-                </span>
-              </div>
-            ))}
-          </div>
-
-          {/* External Links */}
-          <div className="text-secondary text-md border-b-2 border-secondary pt-2">
-            External Links
-          </div>
-
-          {externalLinks?.length > 0 ? (
-            <div className="flex flex-wrap gap-2 items-center mt-1">
-              {externalLinks.map((link) => (
-                <a
-                  key={link.url}
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  title={link.type}
-                  className="text-sm px-3 py-1 rounded-sm font-medium shadow-md transition-colors duration-300"
-                  style={{
-                    backgroundColor: link.color || "#429EA6",
-                    color: "#fff",
-                  }}
+          {/* Rankings */}
+          {rankings && rankings.length > 0 && (
+            <InfoItemContainer
+              heading="Rankings"
+              extraStyle="flex-wrap items-center"
+            >
+              {rankings.map((rank, idx) => (
+                <div
+                  key={idx}
+                  className="flex items-center gap-3 bg-secondary text-white p-2 text-sm rounded-sm"
                 >
-                  {link.site}
-                </a>
+                  <span className="font-semibold text-white">#{rank.rank}</span>
+                  <span className="text-xs font-medium text-white/80">
+                    {rank.type} ({rank.format}){" "}
+                    {rank.allTime ? "All Time" : "This Season"}
+                  </span>
+                </div>
               ))}
-            </div>
-          ) : (
-            <div className="text-sm text-secondary italic mt-1">
-              No external links available.
-            </div>
+            </InfoItemContainer>
           )}
 
-          <div className="mt-1">
+          {/* Is Adult */}
+          <InfoItemContainer heading="Is Adult">
             <InfoItem label="Adult Content" value={isAdult ? "Yes 🔞" : "No"} />
-          </div>
-        </div>
-      )}
+          </InfoItemContainer>
 
-      <div className="absolute bottom-0 w-full h-10 bg-gradient-to-t from-white to-transparent transition duration-300 pointer-events-none z-10"></div>
-    </div>
+          {/* Tags */}
+          {tags && tags.length > 0 && (
+            <>
+              <InfoItemContainer
+                heading="Tags"
+                extraStyle="flex-wrap items-center"
+              >
+                {tags?.map((tag, idx) => (
+                  <div
+                    key={idx}
+                    title={tag.description}
+                    className="flex items-center gap-5 bg-secondary p-2 rounded-sm text-sm text-white"
+                  >
+                    <span>{tag.name}</span>
+                    <span className="text-xs text-white/70 font-semibold">
+                      {tag.rank}%
+                    </span>
+                  </div>
+                ))}
+              </InfoItemContainer>
+            </>
+          )}
+
+          {externalLinks && externalLinks.length > 0 && (
+            <>
+              {/* External Links */}
+              <InfoItemContainer
+                heading="External Links"
+                extraStyle="flex-wrap items-center"
+              >
+                {externalLinks.map((link) => (
+                  <a
+                    key={link.url}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title={link.type}
+                    className="text-sm px-3 py-1 rounded-sm font-medium shadow-md transition-colors duration-300"
+                    style={{
+                      backgroundColor: link.color || "#429EA6",
+                      color: "#fff",
+                    }}
+                  >
+                    {link.site}
+                  </a>
+                ))}
+              </InfoItemContainer>
+            </>
+          )}
+        </>
+      )}
+    </SharedTabContainer>
   );
 }

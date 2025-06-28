@@ -1,15 +1,16 @@
-/* .custom-scrollbar {
-  scrollbar-width: thin;
-  scrollbar-color: #5d5d5d;
-} */
+
 
 .custom-scrollbar::-webkit-scrollbar {
   width: 4px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #5d5d5d; /* You can use Tailwind colors here */
+  background: #5d5d5d00; 
   border-radius: 4px;
+}
+
+.custom-scrollbar:hover::-webkit-scrollbar-thumb {
+  background: #5d5d5d;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
@@ -19,3 +20,8 @@
 .custom-scrollbar::-webkit-scrollbar-button {
   display: none;
 }
+
+.custom-scrollbar::-webkit-scrollbar {
+  opacity: 0;
+}
+

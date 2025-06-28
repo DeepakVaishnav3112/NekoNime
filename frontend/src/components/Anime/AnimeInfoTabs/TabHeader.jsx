@@ -30,28 +30,28 @@ export default function TabHeader({ heading, showBtn }) {
     };
   }, [showDropdown]);
 
+  const toggleDropdown = () => {
+    if (!showDropdown) calculateDropdownPosition();
+    setShowDropdown((prev) => !prev);
+  };
+
   const calculateDropdownPosition = () => {
     const rect = buttonRef.current.getBoundingClientRect();
-    const spaceBelow = window.innerHeight - rect.bottom;
     const dropdownHeight = 160;
+    const spaceBelow = window.innerHeight - rect.bottom;
     setDropDownPosition(spaceBelow < dropdownHeight ? "top" : "bottom");
   };
 
   return (
     <div className="flex items-center justify-between border-b-2 border-primary">
-      <h2 className="text-md text-white bg-secondary rounded-t-md px-4 py-2">
+      <h2 className="text-xs xs:text-sm sm:text-[16px] text-white bg-secondary rounded-t-md px-4 py-2">
         {heading}
       </h2>
       {showBtn && (
         <div ref={buttonRef} className="relative">
           <button
-            onClick={() =>
-              setShowDropdown((prev) => {
-                if (!prev) calculateDropdownPosition();
-                return !prev;
-              })
-            }
-            className="flex items-center gap-2 px-4 py-2 border-2 border-b-0 border-primary rounded-t-md text-primary cursor-pointer transition duration-300 hover:bg-primary hover:text-white"
+            onClick={toggleDropdown}
+            className="flex items-center gap-2 text-[10px] xs:text-xs sm:text-sm px-4 py-2 border-2 border-b-0 border-primary rounded-t-md text-primary cursor-pointer transition duration-300 hover:bg-primary hover:text-white"
           >
             <span>{selectedLanguage || "Japanese"}</span>
             <IoIosArrowDown />

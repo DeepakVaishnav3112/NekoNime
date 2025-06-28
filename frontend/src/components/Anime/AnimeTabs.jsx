@@ -5,14 +5,38 @@ import Previews from "./AnimeInfoTabs/Previews";
 import StaffTab from "./AnimeInfoTabs/StaffTab";
 import ReviewsTab from "./AnimeInfoTabs/ReviewsTab";
 import MoreInfoTab from "./AnimeInfoTabs/MoreInfoTab";
+import { useEffect, useState } from "react";
 
-export default function AnimeTabs({ selectedTab, handleTabChange, idMal}) {
-
+export default function AnimeTabs({ selectedTab, handleTabChange, idMal }) {
   const animeId = parseInt(useParams().id);
 
+  const [visitedTabs, setVisitedTabs] = useState([]);
+
+  // Mark tab as visited whenever it changes
+  useEffect(() => {
+    if (!visitedTabs.includes(selectedTab)) {
+      setVisitedTabs((prev) => [...prev, selectedTab]);
+    }
+  }, [selectedTab]);
+
+  const [characterData, setCharacterData] = useState([]);
+  const [loadingCharacters, setLoadingCharacters] = useState(false);
+
+  const [previewData, setPreviewData] = useState(null);
+  const [loadingPreviews, setLoadingPreviews] = useState(false);
+
+  const [openings, setOpenings] = useState([]);
+  const [endings, setEndings] = useState([]);
+
+  const [staffData, setStaffData] = useState([]);
+  const [loadingStaff, setLoadingStaff] = useState(false);
+
+  const [moreInfoData, setMoreInfoData] = useState([]);
+  const [loadingMoreInfo, setLoadingMoreInfo] = useState(false);
+
   return (
-    <div className="flex-1 flex flex-col gap-4 max-lg:mt-4">
-      <div className="flex justify-around overflow-hidden overflow-x-auto text-sm font-semibold text-secondary">
+    <div className="flex-1 flex flex-col gap-4 max-lg:mt-4 max-lg:pt-2">
+      <div className="flex flex-wrap justify-center gap-2 text-sm font-semibold text-secondary">
         {[
           "Characters",
           "Previews",
@@ -24,7 +48,7 @@ export default function AnimeTabs({ selectedTab, handleTabChange, idMal}) {
           <button
             key={tab}
             onClick={() => handleTabChange(tab)}
-            className={`px-3 py-2 transition-all duration-200 ${
+            className={`px-3 py-2 min-w-[90px] text-center transition-all duration-200 ${
               selectedTab === tab
                 ? "text-white bg-primary rounded-full"
                 : "hover:text-primary"
@@ -36,12 +60,78 @@ export default function AnimeTabs({ selectedTab, handleTabChange, idMal}) {
       </div>
 
       <div className=" flex-1 w-full rounded-lg text-black">
-        {selectedTab === "Characters" && <Characters animeId={animeId} />}
-        {selectedTab === "Previews" && <Previews idMal={idMal} />}
-        {selectedTab === "Music" && <MusicTab idMal={idMal} />}
-        {selectedTab === "Staff" && <StaffTab animeId={animeId} />}
+        {/* {selectedTab === "Characters" && <Characters animeId={animeId} characters={characterData} setCharacters={setCharacterData} loading={loadingCharacters} setLoading={setLoadingCharacters} />}
+        {selectedTab === "Previews" && <Previews idMal={idMal} previews={previewData} setPreviews={setPreviewData} loading={loadingPreviews} setLoading={setLoadingPreviews} />}
+        {selectedTab === "Music" && <MusicTab idMal={idMal} openings={openings} endings={endings} setOpenings={setOpenings} setEndings={setEndings} />}
+        {selectedTab === "Staff" && <StaffTab animeId={animeId} staff={staffData} setStaff={setStaffData} loading={loadingStaff} setLoading={setLoadingStaff} />}
         {selectedTab === "Reviews" && <ReviewsTab />}
-        {selectedTab === "More Info" && <MoreInfoTab animeId={animeId} />}
+        {selectedTab === "More Info" && <MoreInfoTab animeId={animeId} moreInfo={moreInfoData} setMoreInfo={setMoreInfoData} loading={loadingMoreInfo} setLoading={setLoadingMoreInfo} />} */}
+
+        {visitedTabs.includes("Previews") && (
+          <div className={selectedTab === "Previews" ? "block" : "hidden"}>
+            <Previews
+              idMal={idMal}
+              previews={previewData}
+              setPreviews={setPreviewData}
+              loading={loadingPreviews}
+              setLoading={setLoadingPreviews}
+            />
+          </div>
+        )}
+
+        {visitedTabs.includes("Characters") && (
+          <div className={selectedTab === "Characters" ? "block" : "hidden"}>
+            <Characters
+              animeId={animeId}
+              characters={characterData}
+              setCharacters={setCharacterData}
+              loading={loadingCharacters}
+              setLoading={setLoadingCharacters}
+            />
+          </div>
+        )}
+
+        {visitedTabs.includes("Music") && (
+          <div className={selectedTab === "Music" ? "block" : "hidden"}>
+            <MusicTab
+              idMal={idMal}
+              openings={openings}
+              setOpenings={setOpenings}
+              endings={endings}
+              setEndings={setEndings}
+            />
+          </div>
+        )}
+
+        {visitedTabs.includes("Staff") && (
+          <div className={selectedTab === "Staff" ? "block" : "hidden"}>
+            <StaffTab
+              animeId={animeId}
+              staff={staffData}
+              setStaff={setStaffData}
+              loading={loadingStaff}
+              setLoading={setLoadingStaff}
+            />
+          </div>
+        )}
+
+        {visitedTabs.includes("Reviews") && (
+          <div className={selectedTab === "Reviews" ? "block" : "hidden"}>
+            <ReviewsTab />
+          </div>
+        )}
+
+        {visitedTabs.includes("More Info") && (
+          <div className={selectedTab === "More Info" ? "block" : "hidden"}>
+            <MoreInfoTab
+              animeId={animeId}
+              moreInfo={moreInfoData}
+              setMoreInfo={setMoreInfoData}
+              loading={loadingMoreInfo}
+              setLoading={setLoadingMoreInfo}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

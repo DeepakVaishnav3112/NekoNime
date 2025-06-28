@@ -1,61 +1,96 @@
-import { useEffect, useState } from "react";
-import TabHeader from "./TabHeader";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { fetchAnimeStaff } from "../../../services/animeService";
 import Loader from "../../Common/Loader";
+import SharedTabContainer from "./SharedTabContainer";
+import StaffMemberCard from "./StaffMemberCard";
 
-export default function StaffTab({ animeId }) {
-  const [staff, setStaff] = useState([]);
-  const [loading, setLoading] = useState(false);
+export default function StaffTab({
+  animeId,
+  staff,
+  setStaff,
+  loading,
+  setLoading,
+}) {
+  const [page, setPage] = useState(1);
+  const [hasNextPage, setHasNextPage] = useState(true);
+
+  const loadStaffData = async (page) => {
+    try {
+      setLoading(true);
+      const res = await fetchAnimeStaff(animeId, page);
+      const newStaff = res.data.staff;
+      const pageInfo = res.data.pageInfo;
+
+      // console.log(newStaff);
+      setStaff((prev) => {
+        const all = [...(prev || []), ...newStaff];
+        const seen = new Set();
+        return all.filter((member) => {
+          const key = member.staff.id;
+          if (seen.has(key)) return false;
+          seen.add(key);
+          return true;
+        });
+      });
+      setHasNextPage(pageInfo.hasNextPage);
+    } catch (error) {
+      console.error("Error fetching staff:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const loadStaffData = async () => {
-      try {
-        setLoading(true);
-        const res = await fetchAnimeStaff(animeId);
-        console.log(res.data);
-        setStaff(res.data);
-      } catch (error) {
-        console.log("Error fetching staff: ", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadStaffData();
+    if (!animeId || staff.length > 0) return;
+    setStaff([]);
+    setPage(1);
+    setHasNextPage(true);
+    loadStaffData(1);
   }, [animeId]);
 
-  return (
-    <div className="relative px-3">
-      <TabHeader heading="Staff" />
+  useEffect(() => {
+    if (page > 1) {
+      loadStaffData(page);
+    }
+  }, [page]);
 
-      {!staff || loading ? (
-        <Loader />
-      ) : (
-        <div className="grid max-sm:grid-cols-1 max-lg:grid-cols-2 xl:grid-cols-2 gap-2 h-[400px] overflow-hidden overflow-y-auto custom-scrollbar pr-1 pb-10 mt-1">
-          {staff.map((item) => (
-            <div
-              key={item.node.id}
-              className="h-20 flex gap-2 bg-primary-hover-bg rounded-md"
-            >
-              <img
-                src={item.node.image.large}
-                alt={item.role}
-                className="h-full rounded-l-md"
-              />
-              <div className="flex flex-col mt-2">
-                <span className="text-white text-sm font-light">
-                  {item.node.name.full}
-                </span>
-                <span className="text-primary-hover-text text-xs font-extralight">
-                  {item.role}
-                </span>
-              </div>
-            </div>
-          ))}
-        </div>
+  //infinite scroll logic
+  const observer = useRef(null);
+  const lastStaffRef = useCallback(
+    (node) => {
+      if (loading) return;
+      if (observer.current) observer.current.disconnect();
+
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasNextPage) {
+          setPage((prev) => prev + 1);
+        }
+      });
+
+      if (node) observer.current.observe(node);
+    },
+    [loading, hasNextPage]
+  );
+
+  return (
+    <SharedTabContainer heading="Staff">
+      {staff.length === 0 && !loading && (
+        <p className="text-center text-secondary">No staff members found.</p>
       )}
 
-      <div className="absolute bottom-0 w-full h-10 bg-gradient-to-t from-white to-transparent transition duration-300 pointer-events-none z-10"></div>
-    </div>
+      <div className="grid max-sm:grid-cols-1 max-lg:grid-cols-2 xl:grid-cols-2 gap-2 overflow-hidden">
+        {staff.map((member, idx) => {
+          if (idx === staff.length - 1) {
+            return (
+              <div key={member.staff.id} ref={lastStaffRef}>
+                <StaffMemberCard member={member} idx={idx} />
+              </div>
+            );
+          }
+          return <StaffMemberCard key={member.staff.id} member={member} />
+        })}
+      </div>
+      { loading && <Loader />}
+    </SharedTabContainer>
   );
 }

@@ -1,46 +1,102 @@
-import { useEffect, useState } from "react";
-import TabHeader from "./TabHeader";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { fetchAnimeCharacters } from "../../../services/animeService";
 import CharacterCard from "./CharacterCard";
-import "../../../styles/scrollbar.css";
 import Loader from "../../Common/Loader";
+import SharedTabContainer from "./SharedTabContainer";
 
-export default function Characters({ animeId }) {
-  const [characters, setCharacters] = useState([]);
-  const [loading, setLoading] = useState(false);
+export default function Characters({
+  animeId,
+  characters,
+  setCharacters,
+  loading,
+  setLoading,
+}) {
+  const [page, setPage] = useState(1);
+  const [hasNextPage, setHasNextPage] = useState(true);
+
+  const loadCharacters = async (page) => {
+    try {
+      setLoading(true);
+      const res = await fetchAnimeCharacters(animeId, page);
+      const newCharacters = res.data.characters;
+      const pageInfo = res.data.pageInfo;
+
+      setCharacters((prev) => {
+        const all = [...(prev || []), ...newCharacters];
+        const seen = new Set();
+        return all.filter((char) => {
+          const key = char.character.id;
+          if (seen.has(key)) return false;
+          seen.add(key);
+          return true;
+        });
+      });
+
+      setHasNextPage(pageInfo.hasNextPage);
+    } catch (error) {
+      console.error("Error fetching characters:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const loadCharacters = async () => {
-      try {
-        setLoading(true);
-        const res = await fetchAnimeCharacters(animeId);
-          // console.log(res.data);
-        setCharacters(res.data);
-      } catch (error) {
-        console.log("Error fetching characters: ", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadCharacters();
+    if (!animeId || characters.length > 0) return;
+    setCharacters([]);
+    setPage(1);
+    setHasNextPage(true);
+    loadCharacters(1);
   }, [animeId]);
 
-  return (
-    <div className="relative lg:px-3">
-      <TabHeader heading="Characters And Voice Actors" showBtn={true} />
+  useEffect(() => {
+    if (page > 1) {
+      loadCharacters(page);
+    }
+  }, [page]);
 
-      {!characters || loading ? (
-        <Loader />
-      ) : (
-        <div className="flex flex-col gap-2 h-[400px] mt-1 overflow-y-auto custom-scrollbar pb-10">
-          {characters.map((character) => (
-            <CharacterCard key={character.character.id} character={character} />
-          ))}
-        </div>
+  // infinite scroll logic
+  const observer = useRef(null);
+  const lastCharacterRef = useCallback(
+    (node) => {
+      if (loading) return;
+      if (observer.current) observer.current.disconnect();
+
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasNextPage) {
+          setPage((prevPage) => prevPage + 1);
+        }
+      });
+
+      if (node) observer.current.observe(node);
+    },
+    [loading, hasNextPage]
+  );
+
+  return (
+    <SharedTabContainer heading="Characters And Voice Actors" showBtn>
+      {characters.length === 0 && !loading && (
+        <p className="text-center text-secondary">No characters found.</p>
       )}
 
-      <div className="absolute bottom-0 w-full h-10 bg-gradient-to-t from-white to-transparent transition duration-300 pointer-events-none z-10"></div>
-    </div>
+      {characters.map((character, idx) => {
+        if (idx === characters.length - 1) {
+          return (
+            <div
+              ref={lastCharacterRef}
+              key={`${character.character.id}-${idx}`}
+            >
+              <CharacterCard character={character} />
+            </div>
+          );
+        }
+        return (
+          <CharacterCard
+            key={`${character.character.id}-${idx}`}
+            character={character}
+          />
+        );
+      })}
+      {loading && <Loader />}
+    </SharedTabContainer>
   );
 }

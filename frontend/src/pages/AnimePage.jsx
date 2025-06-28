@@ -10,7 +10,7 @@ export default function AnimePage() {
   const [animeDetails, setAnimeDetails] = useState(null);
   const [showMore, setShowMore] = useState(false);
   const [showDescription, setShowDescription] = useState(false);
-  const [selectedTab, setSelectedTab] = useState("Characters");
+  const [selectedTab, setSelectedTab] = useState("Previews");
   const [loading, setLoading] = useState(false);
   const animeId = useParams().id;
 
@@ -19,7 +19,7 @@ export default function AnimePage() {
       try {
         setLoading(true);
         const res = await fetchAnimeDetails(animeId);
-        console.log(res.data);
+        // console.log(res.data);
         setAnimeDetails(res.data);
       } catch (error) {
         console.log("Error fetching anime details: ", error);

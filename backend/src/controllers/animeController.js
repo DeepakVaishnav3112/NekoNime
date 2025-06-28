@@ -49,7 +49,7 @@ exports.getTrendingAnime = async (req, res, next) => {
     const response = await postRequest(trendingAnimeQuery);
     const data = response.data.data.Page.media;
 
-    setCache(cacheKey, data);
+    setCache(cacheKey, data, 3 * 60 * 60 * 1000); // 3 hours
     res.json(data);
   } catch (err) {
     next(err);
@@ -67,7 +67,7 @@ exports.getUpcomingAnime = async (req, res, next) => {
     const response = await postRequest(upcomingAnimeQuery);
     const data = response.data.data.Page.media;
 
-    setCache(cacheKey, data);
+    setCache(cacheKey, data, 3 * 60 * 60 * 1000); // 3 hours
     res.json(data);
   } catch (err) {
     next(err);
@@ -86,7 +86,7 @@ exports.getLatestAnime = async (req, res, next) => {
       (a) => a.startDate?.year && a.startDate?.month && a.startDate.day
     );
 
-    setCache(cacheKey, data);
+    setCache(cacheKey, data, 3 * 60 * 60 * 1000); // 3 hours
     res.json(data);
   } catch (err) {
     next(err);
@@ -119,8 +119,11 @@ exports.getAnimeById = async (req, res, next) => {
 exports.getAnimeCharacters = async (req, res, next) => {
   try {
     animeCharacterQuery.variables.id = parseInt(req.params.id);
+    animeCharacterQuery.variables.page = parseInt(req.query.page) || 1;
+
     const response = await postRequest(animeCharacterQuery);
 
+    const pageInfo = response.data.data.Media.characters.pageInfo;
     const characters = response.data.data.Media.characters.edges.map(
       (edge) => ({
         role: edge.role,
@@ -134,7 +137,7 @@ exports.getAnimeCharacters = async (req, res, next) => {
       })
     );
 
-    res.json(characters);
+    res.json({ characters, pageInfo });
   } catch (err) {
     next(err);
   }
@@ -142,9 +145,17 @@ exports.getAnimeCharacters = async (req, res, next) => {
 
 exports.getAnimeStaff = async (req, res, next) => {
   try {
+    animeStaffQuery.variables.page = parseInt(req.query.page) || 1;
+
     animeStaffQuery.variables.id = parseInt(req.params.id);
     const response = await postRequest(animeStaffQuery);
-    res.json(response.data.data.Media.staff.edges);
+
+    const pageInfo = response.data.data.Media.staff.pageInfo;
+    const staff = response.data.data.Media.staff.edges.map((edge) => ({
+      role: edge.role,
+      staff: edge.node,
+    }));
+    res.json({ staff, pageInfo });
   } catch (err) {
     next(err);
   }

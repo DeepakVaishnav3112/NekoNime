@@ -11,13 +11,13 @@ export default function AnimeInfoHeader({
 }) {
   return (
     <>
-      <div>
-        <h1 className="text-primary max-xl:text-lg text-xl font-bold leading-5">
+      <div className="max-xs:flex max-xs:flex-col max-xs:justify-start max-xs:gap-1">
+        <h1 className="text-primary max-xs:text-sm text-lg xl:text-xl font-bold leading-5">
           {title}
         </h1>
-        <span className="text-[10px] sm:text-xs text-primary-hover-bg">{altTitle}</span>
+        <span className="max-xs:text-[8px] text-[10px] sm:text-xs text-primary-hover-bg">{altTitle}</span>
 
-        <div className="flex items-center text-[10px] mt-2">
+        <div className="flex items-center max-xs:text-[8px] text-[10px] xs:mt-2">
           {/* Format and Episodes */}
           <div className="flex gap-1 items-center font-medium text-white">
             {format && (
@@ -40,18 +40,18 @@ export default function AnimeInfoHeader({
             )}
           </div>
 
-          {duration && <GoDotFill className="text-secondary text-md mx-2" />}
+          {duration && <GoDotFill className="text-secondary text-md max-xs:mx-1 mx-2" />}
 
           {/* Episodes Duration */}
           {duration && (
-            <div className="text-secondary text-[12px]">{duration}m</div>
+            <div className="text-secondary max-xs:text-[10px] text-[12px]">{duration}m</div>
           )}
 
-          {startDate && <GoDotFill className="text-secondary text-md mx-2" />}
+          {startDate && <GoDotFill className="text-secondary text-md max-xs:mx-1 mx-2" />}
 
           {/* Release Date */}
           {startDate && (
-            <div className="text-secondary text-[12px]">
+            <div className="text-secondary max-xs:text-[10px] text-[12px]">
               {formatAnimeDate(startDate)}
             </div>
           )}

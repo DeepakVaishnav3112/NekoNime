@@ -217,9 +217,14 @@ const animeDetailsQuery = {
 
 const animeCharacterQuery = {
   query: `
-    query ($id: Int) {
+    query ($id: Int, $page: Int) {
       Media(id: $id, type: ANIME) {
-        characters(perPage: 20) {
+        characters(perPage: 20, page: $page, sort: [ROLE, FAVOURITES_DESC]) {
+          pageInfo {
+            total
+            currentPage
+            hasNextPage
+          }
           edges {
             role
             node {
@@ -261,9 +266,14 @@ const animeCharacterQuery = {
 
 const animeStaffQuery = {
   query: `
-    query ($id: Int) {
+    query ($id: Int, $page: Int) {
       Media(id: $id, type: ANIME) {
-        staff(perPage: 25) {
+        staff(perPage: 20, page: $page, sort: [ROLE_DESC]) {
+          pageInfo {
+            total
+            currentPage
+            hasNextPage
+          }
           edges {
             role
             node {

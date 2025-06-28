@@ -1,40 +1,41 @@
 import { useEffect, useState } from "react";
-import TabHeader from "./TabHeader";
 import axios from "axios";
 import Loader from "../../Common/Loader";
+import SharedTabContainer from "./SharedTabContainer";
 
-export default function Previews({ idMal }) {
-  const [promoAndImages, setPromoAndImages] = useState();
+export default function Previews({ idMal, previews, setPreviews, loading, setLoading }) {
   const promoAndImagesAPI = `https://api.jikan.moe/v4/anime/${idMal}/videos`;
-  console.log(idMal)
+  // console.log(idMal)
 
   useEffect(() => {
     const loadAnimePromoAndImages = async () => {
       try {
+        setLoading(true);
         const res = await axios.get(promoAndImagesAPI);
         // console.log(res.data.data);
-        setPromoAndImages(res.data.data);
+        setPreviews(res.data.data);
       } catch (error) {
         console.log("Error fetching images: ", error);
+      } finally {
+        setLoading(false);
       }
     };
 
     if (idMal) loadAnimePromoAndImages();
   }, [idMal]);
 
-  if (!promoAndImages) return <Loader />;
-
   return (
-    <div className="relative px-3">
-      <TabHeader heading="Previews (Trailers and Screenshots)" />
-
-      {promoAndImages && (
-        <div className="h-[400px] overflow-hidden overflow-y-auto custom-scrollbar pr-1 pb-10 space-y-4">
+    <SharedTabContainer heading="Previews (Trailers and Screenshots)">
+      {loading || !previews ? (
+        <Loader />
+      ) : (
+        <>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 2xl:grid-cols-2 gap-4">
           {/* Promo Videos */}
-          {promoAndImages.promo.map((item) => (
+          {previews?.promo?.map((item) => (
             <div
               key={item.trailer.youtube_id}
-              className="w-full aspect-video rounded-xl overflow-hidden shadow-lg mt-1"
+              className="w-full aspect-video rounded-xl overflow-hidden shadow mt-1"
             >
               <iframe
                 className="w-full h-full"
@@ -45,28 +46,34 @@ export default function Previews({ idMal }) {
               ></iframe>
             </div>
           ))}
-
-          {/* Screenshots Heading */}
-          <div className="text-secondary text-lg border-b-2 border-secondary pt-2">
-            Screenshots
           </div>
 
-          {/* Episode Screenshots */}
-          <div className="grid grid-cols-3 gap-4">
-            {promoAndImages.episodes.map((item) => (
-              <div key={item.mal_id} className="flex items-center justify-center">
-                <img
-                  src={item.images.jpg.image_url}
-                  alt={item.title}
-                  className="shadow-md rounded-md"
-                />
+          {previews?.episodes?.length > 0 && (
+            <>
+              {/* Screenshots Heading */}
+              <div className="text-secondary text-lg border-b-2 border-secondary pt-2">
+                Screenshots
               </div>
-            ))}
-          </div>
-        </div>
-      )}
 
-      <div className="absolute bottom-0 w-full h-10 bg-gradient-to-t from-white to-transparent transition duration-300 pointer-events-none z-10"></div>
-    </div>
+              {/* Episode Screenshots */}
+              <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 lg:grid-cols-3 gap-4 mt-2">
+                {previews.episodes.map((item) => (
+                  <div
+                    key={item.mal_id}
+                    className="flex items-center justify-center"
+                  >
+                    <img
+                      src={item.images.jpg.image_url}
+                      alt={item.title}
+                      className="shadow-md rounded-md"
+                    />
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+        </>
+      )}
+    </SharedTabContainer>
   );
 }
