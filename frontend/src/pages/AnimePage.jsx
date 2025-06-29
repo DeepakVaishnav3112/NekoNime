@@ -71,7 +71,6 @@ export default function AnimePage() {
           handleTabChange={setSelectedTab}
           idMal={animeDetails.idMal}
         />
-        {/* <div className="flex-1"></div> */}
 
         {/* NekoNime Summary Box with Neko Girl Image For Mobile */}
         <div className="flex md:hidden items-center gap-4 grow bg-gradient-to-r from-secondary to-primary-hover-bg shadow mt-6 rounded-md px-3 py-2">
@@ -91,6 +90,8 @@ export default function AnimePage() {
             anime lovers like you~! 🐾
           </p>
         </div>
+
+        <div className="col-span-2">Hello</div>
       </div>
     </div>
   );

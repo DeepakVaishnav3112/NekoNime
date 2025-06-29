@@ -11,7 +11,7 @@ export default function Previews({
   setLoading,
 }) {
   const promoAndImagesAPI = `https://api.jikan.moe/v4/anime/${idMal}/videos`;
-  console.log(idMal)
+  // console.log(idMal)
 
   useEffect(() => {
     const loadAnimePromoAndImages = async () => {

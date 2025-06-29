@@ -32,12 +32,12 @@ export default function InfoItem({ label, value }) {
 
   return (
     <div
-      className="flex-1 flex justify-between items-center text-sm bg-primary"
+      className="flex-1 flex justify-between items-center text-sm bg-primary rounded-sm"
       title={value}
     >
       <div className="text-white p-2">{label}</div>
       <div
-        className={`flex items-center gap-2 p-2 h-full bg-gradient-to-r ${statusData.gradient} ${statusData.textColor}`}
+        className={`flex items-center gap-2 p-2 pl-4 h-full rounded-e-sm bg-gradient-to-l ${statusData.gradient} ${statusData.textColor}`}
       >
         {StatusIcon && <StatusIcon className="text-sm -mt-[1px]" />}
         {value}
