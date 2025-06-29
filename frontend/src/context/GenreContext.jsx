@@ -3,15 +3,7 @@ import { createContext, useState, useContext, useEffect } from "react";
 const GenreContext = createContext();
 
 export const GenreProvider = ({ children }) => {
-  const [selectedGenre, setSelectedGenre] = useState(
-    () => localStorage.getItem("selectedGenre") || ""
-  );
-
-  useEffect(() => {
-    if (selectedGenre) {
-      localStorage.setItem("selectedGenre", selectedGenre);
-    }
-  }, [selectedGenre]);
+  const [selectedGenre, setSelectedGenre] = useState();
 
   return (
     <GenreContext.Provider value={{ selectedGenre, setSelectedGenre }}>

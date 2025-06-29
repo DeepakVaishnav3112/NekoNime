@@ -7,7 +7,7 @@ import { GeneralProvider } from "./context/GeneralContext.jsx";
 import { AnimeDetailsProvider } from "./context/AnimeDetailsContext.jsx";
 
 createRoot(document.getElementById("root")).render(
-  // <StrictMode>
+  <StrictMode>
     <BrowserRouter>
       <GeneralProvider>
         <GenreProvider>
@@ -17,5 +17,5 @@ createRoot(document.getElementById("root")).render(
         </GenreProvider>
       </GeneralProvider>
     </BrowserRouter>
-  // </StrictMode>
+  </StrictMode>
 );

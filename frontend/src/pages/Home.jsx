@@ -6,7 +6,7 @@ import { useGeneralContext } from "../context/GeneralContext";
 import { SECTION_TYPES } from "../utils/sections";
 
 export default function Home() {
-  const { viewAllSection } = useGeneralContext();
+  const { viewAllSection, setViewAllSection } = useGeneralContext();
   const {
     trending,
     upcoming,
@@ -17,12 +17,20 @@ export default function Home() {
     loadingTrending,
     loadingUpcoming,
     loadingLatest,
-    setTrendingPage, 
+    setTrendingPage,
     setUpcomingPage,
     setLatestPage,
   } = useAnimeData();
 
   const [visibleCards, setVisibleCards] = useState(5);
+
+  useEffect(() => {
+    if (viewAllSection === null) {
+      setTrendingPage(1);
+      setUpcomingPage(1);
+      setLatestPage(1);
+    }
+  }, [viewAllSection]);
 
   useEffect(() => {
     const updateCardCounter = () => {

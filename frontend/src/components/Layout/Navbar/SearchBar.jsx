@@ -33,7 +33,7 @@ export default function SearchBar() {
         setLoading(true);
         try {
           const res = await fetchSearchResults(search);
-          console.log({ list: res.data.animeList, pageInfo: res.data.pageInfo });
+          // console.log({ list: res.data.animeList, pageInfo: res.data.pageInfo });
           setSearchResults({
             list: res.data.animeList,
             pageInfo: res.data.pageInfo,

@@ -4,6 +4,7 @@ import { useGenreContext } from "../context/GenreContext";
 import AnimeList from "../components/Anime/AnimeList";
 import { SECTION_TYPES } from "../utils/sections";
 import { fetchAnime, fetchSearchResults } from "../services/animeService";
+import { useNavigate } from "react-router-dom";
 
 export default function Browse() {
   const { selectedGenre } = useGenreContext();
@@ -19,6 +20,14 @@ export default function Browse() {
     pageInfo: {},
   });
   const [genreLoading, setGenreLoading] = useState(false);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!selectedGenre && !search) {
+      return navigate("/");
+    }
+  }, [selectedGenre, search]);
 
   useEffect(() => {
     const loadGenreAnime = async () => {

@@ -3,6 +3,7 @@ import Loader from "../Common/Loader";
 import AnimeCard from "../Anime/AnimeCard";
 import { useGeneralContext } from "../../context/GeneralContext";
 import { SECTION_TYPES } from "../../utils/sections";
+import { useEffect } from "react";
 
 export default function AnimeList({
   title,
@@ -11,7 +12,13 @@ export default function AnimeList({
   page,
   setPage,
 }) {
-  const { setViewAllSection } = useGeneralContext();
+  const { viewAllSection, setViewAllSection } = useGeneralContext();
+
+  useEffect(() => {
+    if (!viewAllSection) {
+      setPage(1);
+    }
+  }, [viewAllSection]);
 
   return (
     <div className="w-fit mt-2 sm:mt-0 pb-5 mb-5 mx-auto">
@@ -39,7 +46,9 @@ export default function AnimeList({
             ))}
           </div>
 
-          <div className="flex justify-between pt-5 mt-5">
+          {/* Pagination */}
+          <div className="flex justify-between items-center pt-5 mt-5">
+            {/* Previous Page */}
             <button
               title="Previous Page"
               className="text-primary text-3xl p-1 border-2 border-primary rounded-md hover:bg-secondary hover:border-secondary hover:text-white transition cursor-pointer disabled:opacity-0"
@@ -48,10 +57,45 @@ export default function AnimeList({
             >
               <MdKeyboardArrowLeft />
             </button>
-            <div className="text-center text-sm text-secondary pt-3">
-              Page {animeList?.pageInfo?.currentPage} of{" "}
-              {animeList?.pageInfo?.lastPage}
+
+            {/* Pages Buttons (previous, current and next) */}
+            <div className="flex gap-2 text-white">
+              {animeList?.pageInfo?.currentPage > 2 && (
+                <>
+                  <button
+                    className="text-xs p-2 px-4 rounded-full bg-secondary cursor-pointer hover:bg-primary/70 transition duration-300"
+                    onClick={() => setPage(1)}
+                  >
+                    1
+                  </button>
+
+                  {animeList?.pageInfo.currentPage > 3 && (
+                    <span className="text-secondary font-bold mt-3">.....</span>
+                  )}
+                </>
+              )}
+              {animeList?.pageInfo?.currentPage > 1 && (
+                <button
+                  className="text-xs p-2 px-4 rounded-full bg-secondary cursor-pointer hover:bg-primary/70 transition duration-300"
+                  onClick={() => setPage(animeList?.pageInfo?.currentPage - 1)}
+                >
+                  {animeList?.pageInfo?.currentPage - 1}
+                </button>
+              )}
+              <button className="text-md font-bold p-2 px-4 rounded-full bg-primary-hover-bg cursor-pointer scale-120">
+                {animeList?.pageInfo?.currentPage}
+              </button>
+              {animeList?.pageInfo?.hasNextPage && (
+                <button
+                  className="text-xs p-2 px-4 rounded-full bg-secondary cursor-pointer hover:bg-primary/70 transition duration-300"
+                  onClick={() => setPage(animeList?.pageInfo?.currentPage + 1)}
+                >
+                  {animeList?.pageInfo?.currentPage + 1}
+                </button>
+              )}
             </div>
+
+            {/* Next Page */}
             <button
               title="Next Page"
               className="text-primary text-3xl p-1 border-2 border-primary rounded-md hover:bg-secondary hover:border-secondary hover:text-white transition cursor-pointer"

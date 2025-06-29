@@ -45,9 +45,9 @@ app.get("/youtube-search", async (req, res) => {
     setCache(cacheKey, ytRes.data.items[0], 24 * 60 * 60 * 1000); // ✅ cache for 24 hours
     res.json(ytRes.data.items[0]);
   } catch (error) {
-    // console.error(`YouTube API error for query "${query}":`, error.response?.data || error.message);
-    // res.status(500).json({ error: "YouTube fetch failed.", details: error.message });
-    console.error(`YouTube API error for query "${query}":`, error.message);
+    console.error(`YouTube API error for query "${query}":`, error.response?.data || error.message);
+    res.status(500).json({ error: "YouTube fetch failed.", details: error.message });
+    // console.error(`YouTube API error for query "${query}":`, error.message);
   }
 });
 

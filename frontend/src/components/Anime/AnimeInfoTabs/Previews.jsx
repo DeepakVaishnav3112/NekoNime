@@ -11,7 +11,7 @@ export default function Previews({
   setLoading,
 }) {
   const promoAndImagesAPI = `https://api.jikan.moe/v4/anime/${idMal}/videos`;
-  // console.log(idMal)
+  console.log(idMal)
 
   useEffect(() => {
     const loadAnimePromoAndImages = async () => {
@@ -36,7 +36,7 @@ export default function Previews({
         <Loader />
       ) : (
         <>
-          <div className={`grid grid-cols-1 ${previews.length > 2 && "sm:grid-cols-2 lg:grid-cols-1 2xl:grid-cols-2"} gap-4`}>
+          <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 2xl:grid-cols-2 gap-4`}>
             {/* Promo Videos */}
             {previews?.promo?.map((item) => (
               <div

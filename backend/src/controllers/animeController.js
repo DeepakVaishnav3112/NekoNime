@@ -112,6 +112,7 @@ exports.getLatestAnime = async (req, res, next) => {
       if (cached) return res.json(cached);
     }
 
+    latestAnimeQuery.variables.page = page;
     const response = await postRequest(latestAnimeQuery);
     const pageData = response.data.data.Page;
     const animeList = pageData.media.filter(
@@ -144,7 +145,7 @@ exports.searchAnime = async (req, res, next) => {
     const pageData = response.data.data.Page;
     const animeList = pageData.media;
     const pageInfo = pageData.pageInfo;
-    
+
     res.json({
       animeList,
       pageInfo,
