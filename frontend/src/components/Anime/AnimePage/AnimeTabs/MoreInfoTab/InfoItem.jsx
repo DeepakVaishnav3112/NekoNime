@@ -2,7 +2,7 @@ import {
   statusStylesMap,
   sourceStylesMap,
   dateStylesMap,
-} from "../../../utils/formatColors";
+} from "../../../../../utils/formatColors";
 
 export default function InfoItem({ label, value }) {
   let statusData;

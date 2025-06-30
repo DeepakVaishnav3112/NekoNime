@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { fetchAnimeCharacters } from "../../../services/animeService";
+import { fetchAnimeCharacters } from "../../../../../services/animeService";
 import CharacterCard from "./CharacterCard";
-import Loader from "../../Common/Loader";
-import SharedTabContainer from "./SharedTabContainer";
+import Loader from "../../../../Common/Loader";
+import SharedTabContainer from "../Common/SharedTabContainer";
 
 export default function Characters({
   animeId,

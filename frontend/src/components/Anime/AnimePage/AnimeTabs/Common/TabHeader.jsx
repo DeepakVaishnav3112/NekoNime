@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
-import { useAnimeDetailsContext } from "../../../context/AnimeDetailsContext";
+import { useAnimeDetailsContext } from "../../../../../context/AnimeDetailsContext";
 
 export default function TabHeader({ heading, showBtn }) {
   const { selectedLanguage, setSelectedLanguge } = useAnimeDetailsContext();

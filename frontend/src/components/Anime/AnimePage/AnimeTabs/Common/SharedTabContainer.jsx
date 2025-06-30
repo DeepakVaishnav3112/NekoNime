@@ -1,5 +1,5 @@
 import TabHeader from "./TabHeader";
-import "../../../styles/scrollbar.css";
+import "../../../../../styles/scrollbar.css";
 
 export default function SharedTabContainer({
   heading,

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { fetchAnimeStaff } from "../../../services/animeService";
-import Loader from "../../Common/Loader";
-import SharedTabContainer from "./SharedTabContainer";
+import { fetchAnimeStaff } from "../../../../../services/animeService";
+import Loader from "../../../../Common/Loader";
+import SharedTabContainer from "../Common/SharedTabContainer";
 import StaffMemberCard from "./StaffMemberCard";
 
 export default function StaffTab({

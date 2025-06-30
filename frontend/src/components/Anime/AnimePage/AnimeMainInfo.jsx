@@ -1,10 +1,10 @@
-import AnimeCoverImage from "./AnimeCoverImage";
-import AnimeDescription from "./AnimeDescription";
-import AnimeInfoHeader from "./AnimeInfoHeader";
-import GenreTag from "./GenreTag";
-import { genreColorsMap, genreTextColorsMap } from "../../utils/formatColors";
-import StatDisplay from "./StatDisplay";
-import ActionButtons from "./ActionButtons";
+import AnimeCoverImage from "./AnimeMainInfo/AnimeCoverImage";
+import AnimeDescription from "./AnimeMainInfo/AnimeDescription";
+import AnimeInfoHeader from "./AnimeMainInfo/AnimeInfoHeader";
+import GenreTag from "../../Common/GenreTag";
+import { genreColorsMap, genreTextColorsMap } from "../../../utils/formatColors";
+import StatDisplay from "./AnimeMainInfo/StatDisplay";
+import ActionButtons from "./AnimeMainInfo/ActionButtons";
 
 export default function AnimeMainInfo({
   animeDetails,

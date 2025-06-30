@@ -1,4 +1,4 @@
-import TabHeader from "./TabHeader";
+import TabHeader from "./Common/TabHeader";
 
 export default function ReviewsTab() {
   return (

@@ -1,4 +1,4 @@
-import { useAnimeDetailsContext } from "../../../context/AnimeDetailsContext";
+import { useAnimeDetailsContext } from "../../../../../context/AnimeDetailsContext";
 
 export default function CharacterCard({ character }) {
   const { selectedLanguage } = useAnimeDetailsContext();

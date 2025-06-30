@@ -1,5 +1,5 @@
 import { GoDotFill } from "react-icons/go";
-import { formatAnimeDate } from "../../utils/dateUtils";
+import { formatAnimeDate } from "../../../../utils/dateUtils";
 
 export default function AnimeInfoHeader({
   title,

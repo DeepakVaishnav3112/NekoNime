@@ -4,7 +4,7 @@ import { FaShare } from "react-icons/fa";
 import { FaPlay } from "react-icons/fa";
 import { genreColorsMap, genreTextColorsMap } from "../../utils/formatColors";
 import { useState } from "react";
-import GenreTag from "./GenreTag";
+import GenreTag from "../Common/GenreTag";
 import { formatAnimeDate } from "../../utils/dateUtils";
 import CircleButton from "../Common/CircleButton";
 import { Link } from "react-router-dom";

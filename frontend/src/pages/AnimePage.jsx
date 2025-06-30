@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { fetchAnimeDetails } from "../services/animeService";
 import Loader from "../components/Common/Loader";
-import BannerImage from "../components/Anime/BannerImage";
-import AnimeMainInfo from "../components/Anime/AnimeMainInfo";
-import AnimeTabs from "../components/Anime/AnimeTabs";
+import BannerImage from "../components/Anime/AnimePage/BannerImage";
+import AnimeTabs from "../components/Anime/AnimePage/AnimeTabs";
+import AnimeEpisodes from "../components/Anime/AnimePage/AnimeEpisodes";
+import AnimeMainInfo from "../components/Anime/AnimePage/AnimeMainInfo";
 
 export default function AnimePage() {
   const [animeDetails, setAnimeDetails] = useState(null);
@@ -90,8 +91,11 @@ export default function AnimePage() {
             anime lovers like you~! 🐾
           </p>
         </div>
+      </div>
 
-        <div className="col-span-2">Hello</div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 p-4">
+        <AnimeEpisodes />
+        <AnimeEpisodes />
       </div>
     </div>
   );

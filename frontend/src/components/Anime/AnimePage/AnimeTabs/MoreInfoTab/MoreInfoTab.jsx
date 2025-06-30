@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { fetchAnimeMoreInfo } from "../../../services/animeService";
-import Loader from "../../Common/Loader";
+import { fetchAnimeMoreInfo } from "../../../../../services/animeService";
+import Loader from "../../../../Common/Loader";
 import InfoItem from "./InfoItem";
-import SharedTabContainer from "./SharedTabContainer";
+import SharedTabContainer from "../Common/SharedTabContainer";
 import InfoItemContainer from "./InfoItemContainer";
 
 export default function MoreInfoTab({

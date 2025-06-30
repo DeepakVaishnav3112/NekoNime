@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Loader from "../../Common/Loader";
-import SharedTabContainer from "./SharedTabContainer";
+import Loader from "../../../Common/Loader";
+import SharedTabContainer from "./Common/SharedTabContainer";
 
 export default function Previews({
   idMal,

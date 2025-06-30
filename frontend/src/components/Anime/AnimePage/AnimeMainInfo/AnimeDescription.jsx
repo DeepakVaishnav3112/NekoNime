@@ -1,4 +1,4 @@
-import { stripHtml } from "../../utils/helper";
+import { stripHtml } from "../../../../utils/helper";
 
 export default function AnimeDescription({
   description,
