@@ -35,7 +35,7 @@ export default function AnimeTabs({ selectedTab, handleTabChange, idMal }) {
   const [loadingMoreInfo, setLoadingMoreInfo] = useState(false);
 
   return (
-    <div className="flex-1 flex flex-col gap-4 max-lg:mt-4 max-lg:pt-2">
+    <div className="flex flex-col gap-4 max-lg:mt-4 max-lg:pt-2">
       <div className="flex flex-wrap justify-center gap-2 text-sm font-semibold text-secondary">
         {[
           "Characters",

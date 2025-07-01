@@ -159,7 +159,16 @@ exports.getAnimeById = async (req, res, next) => {
   try {
     animeDetailsQuery.variables.id = parseInt(req.params.id);
     const response = await postRequest(animeDetailsQuery);
-    res.json(response.data.data.Media);
+    const media = response.data.data.Media;
+
+    // Filter relations: keep only related anime
+    if (media.relations?.edges) {
+      media.relations.edges = media.relations.edges.filter(
+        (edge) => edge.node.type === "ANIME"
+      );
+    }
+
+    res.json(media);
   } catch (err) {
     next(err);
   }

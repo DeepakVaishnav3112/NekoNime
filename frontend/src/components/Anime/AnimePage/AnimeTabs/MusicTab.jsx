@@ -92,7 +92,7 @@ export default function MusicTab({
                 {op.video && (
                   <iframe
                     className="w-full aspect-video rounded-md"
-                    src={`https://www.youtube.com/embed/${op.video.id.videoId}`}
+                    src={`https://www.youtube.com/embed/${op.video}`}
                     title={op.title}
                     allow="autoplay; encrypted-media"
                     allowFullScreen
@@ -119,7 +119,7 @@ export default function MusicTab({
                 {ed.video && (
                   <iframe
                     className="w-full aspect-video rounded-md"
-                    src={`https://www.youtube.com/embed/${ed.video.id.videoId}`}
+                    src={`https://www.youtube.com/embed/${ed.video}`}
                     title={ed.title}
                     allow="autoplay; encrypted-media"
                     allowFullScreen

@@ -3,6 +3,7 @@ import { fetchAnimeCharacters } from "../../../../../services/animeService";
 import CharacterCard from "./CharacterCard";
 import Loader from "../../../../Common/Loader";
 import SharedTabContainer from "../Common/SharedTabContainer";
+import { useAnimeDetailsContext } from "../../../../../context/AnimeDetailsContext";
 
 export default function Characters({
   animeId,
@@ -13,6 +14,7 @@ export default function Characters({
 }) {
   const [page, setPage] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(true);
+  const { selectedLanguage, setSelectedLanguage } = useAnimeDetailsContext();
 
   const loadCharacters = async (page) => {
     try {
@@ -73,7 +75,13 @@ export default function Characters({
   );
 
   return (
-    <SharedTabContainer heading="Characters And Voice Actors" showBtn>
+    <SharedTabContainer
+      heading="Characters And Voice Actors"
+      showBtn
+      dropDownOptions={["Japanese", "English"]}
+      selectedOption={selectedLanguage}
+      setSelectedOption={setSelectedLanguage}
+    >
       {characters.length === 0 && !loading && (
         <p className="text-center text-secondary">No characters found.</p>
       )}

@@ -21,8 +21,8 @@ exports.searchYoutube = async (req, res) => {
     });
 
     if (cached) {
-      console.log(`✅ Cache hit for query: ${query}`, cached);
-      return res.json(cached.noResult ? null : cached.videoData);
+      console.log(`✅ Cache hit for query: ${query}`, cached.query, cached.videoId);
+      return res.json(cached.noResult ? null : cached.videoId);
     }
 
     // Not in DB, fetch from YouTube
@@ -42,22 +42,18 @@ exports.searchYoutube = async (req, res) => {
 
     console.log("🎬 YouTube response for", query, ytRes.data.items);
     const video = ytRes.data?.items?.[0] || null;
+    const videoId = video?.id?.videoId || null;
 
     // Save to MongoDB even if it's null
     await YoutubeCache.create({
       query: query.trim().toLowerCase(),
-      videoData: video,
+      videoId: videoId,
       noResult: video ? false : true,
     }).then(() => console.log(`✅ Saved to MongoDB: ${query}`));
 
-    res.json(video);
+    res.json(videoId);
   } catch (error) {
     console.error(`YouTube API error for query "${query}":`, error.response?.data || error.message);
     res.status(500).json({ error: "YouTube fetch failed.", details: error.message });
-
-    // console.error(`YouTube API error for "${query}":`, error.message);
-    // res
-    //   .status(500)
-    //   .json({ error: "YouTube fetch failed", details: error.message });
   }
 };

@@ -226,6 +226,25 @@ const animeDetailsQuery = {
             romaji
             english
           }
+          relations {
+            edges {
+              relationType
+              node {
+                id
+                title {
+                  romaji
+                  english
+                }
+                format
+                status
+                episodes
+                coverImage {
+                  large
+                }
+                type
+              }
+            }
+          }
           coverImage {
             extraLarge
           }

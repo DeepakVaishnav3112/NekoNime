@@ -14,7 +14,7 @@ export default function AnimeMainInfo({
 }) {
   return (
     <>
-      <div className="flex-1 flex flex-col">
+      <div className="flex flex-col">
         <div className="flex gap-4">
           {/* Cover Image */}
           <AnimeCoverImage

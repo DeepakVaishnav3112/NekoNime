@@ -3,11 +3,11 @@ import { createContext, useContext, useState } from "react";
 const AnimeDetailsContext = createContext();
 
 export const AnimeDetailsProvider = ({ children }) => {
-  const [selectedLanguage, setSelectedLanguge] = useState("Japanese");
+  const [selectedLanguage, setSelectedLanguage] = useState("Japanese");
 
   return (
     <AnimeDetailsContext.Provider
-      value={{ selectedLanguage, setSelectedLanguge }}
+      value={{ selectedLanguage, setSelectedLanguage }}
     >
       {children}
     </AnimeDetailsContext.Provider>
