@@ -245,6 +245,25 @@ const animeDetailsQuery = {
               }
             }
           }
+          recommendations(sort: RATING_DESC, perPage: 20) {
+            edges {
+              node {
+                mediaRecommendation {
+                  id
+                  title {
+                    romaji
+                    english
+                  }
+                  coverImage {
+                    large
+                  }
+                  format
+                  averageScore
+                  episodes
+                }
+              }
+            }
+          }
           coverImage {
             extraLarge
           }

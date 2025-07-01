@@ -2,31 +2,23 @@ import SharedTabContainer from "./AnimeTabs/Common/SharedTabContainer";
 import HorizontalScrollSection from "../../Common/HorizontalScrollSection";
 import AnimeSuggestionCard from "../../Common/AnimeSuggestionCard";
 
-export default function RecommendedAnimeSection({
-  animeTitle,
-  recommendedAnime,
-}) {
-  const recommendations = recommendedAnime.map(
-    (anime) => anime.node.mediaRecommendation
-  );
-
+export default function RelatedAnimeSection({ animeTitle, relations }) {
   return (
     <SharedTabContainer
       heading={
         <>
-          Recommended Anime For{" "}
+          Related Anime For{" "}
           <span className="text-primary-hover-text font-medium">
             {animeTitle}
-          </span>{" "}
-          Fans
+          </span>
         </>
       }
       isHeight={false}
       blendPosition={false}
     >
       <HorizontalScrollSection>
-        {recommendations.map((anime) => (
-          <AnimeSuggestionCard key={anime.id} anime={anime} />
+        {relations.map((rel) => (
+          <AnimeSuggestionCard key={rel.node.id} anime={rel.node} />
         ))}
       </HorizontalScrollSection>
     </SharedTabContainer>

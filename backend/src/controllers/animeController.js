@@ -168,6 +168,12 @@ exports.getAnimeById = async (req, res, next) => {
       );
     }
 
+    if (media.recommendations?.edges) {
+      media.recommendations.edges = media.recommendations.edges.filter(
+        (rec) => rec.node.mediaRecommendation
+      );
+    }
+
     res.json(media);
   } catch (err) {
     next(err);

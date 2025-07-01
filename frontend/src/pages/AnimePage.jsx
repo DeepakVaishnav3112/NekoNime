@@ -6,7 +6,8 @@ import BannerImage from "../components/Anime/AnimePage/BannerImage";
 import AnimeTabs from "../components/Anime/AnimePage/AnimeTabs";
 import AnimeEpisodes from "../components/Anime/AnimePage/AnimeEpisodes";
 import AnimeMainInfo from "../components/Anime/AnimePage/AnimeMainInfo";
-import RelatedAnimeSection from "../components/Anime/AnimePage/RelatedAnimeSection/RelatedAnimeSection";
+import RelatedAnimeSection from "../components/Anime/AnimePage/RelatedAnimeSection";
+import RecommendedAnimeSection from "../components/Anime/AnimePage/RecommendedAnimeSection";
 
 export default function AnimePage() {
   const [animeDetails, setAnimeDetails] = useState(null);
@@ -96,6 +97,7 @@ export default function AnimePage() {
         </div>
       </div>
 
+      {/* Anime Episodes */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-4">
         {(animeDetails.status === "RELEASING" || animeDetails.episodes) &&
           animeDetails.format !== "MOVIE" && (
@@ -106,6 +108,8 @@ export default function AnimePage() {
               }
             />
           )}
+
+        {/* Related Anime like mpvies and next or previous seasons */}
         <div className="row-span-2">Data</div>
         {animeDetails.relations?.edges?.length > 0 && (
           <RelatedAnimeSection
@@ -113,10 +117,14 @@ export default function AnimePage() {
             relations={animeDetails.relations.edges}
           />
         )}
-      </div>
 
-      <div>
-        
+        {/* Recommended Anime or Similar Anime */}
+        {animeDetails.recommendations?.edges?.length > 0 && (
+          <RecommendedAnimeSection
+            animeTitle={animeDetails.title.english || animeDetails.title.romaji}
+            recommendedAnime={animeDetails.recommendations.edges}
+          />
+        )}
       </div>
     </div>
   );

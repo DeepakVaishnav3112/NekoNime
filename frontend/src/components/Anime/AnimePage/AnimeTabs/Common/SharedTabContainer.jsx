@@ -23,8 +23,8 @@ export default function SharedTabContainer({
       />
       <div
         className={`${
-          isHeight && "h-[400px]"
-        } overflow-hidden overflow-y-auto custom-scrollbar pb-5 mt-1`}
+          isHeight && "h-[400px] pb-5"
+        } overflow-hidden overflow-y-auto custom-scrollbar mt-1`}
       >
         {children}
       </div>
