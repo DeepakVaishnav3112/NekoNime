@@ -63,7 +63,7 @@ export default function Home() {
 
       <div
         className={`relative flex flex-col lg:flex-row gap-2 ${
-          sesaonTopRated && "2xl:mt-[-140px]"
+          sesaonTopRated && "lg:mt-[-140px] z-40"
         }`}
       >
         <div className="sticky top-22 hidden lg:flex gap-4 flex-col sm:flex-row lg:flex-col m-1 lg:w-1/3 2xl:w-1/4 h-fit px-1 sm:px-2">
@@ -75,7 +75,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="lg:m-auto px-1 sm:px-2 py-2 sm:py-4 2xl:mt-[-20px]">
+        <div className="lg:m-auto px-1 sm:px-2 py-2 sm:py-4 lg:mt-[-20px]">
           {viewAllSection === SECTION_TYPES.TRENDING ? (
             <AnimeList
               title={SECTION_TYPES.TRENDING}
