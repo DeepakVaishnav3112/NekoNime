@@ -56,7 +56,7 @@ export default function Characters({
     }
   }, [page]);
 
-  // infinite scroll logic
+  // infinite scroll logic (to fetch more characters when scrolling)
   const observer = useRef(null);
   const lastCharacterRef = useCallback(
     (node) => {
@@ -88,6 +88,7 @@ export default function Characters({
 
       {characters.map((character, idx) => {
         if (idx === characters.length - 1) {
+          // Fetch more characters when the last character is visible
           return (
             <div
               ref={lastCharacterRef}
@@ -97,6 +98,8 @@ export default function Characters({
             </div>
           );
         }
+
+        // Render the character card for all other characters
         return (
           <CharacterCard
             key={`${character.character.id}-${idx}`}

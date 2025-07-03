@@ -4,16 +4,19 @@ import AnimeSection from "../components/Anime/AnimeSection";
 import AnimeList from "../components/Anime/AnimeList";
 import { useGeneralContext } from "../context/GeneralContext";
 import { SECTION_TYPES } from "../utils/sections";
+import AnimeCarousel from "../components/Common/AnimeCarousel";
 
 export default function Home() {
   const { viewAllSection, setViewAllSection } = useGeneralContext();
   const {
+    sesaonTopRated,
     trending,
     upcoming,
     latest,
     trendingPage,
     upcomingPage,
     latestPage,
+    loadingSesaonTopRated,
     loadingTrending,
     loadingUpcoming,
     loadingLatest,
@@ -49,9 +52,20 @@ export default function Home() {
     return () => window.removeEventListener("resize", updateCardCounter);
   }, []);
 
+  // console.log(sesaonTopRated);
+
   return (
     <div>
-      <div className="relative flex flex-col lg:flex-row gap-2">
+      <AnimeCarousel
+        animeList={sesaonTopRated}
+        loading={loadingSesaonTopRated}
+      />
+
+      <div
+        className={`relative flex flex-col lg:flex-row gap-2 ${
+          sesaonTopRated && "2xl:mt-[-140px]"
+        }`}
+      >
         <div className="sticky top-22 hidden lg:flex gap-4 flex-col sm:flex-row lg:flex-col m-1 lg:w-1/3 2xl:w-1/4 h-fit px-1 sm:px-2">
           <div className="flex-1 w-full border-2 border-primary text-primary p-4 rounded-md">
             <h2 className="text-md font-bold">YOUR LISTS</h2>
@@ -61,7 +75,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="lg:m-auto px-1 sm:px-2 py-2 sm:py-4">
+        <div className="lg:m-auto px-1 sm:px-2 py-2 sm:py-4 2xl:mt-[-20px]">
           {viewAllSection === SECTION_TYPES.TRENDING ? (
             <AnimeList
               title={SECTION_TYPES.TRENDING}

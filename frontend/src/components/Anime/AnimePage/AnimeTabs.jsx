@@ -36,6 +36,8 @@ export default function AnimeTabs({ selectedTab, handleTabChange, idMal }) {
 
   return (
     <div className="flex flex-col gap-4 max-lg:mt-4 max-lg:pt-2">
+
+      {/* Tab navigation */}
       <div className="flex flex-wrap justify-center gap-2 text-sm font-semibold text-secondary">
         {[
           "Characters",
@@ -48,7 +50,7 @@ export default function AnimeTabs({ selectedTab, handleTabChange, idMal }) {
           <button
             key={tab}
             onClick={() => handleTabChange(tab)}
-            className={`px-3 py-2 min-w-[90px] text-center transition-all duration-200 ${
+            className={`px-3 py-2 min-w-[90px] text-center cursor-pointer transition-all duration-200 ${
               selectedTab === tab
                 ? "text-white bg-primary rounded-full"
                 : "hover:text-primary"
@@ -59,14 +61,8 @@ export default function AnimeTabs({ selectedTab, handleTabChange, idMal }) {
         ))}
       </div>
 
+      {/* Tabs content based on selected tab */}
       <div className=" flex-1 w-full rounded-lg text-black">
-        {/* {selectedTab === "Characters" && <Characters animeId={animeId} characters={characterData} setCharacters={setCharacterData} loading={loadingCharacters} setLoading={setLoadingCharacters} />}
-        {selectedTab === "Previews" && <Previews idMal={idMal} previews={previewData} setPreviews={setPreviewData} loading={loadingPreviews} setLoading={setLoadingPreviews} />}
-        {selectedTab === "Music" && <MusicTab idMal={idMal} openings={openings} endings={endings} setOpenings={setOpenings} setEndings={setEndings} />}
-        {selectedTab === "Staff" && <StaffTab animeId={animeId} staff={staffData} setStaff={setStaffData} loading={loadingStaff} setLoading={setLoadingStaff} />}
-        {selectedTab === "Reviews" && <ReviewsTab />}
-        {selectedTab === "More Info" && <MoreInfoTab animeId={animeId} moreInfo={moreInfoData} setMoreInfo={setMoreInfoData} loading={loadingMoreInfo} setLoading={setLoadingMoreInfo} />} */}
-
         {visitedTabs.includes("Previews") && (
           <div className={selectedTab === "Previews" ? "block" : "hidden"}>
             <Previews

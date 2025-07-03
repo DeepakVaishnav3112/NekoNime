@@ -3,6 +3,8 @@ const router = express.Router();
 const animeController = require("../controllers/animeController");
 
 router.get("/", animeController.getAnime);
+router.get("/seasonTopRated", animeController.getSeasonalTopRatedAnime);
+// router.get("/tmdb-image", animeController.getAnimeBannerImage);
 router.get("/trending", animeController.getTrendingAnime);
 router.get("/upcoming", animeController.getUpcomingAnime);
 router.get("/latest", animeController.getLatestAnime);

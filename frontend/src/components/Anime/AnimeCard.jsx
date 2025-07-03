@@ -28,7 +28,7 @@ export default function AnimeCard({ anime }) {
               src={anime.coverImage.large}
               alt={anime.title.english || anime.title.romaji}
               loading="lazy"
-              className="w-[140px] md:w-[150px] h-[200px] md:h-[220px] rounded-md shadow-md"
+              className="w-[140px] md:w-[150px] h-[200px] md:h-[220px] rounded-md shadow-[0_0_15px_rgba(0,0,0,0.3)]"
             />
           </Link>
 

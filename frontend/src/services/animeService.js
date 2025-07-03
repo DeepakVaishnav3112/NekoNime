@@ -9,6 +9,9 @@ export const fetchAnime = (selectedGenre, page = 1) =>
       : `${BASE_URL}/anime`
   );
 
+export const fetchSesaonTopRated = () =>
+  axios.get(`${BASE_URL}/anime/seasonTopRated`);
+
 export const fetchTrendingAnime = (page = 1) =>
   axios.get(`${BASE_URL}/anime/trending?page=${page}`);
 

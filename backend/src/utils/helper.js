@@ -9,7 +9,8 @@ const getNextSeasonAndYear = () => {
     const nextYear = nextSeasonIdx === 0 ? year + 1 : year;
 
     return { 
-        season: seasons[nextSeasonIdx],
+        season: seasons[currentSeasonIdx],
+        seasonNext: seasons[nextSeasonIdx],
         year: nextYear
     };
 };

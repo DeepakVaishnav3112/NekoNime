@@ -2,57 +2,63 @@ import { GoDotFill } from "react-icons/go";
 import { formatAnimeDate } from "../../../../utils/dateUtils";
 
 export default function AnimeInfoHeader({
-  title,
-  altTitle,
-  format,
-  episodes,
-  duration,
-  startDate,
+  animeDetails,
+  isBig = false
 }) {
   return (
     <>
-      <div className="max-xs:flex max-xs:flex-col max-xs:justify-start max-xs:gap-1">
-        <h1 className="text-primary max-xs:text-sm text-lg xl:text-xl font-bold leading-5">
-          {title}
+      <div className={`${!isBig && "max-xs:flex max-xs:flex-col max-xs:justify-start max-xs:gap-1"}`}>
+        <h1 className={`text-primary ${!isBig ? "max-xs:text-sm text-xl xl:text-2xl font-bold leading-5" : "text-xl md:text-4xl font-semibold text-shadow-2xs"}`}>
+          {animeDetails.title.english || animeDetails.title.romaji}
         </h1>
-        <span className="max-xs:text-[8px] text-[10px] sm:text-xs text-primary-hover-bg">{altTitle}</span>
+        <span className="max-xs:text-[8px] text-[10px] sm:text-xs text-primary-hover-bg">
+          {animeDetails.title.english === animeDetails.title.romaji
+            ? ""
+            : animeDetails.title.romaji}
+        </span>
 
         <div className="flex items-center max-xs:text-[8px] text-[10px] xs:mt-2">
           {/* Format and Episodes */}
           <div className="flex gap-1 items-center font-medium text-white">
-            {format && (
+            {animeDetails.format && (
               <span
                 className={`bg-secondary px-2 py-1 pt-[5px] ${
-                  episodes ? "rounded-s-md" : "rounded-md"
+                  animeDetails.episodes ? "rounded-s-md" : "rounded-md"
                 }`}
               >
-                {format}
+                {animeDetails.format}
               </span>
             )}
-            {episodes && (
+            {animeDetails.episodes && (
               <span
                 className={`bg-primary px-2 py-1 pt-[5px] ${
-                  format ? "rounded-e-md" : "rounded-md"
+                  animeDetails.format ? "rounded-e-md" : "rounded-md"
                 }`}
               >
-                {episodes}
+                {animeDetails.episodes}
               </span>
             )}
           </div>
 
-          {duration && <GoDotFill className="text-secondary text-md max-xs:mx-1 mx-2" />}
-
-          {/* Episodes Duration */}
-          {duration && (
-            <div className="text-secondary max-xs:text-[10px] text-[12px]">{duration}m</div>
+          {animeDetails.duration && (
+            <GoDotFill className="text-secondary text-md max-xs:mx-1 mx-2" />
           )}
 
-          {startDate && <GoDotFill className="text-secondary text-md max-xs:mx-1 mx-2" />}
+          {/* Episodes Duration */}
+          {animeDetails.duration && (
+            <div className="text-secondary max-xs:text-[10px] text-[12px]">
+              {animeDetails.duration}m
+            </div>
+          )}
+
+          {animeDetails.startDate && (
+            <GoDotFill className="text-secondary text-md max-xs:mx-1 mx-2" />
+          )}
 
           {/* Release Date */}
-          {startDate && (
+          {animeDetails.startDate && (
             <div className="text-secondary max-xs:text-[10px] text-[12px]">
-              {formatAnimeDate(startDate)}
+              {formatAnimeDate(animeDetails.startDate)}
             </div>
           )}
         </div>

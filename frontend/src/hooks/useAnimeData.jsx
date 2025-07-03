@@ -3,9 +3,12 @@ import {
   fetchTrendingAnime,
   fetchUpcomingAnime,
   fetchLatestAnime,
+  fetchSesaonTopRated,
 } from "../services/animeService";
 
 export default function useAnimeData() {
+  const [sesaonTopRated, setSeasonTopRated] = useState();
+  const [loadingSesaonTopRated, setLoadingSeasonTopRated] = useState(false);
 
   const [trendingPage, setTrendingPage] = useState(1);
   const [trending, setTrending] = useState({ list: [], pageInfo: {} });
@@ -18,6 +21,23 @@ export default function useAnimeData() {
   const [latestPage, setLatestPage] = useState(1);
   const [latest, setLatest] = useState({ list: [], pageInfo: {} });
   const [loadingLatest, setLoadingLatest] = useState(false);
+
+  useEffect(() => {
+    const loadSeasonTopRated = async () => {
+      setLoadingSeasonTopRated(true);
+      try {
+        const res = await fetchSesaonTopRated();
+        // console.log(res.data);
+        setSeasonTopRated(res.data);
+      } catch (err) {
+        console.error("Failed to fetch season top rated Anime Data:", err);
+      } finally {
+        setLoadingSeasonTopRated(false);
+      }
+    };
+
+    loadSeasonTopRated();
+  }, []);
 
   useEffect(() => {
     const loadTrending = async () => {
@@ -80,17 +100,19 @@ export default function useAnimeData() {
   }, [latestPage]);
 
   return {
+    sesaonTopRated,
     trending,
     upcoming,
     latest,
+    loadingSesaonTopRated,
     loadingTrending,
     loadingUpcoming,
     loadingLatest,
     trendingPage,
     upcomingPage,
     latestPage,
-    setTrendingPage, 
+    setTrendingPage,
     setUpcomingPage,
-    setLatestPage
+    setLatestPage,
   };
 }

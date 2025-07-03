@@ -8,10 +8,13 @@ export default function TabHeader({
   setSelectedOption,
 }) {
   return (
-    <div className="relative flex items-center justify-between border-b-2 border-primary z-60">
+    <div className=" flex items-center justify-between border-b-2 border-primary">
+      {/* Tab Heading */}
       <h2 className="text-xs xs:text-sm sm:text-[16px] text-white bg-secondary rounded-t-md px-4 py-2">
         {heading}
       </h2>
+
+      {/* Dropdown Menu */}
       {showBtn && (
         <DropDownMenu
           options={dropDownOptions}

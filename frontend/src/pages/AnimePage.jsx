@@ -8,6 +8,7 @@ import AnimeEpisodes from "../components/Anime/AnimePage/AnimeEpisodes";
 import AnimeMainInfo from "../components/Anime/AnimePage/AnimeMainInfo";
 import RelatedAnimeSection from "../components/Anime/AnimePage/RelatedAnimeSection";
 import RecommendedAnimeSection from "../components/Anime/AnimePage/RecommendedAnimeSection";
+import NekoNimeSloganBox from "../components/Common/NekoNimeSloganBox";
 
 export default function AnimePage() {
   const [animeDetails, setAnimeDetails] = useState(null);
@@ -59,9 +60,12 @@ export default function AnimePage() {
   return (
     <div>
       {/* Banner Image */}
-      <BannerImage src={animeDetails.bannerImage} />
-      {/* <div className="flex flex-col lg:flex-row gap-2 p-4"> */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-4">
+      <BannerImage src={animeDetails.bannerImage || animeDetails.bannerImageTMDB} />
+      <div
+        className={`${
+          animeDetails.bannerImage ? "relative z-10 -mt-10 " : "pt-4"
+        } grid grid-cols-1 lg:grid-cols-2 gap-4 px-4`}
+      >
         {/* Main Info */}
         <AnimeMainInfo
           animeDetails={animeDetails}
@@ -78,23 +82,7 @@ export default function AnimePage() {
         />
 
         {/* NekoNime Summary Box with Neko Girl Image For Mobile */}
-        <div className="flex md:hidden items-center gap-4 grow bg-gradient-to-r from-secondary to-primary-hover-bg shadow rounded-md px-3 py-2">
-          <img
-            src="/NekoGirl_1.jpg"
-            alt=""
-            className="w-18 h-18 rounded-full"
-            style={{
-              imageRendering: "crisp-edges",
-              transform: "translateZ(0)",
-            }}
-          />
-          <p className="text-white text-sm pr-4">
-            <span className="text-primary font-bold text-xl">NekoNime</span>{" "}
-            lets you explore anime, track what you’ve watched, and manage your
-            personal lists—all in one cute and simple platform made just for
-            anime lovers like you~! 🐾
-          </p>
-        </div>
+        <NekoNimeSloganBox SmallDevice={true} />
       </div>
 
       {/* Anime Episodes */}
@@ -109,8 +97,9 @@ export default function AnimePage() {
             />
           )}
 
-        {/* Related Anime like mpvies and next or previous seasons */}
         <div className="row-span-2">Data</div>
+        
+        {/* Related Anime like mpvies and next or previous seasons */}
         {animeDetails.relations?.edges?.length > 0 && (
           <RelatedAnimeSection
             animeTitle={animeDetails.title.english || animeDetails.title.romaji}

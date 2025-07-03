@@ -61,6 +61,33 @@ const animeGenreQuery = {
   },
 };
 
+const seasonalTopRatedAnimeQuery = {
+  query: `
+    query {
+  Page(perPage: 10) {
+    media(type: ANIME, status_in: RELEASING, sort: TRENDING_DESC) {
+      id
+      title {
+        romaji
+        english
+      }
+      description(asHtml: false)
+      format
+      episodes
+      duration
+      startDate {
+        year
+        month
+        day
+      }
+    }
+  }
+}
+
+  `,
+  variables: {},
+};
+
 const trendingAnimeQuery = {
   query: `
     query ($page: Int) {
@@ -85,6 +112,7 @@ const trendingAnimeQuery = {
             month
             day
           }
+          bannerImage
           description(asHtml: false)
           genres
           averageScore
@@ -98,7 +126,6 @@ const trendingAnimeQuery = {
     page: 1, // default, will be overridden dynamically
   },
 };
-
 
 const upcomingAnimeQuery = {
   query: `
@@ -174,7 +201,7 @@ const latestAnimeQuery = {
   `,
   variables: {
     page: 1, // default, will be overridden dynamically
-  }
+  },
 };
 
 const animeSearchQuery = {
@@ -372,7 +399,7 @@ const animeStaffQuery = {
   }
   `,
   variables: {},
-}
+};
 
 const animeMoreInfoQuery = {
   query: `
@@ -428,7 +455,7 @@ const animeMoreInfoQuery = {
       }
     }
   `,
-  variables: {}
+  variables: {},
 };
 
 module.exports = {
@@ -442,4 +469,5 @@ module.exports = {
   animeCharacterQuery,
   animeStaffQuery,
   animeMoreInfoQuery,
+  seasonalTopRatedAnimeQuery,
 };

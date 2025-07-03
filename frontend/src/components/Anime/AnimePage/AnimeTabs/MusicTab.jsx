@@ -22,7 +22,7 @@ export default function MusicTab({
 
     const fetchThemesAndVideos = async () => {
       try {
-        // Step 1: Get themes (openings and endings) from Jikan
+        // Get themes (openings and endings) from Jikan
         const jikanRes = await axios.get(
           `https://api.jikan.moe/v4/anime/${idMal}/themes`
         );
@@ -31,7 +31,7 @@ export default function MusicTab({
         const openingTitles = data?.openings || [];
         const endingTitles = data?.endings || [];
 
-        // Step 2: Fetch YouTube videos for each title
+        // To fetch YouTube videos for title
         const fetchYouTubeVideo = async (title) => {
           try {
             const res = await fetchAnimeMusic(title);
@@ -42,6 +42,7 @@ export default function MusicTab({
           }
         };
 
+        // Fetch YouTube videos for each title
         const openingResults = await Promise.all(
           openingTitles.map((title) => fetchYouTubeVideo(title))
         );
@@ -76,6 +77,7 @@ export default function MusicTab({
   return (
     <SharedTabContainer heading="Music (Openings & Endings)">
       <div className="grid grid-cols-1">
+        {/* Openings */}
         <div>
           <h3 className="text-secondary text-lg font-semibold border-b-2 border-secondary">
             Openings
@@ -103,6 +105,7 @@ export default function MusicTab({
           )}
         </div>
 
+        {/* Endings */}
         <div className="">
           <h3 className="text-secondary text-lg font-semibold border-b-2 border-secondary">
             Endings

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
+import "../../../../../styles/scrollbar.css";
 
 export default function DropDownMenu({
   options = [],
@@ -48,19 +49,20 @@ export default function DropDownMenu({
 
   return (
     <div ref={buttonRef} className={`relative ${className}`}>
+      {/* Dropdown Button */}
       <button
         onClick={toggleDropdown}
-        // className="flex items-center gap-2 text-[10px] xs:text-xs sm:text-sm px-4 py-2 border-2 border-b-0 border-primary rounded-t-md text-primary cursor-pointer transition duration-300 hover:bg-primary hover:text-white"
         className={`flex items-center gap-2 text-xs sm:text-sm px-4 py-2 border-2 border-b-0 border-primary rounded-t-md text-primary cursor-pointer transition duration-300 hover:bg-primary hover:text-white ${buttonClass}`}
       >
         <span>{selected}</span>
         <IoIosArrowDown />
       </button>
 
+      {/* Dropdown Content */}
       {showDropdown && (
         <div
           ref={dropdownRef}
-          className={`absolute z-20 w-full bg-white border border-gray-300 rounded-md shadow-lg ${
+          className={`absolute right-0 z-20 min-w-[110px] max-h-[300px] overflow-y-auto custom-scrollbar w-full bg-white border border-gray-300 rounded-md shadow-lg ${
             dropDownPosition === "top" ? "bottom-full mb-1" : "top-full mt-1"
           }`}
         >
@@ -68,11 +70,10 @@ export default function DropDownMenu({
             <button
               key={option}
               onClick={() => {
-                // console.log("Selected Language: ", language);
                 setShowDropdown(false);
                 setSelected(option);
               }}
-              className="w-full text-left px-4 py-2 hover:bg-secondary/20 transition-colors text-sm"
+              className="w-full text-left px-4 py-2 hover:bg-secondary/20 transition-colors text-sm cursor-pointer"
             >
               {option}
             </button>

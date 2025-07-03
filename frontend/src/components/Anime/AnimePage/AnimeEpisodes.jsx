@@ -5,7 +5,8 @@ import Loader from "../../Common/Loader";
 import SharedTabContainer from "./AnimeTabs/Common/SharedTabContainer";
 import "../../../styles/scrollbar.css";
 
-const GET_EPISODES_API = (idMal, page) => `https://api.jikan.moe/v4/anime/${idMal}/episodes?page=${page}`;
+const GET_EPISODES_API = (idMal, page) =>
+  `https://api.jikan.moe/v4/anime/${idMal}/episodes?page=${page}`;
 
 // Helper component for the legend items
 const LegendItem = ({ color, label }) => (
@@ -30,11 +31,14 @@ const getEpisodeStyle = ({ filler, recap }) => {
   return "bg-primary text-white hover:bg-secondary";
 };
 
+// Component for the episode card show full details if isCompact is false otherwise show only the episode number
 const EpisodeCard = ({ episode, isCompact }) => {
   return isCompact ? (
     <div
       title={episode.title}
-      className={`${getEpisodeStyle(episode)} text-sm font-semibold p-2 rounded-md text-center cursor-pointer transition duration-200`}
+      className={`${getEpisodeStyle(
+        episode
+      )} text-sm font-semibold p-2 rounded-md text-center cursor-pointer transition duration-200`}
     >
       <span>{episode.mal_id}</span>
     </div>
@@ -63,11 +67,13 @@ export default function AnimeEpisodes({ idMal, animeTitle }) {
   const [episodeRanges, setEpisodeRanges] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  // convert the range in page number (101-200 -> 2)
   const getPageFromRange = (range) => {
     const [start] = range.split("-").map(Number);
     return Math.ceil(start / 100);
   };
 
+  // Fetch episode pages or first page
   useEffect(() => {
     const fetchPages = async () => {
       try {
@@ -94,6 +100,7 @@ export default function AnimeEpisodes({ idMal, animeTitle }) {
     if (idMal) fetchPages();
   }, [idMal]);
 
+  // Fetch episodes based on selected range
   useEffect(() => {
     const fetchEpisodes = async () => {
       if (!selectedRange) return;
@@ -114,12 +121,14 @@ export default function AnimeEpisodes({ idMal, animeTitle }) {
 
   const isCompact = pages > 1;
 
-  return (
+  return episodes?.length > 0 && (
     <SharedTabContainer
       heading={
         <>
           Episodes of{" "}
-          <span className="text-primary-hover-text font-medium">{animeTitle}</span>
+          <span className="text-primary-hover-text font-medium">
+            {animeTitle}
+          </span>
         </>
       }
       showBtn={isCompact}
@@ -129,23 +138,39 @@ export default function AnimeEpisodes({ idMal, animeTitle }) {
       isHeight={episodes?.length > 12}
     >
       <div className="py-2 rounded-b-md">
+        {/* Episode Legend */}
         <div className="flex flex-col sm:flex-row justify-between sm:items-center">
           <span className="text-sm text-secondary ml-2">
             {isCompact ? (
-              <>Episodes in range: <strong>{selectedRange}</strong></>
+              <>
+                Episodes in range: <strong>{selectedRange}</strong>
+              </>
             ) : (
-              <>Episodes: <strong>{`1-${episodes?.length}`}</strong></>
+              <>
+                Episodes: <strong>{`1-${episodes?.length}`}</strong>
+              </>
             )}
           </span>
           {isCompact && <EpisodeLegend />}
         </div>
 
+        {/* Episode List */}
         {loading ? (
           <Loader />
         ) : (
-          <div className={`grid ${isCompact ? "grid-cols-5 xs:grid-cols-8 sm:grid-cols-10" : "grid-cols-1 md:grid-cols-2 lg:grid-cols-1 2xl:grid-cols-2"} gap-2 mt-2`}>
+          <div
+            className={`grid ${
+              isCompact
+                ? "grid-cols-5 xs:grid-cols-8 sm:grid-cols-10"
+                : "grid-cols-1 md:grid-cols-2 lg:grid-cols-1 2xl:grid-cols-2"
+            } gap-2 mt-2`}
+          >
             {episodes.map((episode) => (
-              <EpisodeCard key={episode.mal_id} episode={episode} isCompact={isCompact} />
+              <EpisodeCard
+                key={episode.mal_id}
+                episode={episode}
+                isCompact={isCompact}
+              />
             ))}
           </div>
         )}

@@ -2,9 +2,13 @@ import AnimeCoverImage from "./AnimeMainInfo/AnimeCoverImage";
 import AnimeDescription from "./AnimeMainInfo/AnimeDescription";
 import AnimeInfoHeader from "./AnimeMainInfo/AnimeInfoHeader";
 import GenreTag from "../../Common/GenreTag";
-import { genreColorsMap, genreTextColorsMap } from "../../../utils/formatColors";
+import {
+  genreColorsMap,
+  genreTextColorsMap,
+} from "../../../utils/formatColors";
 import StatDisplay from "./AnimeMainInfo/StatDisplay";
 import ActionButtons from "./AnimeMainInfo/ActionButtons";
+import NekoNimeSloganBox from "../../Common/NekoNimeSloganBox";
 
 export default function AnimeMainInfo({
   animeDetails,
@@ -24,18 +28,7 @@ export default function AnimeMainInfo({
 
           {/* Title and Description and Info */}
           <div className="flex flex-col justify-around">
-            <AnimeInfoHeader
-              title={animeDetails.title.english || animeDetails.title.romaji}
-              altTitle={
-                animeDetails.title.english === animeDetails.title.romaji
-                  ? ""
-                  : animeDetails.title.romaji
-              }
-              format={animeDetails.format}
-              episodes={animeDetails.episodes}
-              duration={animeDetails.duration}
-              startDate={animeDetails.startDate}
-            />
+            <AnimeInfoHeader animeDetails={animeDetails} />
 
             {/* Description for large devices */}
             {!showDescription && (
@@ -72,22 +65,7 @@ export default function AnimeMainInfo({
         <ActionButtons />
 
         {/* NekoNime Summary Box with Neko Girl Image For Desktop */}
-        <div className="hidden md:flex items-center gap-4 grow bg-gradient-to-r from-secondary to-primary-hover-bg shadow mt-2 rounded-md px-3 py-2">
-          <img
-            src="/NekoGirl_1.jpg"
-            alt=""
-            className="w-18 h-18 rounded-full"
-            style={{
-              imageRendering: "crisp-edges",
-              transform: "translateZ(0)",
-            }}
-          />
-          <p className="text-white text-sm pr-4">
-            <span className="text-primary font-bold text-xl">NekoNime</span> lets you explore anime, track what you’ve watched, and
-            manage your personal lists—all in one cute and simple platform made
-            just for anime lovers like you~! 🐾
-          </p>
-        </div>
+        <NekoNimeSloganBox SmallDevice={false} />
       </div>
 
       {/* Description for small devices */}

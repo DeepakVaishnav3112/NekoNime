@@ -10,12 +10,14 @@ const {
   animeCharacterQuery,
   animeStaffQuery,
   animeMoreInfoQuery,
+  seasonalTopRatedAnimeQuery,
 } = require("../utils/query");
 const { getNextSeasonAndYear } = require("../utils/helper");
 const { getCache, setCache } = require("../services/cacheService");
+const { searchTMDBAnime } = require("../services/tmdbService");
 
 const API_URL = process.env.API_URL;
-const { season, year } = getNextSeasonAndYear();
+const { season, seasonNext, year } = getNextSeasonAndYear();
 
 const postRequest = async (query) => {
   return await axios.post(API_URL, query, {
@@ -43,6 +45,39 @@ exports.getAnime = async (req, res, next) => {
     });
   } catch (err) {
     next(err);
+  }
+};
+
+exports.getSeasonalTopRatedAnime = async (req, res, next) => {
+  const cacheKey = `season-top-rated`;
+
+  try {
+    const cached = getCache(cacheKey);
+    if (cached) return res.json(cached);
+
+    const response = await postRequest(seasonalTopRatedAnimeQuery);
+    const animeList = response.data.data.Page.media;
+
+    // Enrich each anime with banner from TMDB
+    const enrichedAnimeList = await Promise.all(
+      animeList.map(async (anime) => {
+        const title = anime.title.english || anime.title.romaji; // Prefer English title if available
+
+        const bannerImage = await searchTMDBAnime(title);
+
+        return {
+          ...anime,
+          bannerImage: bannerImage || null, // add TMDB banner
+        };
+      })
+    );
+
+    // Cache the enriched list
+    setCache(cacheKey, enrichedAnimeList, 3 * 60 * 60 * 1000);
+
+    res.json(enrichedAnimeList);
+  } catch (error) {
+    next(error);
   }
 };
 
@@ -173,6 +208,10 @@ exports.getAnimeById = async (req, res, next) => {
         (rec) => rec.node.mediaRecommendation
       );
     }
+
+    media.bannerImageTMDB =
+      !media.bannerImage &&
+      (await searchTMDBAnime(media.title.english || media.title.romaji));
 
     res.json(media);
   } catch (err) {

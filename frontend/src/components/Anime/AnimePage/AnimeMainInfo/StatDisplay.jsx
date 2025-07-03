@@ -4,6 +4,7 @@ import { FaPeopleGroup } from "react-icons/fa6";
 export default function StatDisplay({ averageScore, popularity }) {
   return (
     <div className="flex gap-4 items-center text-secondary">
+      {/* Rating */}
       <div className="text-center">
         <span className=" max-xs:text-[10px] text-sm font-semibold">RATING</span>
         <div className="flex justify-center items-center gap-2 px-3 py-1 bg-primary rounded-full">
@@ -13,6 +14,7 @@ export default function StatDisplay({ averageScore, popularity }) {
           ).toFixed(1)}/10`}</span>
         </div>
       </div>
+      {/* Popularity */}
       <div className="text-center">
         <span className="max-xs:text-[10px] text-sm font-semibold">POPULARITY</span>
         <div className="flex justify-center items-center gap-2 px-2 py-1 bg-primary rounded-full">
