@@ -18,13 +18,13 @@ export default function AnimeCarousel({ animeList, loading }) {
 
   const goToNext = () => {
     setCurrentIndex((prev) =>
-      prev === carouselAnime.length - 1 ? 0 : prev + 1
+      prev === carouselAnime?.length - 1 ? 0 : prev + 1
     );
   };
 
   const goToPrev = () => {
     setCurrentIndex((prev) =>
-      prev === 0 ? carouselAnime.length - 1 : prev - 1
+      prev === 0 ? carouselAnime?.length - 1 : prev - 1
     );
   };
 

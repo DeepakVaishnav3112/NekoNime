@@ -25,251 +25,217 @@ const postRequest = async (query) => {
   });
 };
 
+// Get anime from all genre or a single genre
 exports.getAnime = async (req, res, next) => {
   const page = parseInt(req.query.page) || 1;
 
-  try {
-    const genre = req.query.genre;
-    const query = genre
-      ? { ...animeGenreQuery, variables: { genre, page } }
-      : animeQuery;
+  const genre = req.query.genre;
+  const query = genre
+    ? { ...animeGenreQuery, variables: { genre, page } }
+    : animeQuery;
 
-    const response = await postRequest(query);
-    const pageData = response.data.data.Page;
-    const animeList = pageData.media;
-    const pageInfo = pageData.pageInfo;
+  const response = await postRequest(query);
+  const pageData = response.data.data.Page;
+  const animeList = pageData.media;
+  const pageInfo = pageData.pageInfo;
 
-    res.json({
-      animeList,
-      pageInfo,
-    });
-  } catch (err) {
-    next(err);
-  }
+  res.json({
+    animeList,
+    pageInfo,
+  });
 };
 
+// Get spotlight anime
 exports.getSeasonalTopRatedAnime = async (req, res, next) => {
   const cacheKey = `season-top-rated`;
 
-  try {
-    const cached = getCache(cacheKey);
-    if (cached) return res.json(cached);
+  const cached = getCache(cacheKey);
+  if (cached) return res.json(cached);
 
-    const response = await postRequest(seasonalTopRatedAnimeQuery);
-    const animeList = response.data.data.Page.media;
+  const response = await postRequest(seasonalTopRatedAnimeQuery);
+  const animeList = response.data.data.Page.media;
 
-    // Enrich each anime with banner from TMDB
-    const enrichedAnimeList = await Promise.all(
-      animeList.map(async (anime) => {
-        const title = anime.title.english || anime.title.romaji; // Prefer English title if available
+  // Enrich each anime with banner from TMDB
+  const enrichedAnimeList = await Promise.all(
+    animeList.map(async (anime) => {
+      const title = anime.title.english || anime.title.romaji; // Prefer English title if available
 
-        const bannerImage = await searchTMDBAnime(title);
+      const bannerImage = await searchTMDBAnime(title);
 
-        return {
-          ...anime,
-          bannerImage: bannerImage || null, // add TMDB banner
-        };
-      })
-    );
+      return {
+        ...anime,
+        bannerImage: bannerImage || null, // add TMDB banner
+      };
+    })
+  );
 
-    // Cache the enriched list
-    setCache(cacheKey, enrichedAnimeList, 3 * 60 * 60 * 1000);
+  // Cache the enriched list
+  setCache(cacheKey, enrichedAnimeList, 3 * 60 * 60 * 1000);
 
-    res.json(enrichedAnimeList);
-  } catch (error) {
-    next(error);
-  }
+  res.json(enrichedAnimeList);
 };
 
+// Get trending anime
 exports.getTrendingAnime = async (req, res, next) => {
   const page = parseInt(req.query.page) || 1;
   const cacheKey = `trending-${page}`;
 
-  try {
-    if (page === 1) {
-      const cached = getCache(cacheKey);
-      if (cached) return res.json(cached);
-    }
-
-    trendingAnimeQuery.variables.page = page;
-    const response = await postRequest(trendingAnimeQuery);
-    const pageData = response.data.data.Page;
-    const animeList = pageData.media;
-    const pageInfo = pageData.pageInfo;
-
-    if (page === 1)
-      setCache(cacheKey, { animeList, pageInfo }, 3 * 60 * 60 * 1000);
-
-    res.json({
-      animeList,
-      pageInfo,
-    });
-  } catch (err) {
-    next(err);
+  if (page === 1) {
+    const cached = getCache(cacheKey);
+    if (cached) return res.json(cached);
   }
+
+  trendingAnimeQuery.variables.page = page;
+  const response = await postRequest(trendingAnimeQuery);
+  const pageData = response.data.data.Page;
+  const animeList = pageData.media;
+  const pageInfo = pageData.pageInfo;
+
+  if (page === 1)
+    setCache(cacheKey, { animeList, pageInfo }, 3 * 60 * 60 * 1000);
+
+  res.json({
+    animeList,
+    pageInfo,
+  });
 };
 
+// Get upcoming anime
 exports.getUpcomingAnime = async (req, res, next) => {
   const page = parseInt(req.query.page) || 1;
   const cacheKey = `upcoming-${page}`;
 
-  try {
-    if (page === 1) {
-      const cached = getCache(cacheKey);
-      if (cached) return res.json(cached);
-    }
-
-    upcomingAnimeQuery.variables = { season, seasonYear: year, page };
-    const response = await postRequest(upcomingAnimeQuery);
-    const pageData = response.data.data.Page;
-    const animeList = pageData.media;
-    const pageInfo = pageData.pageInfo;
-
-    if (page === 1)
-      setCache(cacheKey, { animeList, pageInfo }, 3 * 60 * 60 * 1000);
-
-    res.json({
-      animeList,
-      pageInfo,
-    });
-  } catch (err) {
-    next(err);
+  if (page === 1) {
+    const cached = getCache(cacheKey);
+    if (cached) return res.json(cached);
   }
+
+  upcomingAnimeQuery.variables = { season, seasonYear: year, page };
+  const response = await postRequest(upcomingAnimeQuery);
+  const pageData = response.data.data.Page;
+  const animeList = pageData.media;
+  const pageInfo = pageData.pageInfo;
+
+  if (page === 1)
+    setCache(cacheKey, { animeList, pageInfo }, 3 * 60 * 60 * 1000);
+
+  res.json({
+    animeList,
+    pageInfo,
+  });
 };
 
+// Get latest anime
 exports.getLatestAnime = async (req, res, next) => {
   const page = parseInt(req.query.page) || 1;
   const cacheKey = `latest-${page}`;
 
-  try {
-    if (page === 1) {
-      const cached = getCache(cacheKey);
-      if (cached) return res.json(cached);
-    }
-
-    latestAnimeQuery.variables.page = page;
-    const response = await postRequest(latestAnimeQuery);
-    const pageData = response.data.data.Page;
-    const animeList = pageData.media.filter(
-      (a) => a.startDate?.year && a.startDate?.month && a.startDate.day
-    );
-    const pageInfo = pageData.pageInfo;
-
-    if (page === 1)
-      setCache(cacheKey, { animeList, pageInfo }, 3 * 60 * 60 * 1000);
-
-    res.json({
-      animeList,
-      pageInfo,
-    });
-  } catch (err) {
-    next(err);
+  if (page === 1) {
+    const cached = getCache(cacheKey);
+    if (cached) return res.json(cached);
   }
+
+  latestAnimeQuery.variables.page = page;
+  const response = await postRequest(latestAnimeQuery);
+  const pageData = response.data.data.Page;
+  const animeList = pageData.media.filter(
+    (a) => a.startDate?.year && a.startDate?.month && a.startDate.day
+  );
+  const pageInfo = pageData.pageInfo;
+
+  if (page === 1)
+    setCache(cacheKey, { animeList, pageInfo }, 3 * 60 * 60 * 1000);
+
+  res.json({
+    animeList,
+    pageInfo,
+  });
 };
 
+// Search anime
 exports.searchAnime = async (req, res, next) => {
   const search = req.query.q;
   const page = parseInt(req.query.page) || 1;
 
   if (!search) return res.status(400).json({ error: "Missing search query" });
 
-  try {
-    animeSearchQuery.variables.search = search;
-    animeSearchQuery.variables.page = page;
-    const response = await postRequest(animeSearchQuery);
-    const pageData = response.data.data.Page;
-    const animeList = pageData.media;
-    const pageInfo = pageData.pageInfo;
+  animeSearchQuery.variables.search = search;
+  animeSearchQuery.variables.page = page;
+  const response = await postRequest(animeSearchQuery);
+  const pageData = response.data.data.Page;
+  const animeList = pageData.media;
+  const pageInfo = pageData.pageInfo;
 
-    res.json({
-      animeList,
-      pageInfo,
-    });
-  } catch (err) {
-    next(err);
-  }
+  res.json({
+    animeList,
+    pageInfo,
+  });
 };
 
+// Get anime details
 exports.getAnimeById = async (req, res, next) => {
-  try {
-    animeDetailsQuery.variables.id = parseInt(req.params.id);
-    const response = await postRequest(animeDetailsQuery);
-    const media = response.data.data.Media;
+  animeDetailsQuery.variables.id = parseInt(req.params.id);
+  const response = await postRequest(animeDetailsQuery);
+  const media = response.data.data.Media;
 
-    // Filter relations: keep only related anime
-    if (media.relations?.edges) {
-      media.relations.edges = media.relations.edges.filter(
-        (edge) => edge.node.type === "ANIME"
-      );
-    }
-
-    if (media.recommendations?.edges) {
-      media.recommendations.edges = media.recommendations.edges.filter(
-        (rec) => rec.node.mediaRecommendation
-      );
-    }
-
-    media.bannerImageTMDB =
-      !media.bannerImage &&
-      (await searchTMDBAnime(media.title.english || media.title.romaji));
-
-    res.json(media);
-  } catch (err) {
-    next(err);
-  }
-};
-
-exports.getAnimeCharacters = async (req, res, next) => {
-  try {
-    animeCharacterQuery.variables.id = parseInt(req.params.id);
-    animeCharacterQuery.variables.page = parseInt(req.query.page) || 1;
-
-    const response = await postRequest(animeCharacterQuery);
-
-    const pageInfo = response.data.data.Media.characters.pageInfo;
-    const characters = response.data.data.Media.characters.edges.map(
-      (edge) => ({
-        role: edge.role,
-        character: edge.node,
-        voiceActors: {
-          japanese: edge?.voiceActors?.filter(
-            (va) => va.language === "JAPANESE"
-          ),
-          english: edge.voiceActors?.filter((va) => va.language === "ENGLISH"),
-        },
-      })
+  // Filter relations: keep only related anime
+  if (media.relations?.edges) {
+    media.relations.edges = media.relations.edges.filter(
+      (edge) => edge.node.type === "ANIME"
     );
-
-    res.json({ characters, pageInfo });
-  } catch (err) {
-    next(err);
   }
+
+  if (media.recommendations?.edges) {
+    media.recommendations.edges = media.recommendations.edges.filter(
+      (rec) => rec.node.mediaRecommendation
+    );
+  }
+
+  media.bannerImageTMDB =
+    !media.bannerImage &&
+    (await searchTMDBAnime(media.title.english || media.title.romaji));
+
+  res.json(media);
 };
 
+// Get anime characters
+exports.getAnimeCharacters = async (req, res, next) => {
+  animeCharacterQuery.variables.id = parseInt(req.params.id);
+  animeCharacterQuery.variables.page = parseInt(req.query.page) || 1;
+
+  const response = await postRequest(animeCharacterQuery);
+
+  const pageInfo = response.data.data.Media.characters.pageInfo;
+  const characters = response.data.data.Media.characters.edges.map((edge) => ({
+    role: edge.role,
+    character: edge.node,
+    voiceActors: {
+      japanese: edge?.voiceActors?.filter((va) => va.language === "JAPANESE"),
+      english: edge.voiceActors?.filter((va) => va.language === "ENGLISH"),
+    },
+  }));
+
+  res.json({ characters, pageInfo });
+};
+
+// Get anime staff
 exports.getAnimeStaff = async (req, res, next) => {
-  try {
-    animeStaffQuery.variables.page = parseInt(req.query.page) || 1;
+  animeStaffQuery.variables.page = parseInt(req.query.page) || 1;
 
-    animeStaffQuery.variables.id = parseInt(req.params.id);
-    const response = await postRequest(animeStaffQuery);
+  animeStaffQuery.variables.id = parseInt(req.params.id);
+  const response = await postRequest(animeStaffQuery);
 
-    const pageInfo = response.data.data.Media.staff.pageInfo;
-    const staff = response.data.data.Media.staff.edges.map((edge) => ({
-      role: edge.role,
-      staff: edge.node,
-    }));
-    res.json({ staff, pageInfo });
-  } catch (err) {
-    next(err);
-  }
+  const pageInfo = response.data.data.Media.staff.pageInfo;
+  const staff = response.data.data.Media.staff.edges.map((edge) => ({
+    role: edge.role,
+    staff: edge.node,
+  }));
+  res.json({ staff, pageInfo });
 };
 
+// Get anime more info
 exports.getMoreInfo = async (req, res, next) => {
-  try {
-    animeMoreInfoQuery.variables.id = parseInt(req.params.id);
-    const response = await postRequest(animeMoreInfoQuery);
-    res.json(response.data.data.Media);
-  } catch (err) {
-    next(err);
-  }
+  animeMoreInfoQuery.variables.id = parseInt(req.params.id);
+  const response = await postRequest(animeMoreInfoQuery);
+  res.json(response.data.data.Media);
 };

@@ -5,10 +5,12 @@ import { BrowserRouter } from "react-router-dom";
 import { GenreProvider } from "./context/GenreContext.jsx";
 import { GeneralProvider } from "./context/GeneralContext.jsx";
 import { AnimeDetailsProvider } from "./context/AnimeDetailsContext.jsx";
+import { AuthProvider } from "./context/AuthContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   // <StrictMode>
-    <BrowserRouter>
+  <BrowserRouter>
+    <AuthProvider>
       <GeneralProvider>
         <GenreProvider>
           <AnimeDetailsProvider>
@@ -16,6 +18,7 @@ createRoot(document.getElementById("root")).render(
           </AnimeDetailsProvider>
         </GenreProvider>
       </GeneralProvider>
-    </BrowserRouter>
+    </AuthProvider>
+  </BrowserRouter>
   // </StrictMode>
 );

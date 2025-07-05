@@ -5,7 +5,7 @@ import { FaSearch } from "react-icons/fa";
 import { useGeneralContext } from "../../../context/GeneralContext";
 import { MdAccountCircle } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import Sidebar from "../Sidebar";
+import AuthTriggerButton from "../../Auth/AuthTriggerButton";
 
 export default function Navbar() {
   const { setSelectedGenre } = useGenreContext();
@@ -50,8 +50,25 @@ export default function Navbar() {
             <FaSearch />
           </button>
 
+          {/* Sign up and Login Buttons for mobile */}
+          <div className="sm:hidden text-black flex gap-2">
+            <AuthTriggerButton
+              btnText="Sign Up"
+              mode="signup"
+              buttonStyle="rounded-s-full text-primary border-3 border-primary hover:bg-primary hover:text-white"
+              textStyle="group-hover:scale-110"
+            />
+
+            <AuthTriggerButton
+              btnText="Login"
+              mode="login"
+              buttonStyle="text-sm px-4 py-2 bg-secondary text-primary-hover-text hover:bg-primary hover:text-white hover:shadow-[0_0_15px_rgba(160,247,255)]"
+              textStyle="text-sm font-semibold ps-4"
+            />
+          </div>
+
           {/* Account Button for mobile */}
-          <div className="sm:hidden">
+          {/* <div className="sm:hidden">
             <MdAccountCircle
               className={`cursor-pointer text-5xl hover:text-primary hover:scale-90 transition ${
                 showSideBar ? "text-primary" : "text-secondary"
@@ -62,12 +79,29 @@ export default function Navbar() {
                 setShowMobileSearch(false);
               }}
             />
-          </div>
+          </div> */}
         </div>
       </div>
 
+      {/* Sign up and Login Buttons for desktop */}
+      <div className="max-sm:hidden text-black flex gap-2">
+        <AuthTriggerButton
+          btnText="Sign Up"
+          mode="signup"
+          buttonStyle="rounded-s-full text-primary border-3 border-primary hover:bg-primary hover:text-white"
+          textStyle="text-sm ps-4"
+        />
+
+        <AuthTriggerButton
+          btnText="Login"
+          mode="login"
+          buttonStyle="text-sm px-4 py-2 bg-secondary text-primary-hover-text hover:bg-primary hover:rounded-sm hover:text-white hover:shadow-[0_0_15px_rgba(160,247,255)]"
+          textStyle="text-sm font-semibold"
+        />
+      </div>
+
       {/* Account Button for deesktop */}
-      <div className="relative">
+      {/* <div className="relative">
         <div className="max-sm:hidden">
           <MdAccountCircle
             className={`cursor-pointer text-4xl hover:text-primary hover:scale-90 transition ${
@@ -81,7 +115,7 @@ export default function Navbar() {
         </div>
 
         <Sidebar />
-      </div>
+      </div> */}
 
       {/* Mobile Search Bar */}
       {showMobileSearch && (
