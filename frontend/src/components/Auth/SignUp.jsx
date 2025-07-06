@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signupSchema } from "../../utils/validation/signupSchema";
 import { FiAtSign } from "react-icons/fi";
@@ -6,28 +6,46 @@ import { MdEmail } from "react-icons/md";
 import { FaLock } from "react-icons/fa";
 import FormInput from "./FormInput";
 import AuthFormWrapper from "./AuthFormWrapper";
+import { signup } from "../../services/authService";
+import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../../context/AuthContext";
 
 export default function SignUp() {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors, isSubmitting },
+    setError,
   } = useForm({
     resolver: zodResolver(signupSchema),
   });
+  const { setUser } = useAuthContext();
+
+  const navigate = useNavigate();
 
   const onSubmit = async (data) => {
-    console.log("Sign Up data: ", data);
+    try {
+      const res = await signup(data);
+      console.log("Signup success: ", res.data);
+      setUser(res.data.user);
+      navigate("/");
+    } catch (err) {
+      const errMsg = err?.response?.data?.message || "Sign Up Failed";
+      console.error("Signup failed:", err.response?.data || err.message);
+      setError("root", { type: "manual", message: errMsg });
+    }
   };
-
-  const password = watch("password");
 
   return (
     <AuthFormWrapper
       onSubmit={handleSubmit(onSubmit)}
       isSubmitting={isSubmitting}
     >
+      {errors.root && (
+        <p className="text-red-500 bg-red-100 text-sm mt-4 py-2 text-center">
+          {errors.root.message}
+        </p>
+      )}
       {/* Username */}
       <FormInput
         label="Username"

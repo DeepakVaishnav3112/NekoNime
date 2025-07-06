@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const bcrypt = require("bcryptjs")
 
 const userSchema = new Schema(
   {
@@ -17,7 +18,7 @@ const userSchema = new Schema(
     isAdmin: { type: Boolean, default: false },
     isVerified: { type: Boolean, default: false },
     bio: { type: String },
-    avatar: { type: String, default: "images/default-avatar.png" },
+    profilePicture: { type: String, default: "images/default-avatar.png" },
     lastLogin: { type: Date },
     isDeleted: { type: Boolean, default: false },
 

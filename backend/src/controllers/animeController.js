@@ -64,7 +64,7 @@ exports.getSeasonalTopRatedAnime = async (req, res, next) => {
 
       return {
         ...anime,
-        bannerImage: bannerImage || null, // add TMDB banner
+        bannerImage: bannerImage, // add TMDB banner
       };
     })
   );

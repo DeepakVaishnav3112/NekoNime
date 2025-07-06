@@ -64,7 +64,7 @@ const animeGenreQuery = {
 const seasonalTopRatedAnimeQuery = {
   query: `
     query {
-  Page(perPage: 10) {
+  Page(perPage: 11) {
     media(type: ANIME, status_in: RELEASING, sort: TRENDING_DESC) {
       id
       title {

@@ -5,18 +5,34 @@ import { FiAtSign } from "react-icons/fi";
 import { FaLock } from "react-icons/fa";
 import AuthFormWrapper from "./AuthFormWrapper";
 import FormInput from "./FormInput";
+import { login } from "../../services/authService";
+import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../../context/AuthContext";
 
 export default function Login() {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
+    setError,
   } = useForm({
     resolver: zodResolver(loginSchema),
   });
+  const { setUser } = useAuthContext();
+
+  const navigate = useNavigate();
 
   const onSubmit = async (data) => {
-    console.log("Login data: ", data);
+    try {
+      const res = await login(data);
+      console.log("Login Success: ", res.data);
+      setUser(res.data.user);
+      navigate("/");
+    } catch (err) {
+      const errMsg = err?.response?.data?.message || "Login Failed";
+      console.error("Login failed:", err.response?.data || err.message);
+      setError("root", { type: "manual", message: errMsg });
+    }
   };
 
   return (
@@ -24,6 +40,12 @@ export default function Login() {
       onSubmit={handleSubmit(onSubmit)}
       isSubmitting={isSubmitting}
     >
+
+      {errors.root && (
+        <p className="text-red-500 bg-red-100 text-sm mt-4 py-2 text-center">
+          {errors.root.message}
+        </p>
+      )}
       {/* Username */}
       <FormInput
         label="Username"

@@ -1,27 +1,33 @@
 const User = require("../models/User");
+const { DEFAULT_PROFILE_PICTURES } = require("../utils/data");
 const generateToken = require("../utils/jwt");
 
-// Sign Up
+// Sign Up ---------------------------------------------
 exports.signup = async (req, res, next) => {
   const { username, email, password } = req.body;
   // Check if email exists
   const existingEmail = await User.findOne({ email });
-  if (existingEmail) {
-    const err = new Error("Email already in use");
-    err.status = 400;
-    return next(err);
-  }
+  if (existingEmail)
+    return res.status(400).json({ message: "Email is already in use" });
 
   // Check if username exists
   const existingUsername = await User.findOne({ username });
-  if (existingUsername) {
-    const err = new Error("Username already taken");
-    err.status = 400;
-    return next(err);
-  }
+  if (existingUsername)
+    return res.status(400).json({ message: "Username is already in use" });
+
+  // Randomly pick an avatar
+  const profilePicture =
+    DEFAULT_PROFILE_PICTURES[
+      Math.floor(Math.random() * DEFAULT_PROFILE_PICTURES.length)
+    ];
 
   // Create new user
-  const user = await User.create({ username, email, password });
+  const user = await User.create({
+    username,
+    email,
+    password,
+    profilePicture,
+  });
 
   const token = generateToken(user._id);
 
@@ -35,11 +41,15 @@ exports.signup = async (req, res, next) => {
     .status(201)
     .json({
       message: "User registered succesfully",
-      user: { id: user._id, username: user.username },
+      user: {
+        id: user._id,
+        username: user.username,
+        profilePicture: user.profilePicture,
+      },
     });
 };
 
-// Login
+// Login ---------------------------------------------
 exports.login = async (req, res) => {
   const { username, password } = req.body;
 
@@ -60,11 +70,15 @@ exports.login = async (req, res) => {
     .status(200)
     .json({
       message: "Login successful",
-      user: { id: user._id, username: user.username },
+      user: {
+        id: user._id,
+        username: user.username,
+        profilePicture: user.profilePicture,
+      },
     });
 };
 
-// Logout
+// Logout ---------------------------------------------
 exports.logout = (req, res) => {
   res
     .clearCookie("token", {
@@ -74,4 +88,14 @@ exports.logout = (req, res) => {
     })
     .status(200)
     .json({ message: "Logout successful" });
+};
+
+exports.verify = async (req, res) => {
+  const user = await User.findById(req.user.id).select(
+    "username profilePicture"
+  );
+
+  if (!user) return res.status(404).json({ message: "User not found" });
+
+  res.status(200).json({ message: "Token is valid", user });
 };
