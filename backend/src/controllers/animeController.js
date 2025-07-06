@@ -15,14 +15,25 @@ const {
 const { getNextSeasonAndYear } = require("../utils/helper");
 const { getCache, setCache } = require("../services/cacheService");
 const { searchTMDBAnime } = require("../services/tmdbService");
+const { createError } = require("../utils/createError");
 
 const API_URL = process.env.API_URL;
 const { season, seasonNext, year } = getNextSeasonAndYear();
 
 const postRequest = async (query) => {
-  return await axios.post(API_URL, query, {
-    headers: { "Content-Type": "application/json" },
-  });
+  try {
+    const response = await axios.post(API_URL, query, {
+      headers: { "Content-Type": "application/json" },
+    });
+    return response;
+  } catch (error) {
+    // Give custom error to controller
+    const message = error?.response?.data?.message || "External API failure";
+    const status = error?.response?.status || 503;
+    const err = new Error(message);
+    err.status = status;
+    throw err;
+  }
 };
 
 // Get anime from all genre or a single genre
@@ -157,7 +168,7 @@ exports.searchAnime = async (req, res, next) => {
   const search = req.query.q;
   const page = parseInt(req.query.page) || 1;
 
-  if (!search) return res.status(400).json({ error: "Missing search query" });
+  if (!search) return next(createError("Missing search query"));
 
   animeSearchQuery.variables.search = search;
   animeSearchQuery.variables.page = page;

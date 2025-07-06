@@ -5,6 +5,8 @@ import AnimeList from "../components/Anime/AnimeList";
 import { useGeneralContext } from "../context/GeneralContext";
 import { SECTION_TYPES } from "../utils/sections";
 import AnimeCarousel from "../components/Common/AnimeCarousel";
+import AnimeCardSkeleton from "../components/Loaders/AnimeCardSkeleton";
+import CarouselSkeleton from "../components/Loaders/CarouselSkeleton";
 
 export default function Home() {
   const { viewAllSection, setViewAllSection } = useGeneralContext();
@@ -56,10 +58,11 @@ export default function Home() {
 
   return (
     <div>
-      <AnimeCarousel
-        animeList={sesaonTopRated}
-        loading={loadingSesaonTopRated}
-      />
+      {!sesaonTopRated || loadingSesaonTopRated ? (
+        <CarouselSkeleton />
+      ) : (
+        <AnimeCarousel animeList={sesaonTopRated} />
+      )}
 
       <div
         className={`relative flex flex-col lg:flex-row gap-2 ${
@@ -122,6 +125,8 @@ export default function Home() {
               />
             </>
           )}
+
+          {/* <AnimeCardSkeleton /> */}
         </div>
 
         <div className="flex gap-4 flex-col sm:flex-row lg:flex-col m-1 lg:w-1/3 lg:hidden">

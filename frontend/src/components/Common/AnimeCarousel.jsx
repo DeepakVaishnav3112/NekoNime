@@ -7,7 +7,7 @@ import { FaRegBookmark } from "react-icons/fa6";
 import { IoIosArrowDroprightCircle } from "react-icons/io";
 import { Link } from "react-router-dom";
 
-export default function AnimeCarousel({ animeList, loading }) {
+export default function AnimeCarousel({ animeList }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isSaved, setIsSaved] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -48,8 +48,6 @@ export default function AnimeCarousel({ animeList, loading }) {
 
     return () => clearInterval(interval);
   }, [currentIndex, carouselAnime?.length]);
-
-  if (!animeList || loading) return <Loader />;
 
   return (
     <div className="relative w-full mx-auto overflow-hidden">
