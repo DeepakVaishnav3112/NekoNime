@@ -44,6 +44,7 @@ exports.signup = async (req, res, next) => {
       user: {
         id: user._id,
         username: user.username,
+        email: user.email,
         profilePicture: user.profilePicture,
       },
     });
@@ -73,6 +74,7 @@ exports.login = async (req, res) => {
       user: {
         id: user._id,
         username: user.username,
+        email: user.email,
         profilePicture: user.profilePicture,
       },
     });
@@ -92,7 +94,7 @@ exports.logout = (req, res) => {
 
 exports.verify = async (req, res) => {
   const user = await User.findById(req.user.id).select(
-    "username profilePicture"
+    "username email profilePicture"
   );
 
   if (!user) return res.status(404).json({ message: "User not found" });

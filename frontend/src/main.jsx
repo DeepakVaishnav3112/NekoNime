@@ -8,17 +8,17 @@ import { AnimeDetailsProvider } from "./context/AnimeDetailsContext.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
 
 createRoot(document.getElementById("root")).render(
-  // <StrictMode>
-  <BrowserRouter>
-    <AuthProvider>
-      <GeneralProvider>
-        <GenreProvider>
-          <AnimeDetailsProvider>
-            <App />
-          </AnimeDetailsProvider>
-        </GenreProvider>
-      </GeneralProvider>
-    </AuthProvider>
-  </BrowserRouter>
-  // </StrictMode>
+  <StrictMode>
+    <BrowserRouter>
+      <AuthProvider>
+        <GeneralProvider>
+          <GenreProvider>
+            <AnimeDetailsProvider>
+              <App />
+            </AnimeDetailsProvider>
+          </GenreProvider>
+        </GeneralProvider>
+      </AuthProvider>
+    </BrowserRouter>
+  </StrictMode>
 );

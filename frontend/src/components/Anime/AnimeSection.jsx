@@ -1,5 +1,4 @@
 import { useGeneralContext } from "../../context/GeneralContext";
-import Loader from "../Common/Loader";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import AnimeGrid from "./AnimeGrid";
 
@@ -15,7 +14,7 @@ export default function AnimeSection({
     <div className="w-fit pb-5 mb-5 border-b-2 border-primary border-dotted mx-auto">
       <div className="flex justify-between pb-2 px-1 pe-4">
         <h2 className="text-xl font-bold text-secondary">{title}</h2>
-        {(animeList || !loading) && (
+        {(!loading && animeList?.list?.length > 0) && (
           <button
             className="flex gap-1 items-center text-white bg-primary px-2 py-1 rounded-full font-medium text-xs cursor-pointer hover:text-secondary transition"
             onClick={() => {

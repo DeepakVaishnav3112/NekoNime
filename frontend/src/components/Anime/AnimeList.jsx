@@ -1,5 +1,4 @@
 import { MdKeyboardArrowRight, MdKeyboardArrowLeft } from "react-icons/md";
-import Loader from "../Common/Loader";
 import AnimeCard from "../Anime/AnimeCard";
 import { useGeneralContext } from "../../context/GeneralContext";
 import { SECTION_TYPES } from "../../utils/sections";

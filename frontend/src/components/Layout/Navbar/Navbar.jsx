@@ -1,33 +1,36 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useGenreContext } from "../../../context/GenreContext";
 import SearchBar from "./SearchBar";
 import { FaSearch } from "react-icons/fa";
 import { useGeneralContext } from "../../../context/GeneralContext";
-import { MdAccountCircle } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import AuthTriggerButton from "../../Auth/AuthTriggerButton";
 import { useAuthContext } from "../../../context/AuthContext";
 import Sidebar from "../Sidebar";
-import { useRef } from "react";
-import { MdArrowForwardIos } from "react-icons/md";
 
 export default function Navbar() {
   const { setSelectedGenre } = useGenreContext();
   const { setViewAllSection, showSideBar, setShowSideBar, setDropDownOpen } =
     useGeneralContext();
-  const { user } = useAuthContext();
+  const { user, authChecked } = useAuthContext();
   const [showMobileSearch, setShowMobileSearch] = useState(false);
+  const [isPressed, setIsPressed] = useState(false);
+
+  const handleIsPressed = () => {
+    setIsPressed(true);
+    setTimeout(() => setIsPressed(false), 200);
+  };
 
   const naviate = useNavigate();
   const accountBtnRef = useRef(null);
 
   return (
     <nav
-      className={`sticky top-0 w-full bg-white/30 backdrop-blur-md text-white ps-4 shadow-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0 z-50 ${
+      className={`sticky top-0 w-full bg-white/30 backdrop-blur-md text-white shadow-md flex flex-col md:flex-row items-start md:items-center justify-between px-4 z-50 ${
         !user && "px-4 py-2"
       }`}
     >
-      <div className="w-full sm:w-auto flex items-center justify-between gap-5">
+      <div className="w-full md:w-auto flex items-center justify-between gap-5">
         {/* Brand Name */}
         <h1
           className="text-primary text-2xl sm:text-3xl font-bold cursor-pointer leading-none text-shadow-lg"
@@ -42,7 +45,7 @@ export default function Navbar() {
         </h1>
 
         {/* Desktop Search Bar */}
-        <div className="hidden sm:block">
+        <div className="hidden md:block">
           <SearchBar />
         </div>
 
@@ -53,7 +56,7 @@ export default function Navbar() {
               setShowMobileSearch(!showMobileSearch);
               setShowSideBar(false);
             }}
-            className={`sm:hidden border-2 border-primary text-primary text-xl p-2 rounded-full cursor-pointer hover:bg-primary hover:text-white transition ${
+            className={`md:hidden border-2 border-primary text-primary text-xl p-2 rounded-full cursor-pointer hover:bg-primary hover:text-white transition ${
               showMobileSearch ? "bg-primary text-white" : ""
             }`}
           >
@@ -61,8 +64,8 @@ export default function Navbar() {
           </button>
 
           {/* Sign up and Login Buttons for mobile */}
-          {!user && (
-            <div className="sm:hidden text-black flex gap-2">
+          {!user && authChecked && (
+            <div className="md:hidden text-black flex gap-2">
               <AuthTriggerButton
                 btnText="Sign Up"
                 mode="signup"
@@ -80,24 +83,32 @@ export default function Navbar() {
           )}
 
           {/* Account Button for mobile */}
-          {/* <div className="sm:hidden">
-            <MdAccountCircle
-              className={`cursor-pointer text-5xl hover:text-primary hover:scale-90 transition ${
-                showSideBar ? "text-primary" : "text-secondary"
-              }`}
-              onClick={() => {
-                setShowSideBar(!showSideBar);
-                setDropDownOpen(false);
-                setShowMobileSearch(false);
-              }}
-            />
-          </div> */}
+          {user && authChecked && (
+            <div className="relative md:hidden ">
+              <div ref={accountBtnRef} className="py-3">
+                <img
+                  src={user?.profilePicture}
+                  alt=""
+                  className={`w-10 rounded-full cursor-pointer transition-all duration-200 ease-in-out ${
+                    isPressed ? "scale-110" : "scale-100"
+                  } ${showSideBar ? "border-3 border-primary p-[1px]" : ""}`}
+                  onClick={() => {
+                    setShowSideBar(!showSideBar);
+                    setDropDownOpen(false);
+                    handleIsPressed();
+                  }}
+                />
+              </div>
+
+              <Sidebar accountBtnRef={accountBtnRef} />
+            </div>
+          )}
         </div>
       </div>
 
       {/* Sign up and Login Buttons for desktop */}
-      {!user && (
-        <div className="max-sm:hidden text-black flex gap-2">
+      {!user && authChecked && (
+        <div className="max-md:hidden text-black flex gap-2">
           <AuthTriggerButton
             btnText="Sign Up"
             mode="signup"
@@ -115,24 +126,21 @@ export default function Navbar() {
       )}
 
       {/* Account Button for deesktop */}
-      {user && (
-        <div className="relative">
-          <div
-            ref={accountBtnRef}
-            className={`max-sm:hidden flex items-center gap-2 ps-3 pe-2 py-3 cursor-pointer hover:bg-secondary/30 transition duration-200 ${
-              showSideBar && "bg-secondary/30"
-            }`}
-            onClick={() => {
-              setShowSideBar(!showSideBar);
-              setDropDownOpen(false);
-            }}
-          >
+      {user && authChecked && (
+        <div className="relative max-md:hidden ">
+          <div ref={accountBtnRef} className="py-3">
             <img
               src={user?.profilePicture}
               alt=""
-              className="w-10 rounded-full border-3 border-secondary scale-110"
+              className={`w-10 rounded-full cursor-pointer shadow-[0_0_15px_rgba(0,0,0,0.3)] transition-all duration-200 ease-in-out ${
+                isPressed ? "scale-110" : "scale-100"
+              } ${showSideBar ? "border-3 border-primary p-[1px]" : ""}`}
+              onClick={() => {
+                setShowSideBar(!showSideBar);
+                setDropDownOpen(false);
+                handleIsPressed();
+              }}
             />
-            <MdArrowForwardIos className={`text-xl text-secondary transition-all duration-200 ${showSideBar && "rotate-90"}`} />
           </div>
 
           <Sidebar accountBtnRef={accountBtnRef} />
@@ -141,7 +149,7 @@ export default function Navbar() {
 
       {/* Mobile Search Bar */}
       {showMobileSearch && (
-        <div className="w-full block sm:hidden">
+        <div className="w-full block md:hidden">
           <SearchBar />
         </div>
       )}

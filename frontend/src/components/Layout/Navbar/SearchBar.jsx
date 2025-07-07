@@ -64,10 +64,10 @@ export default function SearchBar() {
 
   return (
     <div
-      className="relative w-full sm:w-auto flex flex-col sm:flex-row items-stretch sm:items-center rounded-full"
+      className="relative w-full md:w-auto flex flex-col md:flex-row items-stretch md:items-center rounded-full max-md:mb-2"
       ref={searchRef}
     >
-      <div className="flex w-full sm:w-auto">
+      <div className="flex w-full md:w-auto">
         <DropDown setIsSearchOpen={setIsSearchOpen} />
 
         {/* Search Input Box */}

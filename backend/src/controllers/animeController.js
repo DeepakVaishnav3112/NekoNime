@@ -12,7 +12,7 @@ const {
   animeMoreInfoQuery,
   seasonalTopRatedAnimeQuery,
 } = require("../utils/query");
-const { getNextSeasonAndYear } = require("../utils/helper");
+const { getNextSeasonAndYear, retryUntilSuccess } = require("../utils/helper");
 const { getCache, setCache } = require("../services/cacheService");
 const { searchTMDBAnime } = require("../services/tmdbService");
 const { createError } = require("../utils/createError");
@@ -71,7 +71,7 @@ exports.getSeasonalTopRatedAnime = async (req, res, next) => {
     animeList.map(async (anime) => {
       const title = anime.title.english || anime.title.romaji; // Prefer English title if available
 
-      const bannerImage = await searchTMDBAnime(title);
+      const bannerImage = await retryUntilSuccess(() => searchTMDBAnime(title));
 
       return {
         ...anime,

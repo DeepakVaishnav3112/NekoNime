@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { fetchAnimeMoreInfo } from "../../../../../services/animeService";
 import Loader from "../../../../Common/Loader";
 import InfoItem from "./InfoItem";

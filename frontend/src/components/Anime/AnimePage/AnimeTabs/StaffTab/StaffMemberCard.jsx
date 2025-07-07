@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function StaffMemberCard({ member }) {
   return (
     <div className="h-20 flex gap-2 bg-primary-hover-bg rounded-md">

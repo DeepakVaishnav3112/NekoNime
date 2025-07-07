@@ -5,6 +5,7 @@ import {
   fetchLatestAnime,
   fetchSesaonTopRated,
 } from "../services/animeService";
+import { infiniteRetry } from "../utils/retry";
 
 export default function useAnimeData() {
   const [sesaonTopRated, setSeasonTopRated] = useState();
@@ -26,7 +27,7 @@ export default function useAnimeData() {
     const loadSeasonTopRated = async () => {
       setLoadingSeasonTopRated(true);
       try {
-        const res = await fetchSesaonTopRated();
+        const res = await infiniteRetry(() => fetchSesaonTopRated());
         // console.log(res.data);
         setSeasonTopRated(res.data);
       } catch (err) {
@@ -43,7 +44,7 @@ export default function useAnimeData() {
     const loadTrending = async () => {
       setLoadingTrending(true);
       try {
-        const res = await fetchTrendingAnime(trendingPage);
+        const res = await infiniteRetry(() => fetchTrendingAnime(trendingPage));
         // console.log("Trending: ",res.data);
         setTrending({
           list: res.data.animeList,
@@ -63,7 +64,7 @@ export default function useAnimeData() {
     const loadUpcoming = async () => {
       setLoadingUpcoming(true);
       try {
-        const res = await fetchUpcomingAnime(upcomingPage);
+        const res = await infiniteRetry(() => fetchUpcomingAnime(upcomingPage));
         // console.log("Upcoming: ",res.data);
         setUpcoming({
           list: res.data.animeList,
@@ -83,7 +84,7 @@ export default function useAnimeData() {
     const loadLatest = async () => {
       setLoadingLatest(true);
       try {
-        const res = await fetchLatestAnime(latestPage);
+        const res = await infiniteRetry(() => fetchLatestAnime(latestPage));
         // console.log("Latest: ",res.data);
         setLatest({
           list: res.data.animeList,

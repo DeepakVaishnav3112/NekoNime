@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import AnimeInfoHeader from "../Anime/AnimePage/AnimeMainInfo/AnimeInfoHeader";
 import AnimeDescription from "../Anime/AnimePage/AnimeMainInfo/AnimeDescription";
-import Loader from "./Loader";
 import { FaArrowLeft, FaArrowRight, FaBookmark } from "react-icons/fa";
 import { FaRegBookmark } from "react-icons/fa6";
 import { IoIosArrowDroprightCircle } from "react-icons/io";
@@ -79,7 +78,7 @@ export default function AnimeCarousel({ animeList }) {
               </div>
 
               {/* Info Box */}
-              <div className="absolute bottom-5 lg:bottom-40 z-20 m-10 flex flex-col gap-4 max-w-[250px] md:max-w-[500px]">
+              <div className="absolute bottom-5 lg:bottom-40 z-20 max-sm:ms-5 m-10 flex flex-col gap-4 max-w-[250px] md:max-w-[500px]">
                 <span className="text-sm md:text-xl font-semibold text-secondary">
                   #{idx + 1} Spotlight
                 </span>
@@ -140,12 +139,12 @@ export default function AnimeCarousel({ animeList }) {
       </div>
 
       {/* Indicator Progress Bar */}
-      <div className="absolute bottom-5 lg:bottom-42 left-10 z-30 flex gap-2">
+      <div className="absolute bottom-5 lg:bottom-42 max-sm:left-5 left-10 z-30 flex gap-2">
         {carouselAnime.map((_, idx) => (
           <div
             key={idx}
             className={`group h-2 flex rounded-full bg-secondary hover:bg-primary cursor-pointer transition-all duration-200 ${
-              idx === currentIndex ? "w-16" : "w-6"
+              idx === currentIndex ? "max-sm:w-12 w-16" : "max-sm:w-5 w-6"
             }`}
             onClick={() => setCurrentIndex(idx)}
           >

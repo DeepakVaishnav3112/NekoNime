@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function AnimeCardSkeleton() {
   return (
     <div className={"md:min-w-[206px] w-fit animate-pulse"}>

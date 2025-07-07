@@ -1,6 +1,5 @@
 import TabHeader from "./TabHeader";
 import "../../../../../styles/scrollbar.css";
-import { useAnimeDetailsContext } from "../../../../../context/AnimeDetailsContext";
 import { useEffect, useRef, useState } from "react";
 
 export default function SharedTabContainer({

@@ -6,11 +6,8 @@ import {
   FaHeart,
   FaRobot,
   FaMusic,
-  FaBrain,
   FaSkull,
-  FaMagic,
   FaGhost,
-  FaVolleyballBall,
 } from "react-icons/fa";
 import {
   GiFairyWand,
@@ -22,7 +19,6 @@ import {
   GiDualityMask,
 } from "react-icons/gi";
 import { MdSportsEsports, MdSelfImprovement } from "react-icons/md";
-import { IoIosColorPalette } from "react-icons/io";
 import { RiMentalHealthFill } from "react-icons/ri";
 
 export const animeGenres = [
