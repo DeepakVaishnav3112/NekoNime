@@ -5,8 +5,12 @@ import { FaArrowLeft, FaArrowRight, FaBookmark } from "react-icons/fa";
 import { FaRegBookmark } from "react-icons/fa6";
 import { IoIosArrowDroprightCircle } from "react-icons/io";
 import { Link } from "react-router-dom";
+import { useAuthContext } from "../../context/AuthContext";
+import { useGeneralContext } from "../../context/GeneralContext";
 
 export default function AnimeCarousel({ animeList }) {
+  const { user, authChecked } = useAuthContext();
+  const { showAlert } = useGeneralContext();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isSaved, setIsSaved] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -99,7 +103,16 @@ export default function AnimeCarousel({ animeList }) {
                         ? "bg-primary border-primary text-white hover:bg-secondary hover:border-secondary hover:text-white"
                         : "border-secondary text-secondary hover:bg-primary hover:border-primary hover:text-white"
                     } rounded-sm cursor-pointer transition hover:scale-110 duration-200`}
-                    onClick={() => setIsSaved(!isSaved)}
+                    onClick={() => {
+                      setIsSaved(!isSaved);
+                      if (!authChecked || !user) {
+                        showAlert(
+                          "Please login to add anime to your list!",
+                          "warning"
+                        );
+                        return;
+                      }
+                    }}
                   >
                     {isSaved ? (
                       <FaBookmark className="text-[22px]" />

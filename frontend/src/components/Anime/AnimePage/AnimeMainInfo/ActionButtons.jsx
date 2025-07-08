@@ -3,10 +3,14 @@ import { IoIosArrowDown } from "react-icons/io";
 import { LuPlus } from "react-icons/lu";
 import CircleButton from "../../../Common/CircleButton";
 import { IoShareSocial } from "react-icons/io5";
+import { useAuthContext } from "../../../../context/AuthContext";
+import { useGeneralContext } from "../../../../context/GeneralContext";
 
 export default function ActionButtons() {
   const [showDropdown, setShowDropdown] = useState(false);
   const [dropDownPosition, setDropDownPosition] = useState("bottom");
+  const { user, authChecked } = useAuthContext();
+  const { showAlert } = useGeneralContext();
 
   const buttonRef = useRef(null);
   const dropdownRef = useRef(null);
@@ -43,12 +47,12 @@ export default function ActionButtons() {
       {/* Add to List Button */}
       <div ref={buttonRef} className="relative w-40 md:w-60">
         <button
-          onClick={() =>
+          onClick={() => {
             setShowDropdown((prev) => {
               if (!prev) calculateDropdownPosition();
               return !prev;
-            })
-          }
+            });
+          }}
           className="group w-full flex text-white rounded-md overflow-hidden cursor-pointer"
         >
           <div className="flex-1 flex justify-center items-center gap-2 bg-primary group-hover:bg-secondary/80 transition-colors duration-300">
@@ -76,6 +80,13 @@ export default function ActionButtons() {
                   onClick={() => {
                     console.log("Selected List:", status);
                     setShowDropdown(false);
+                    if (!authChecked || !user) {
+                      showAlert(
+                        "Please login to add anime to your list!",
+                        "warning"
+                      );
+                      return;
+                    }
                   }}
                 >
                   {status}
@@ -87,7 +98,12 @@ export default function ActionButtons() {
       </div>
 
       {/* Share Button */}
-      <CircleButton icon={IoShareSocial} onclick={() => console.log("Share")} title="Share" btnText="Share" />
+      <CircleButton
+        icon={IoShareSocial}
+        onclick={() => console.log("Share")}
+        title="Share"
+        btnText="Share"
+      />
     </div>
   );
 }

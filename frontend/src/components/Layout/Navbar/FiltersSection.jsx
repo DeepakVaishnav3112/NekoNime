@@ -3,6 +3,13 @@ import { useGeneralContext } from "../../../context/GeneralContext";
 import { useGenreContext } from "../../../context/GenreContext";
 import { animeGenres, genreColors, genreIcons } from "../../../utils/genres";
 import { useNavigate } from "react-router-dom";
+import {
+  formats,
+  formatStylesMap,
+  seasons,
+  seasonStylesMap,
+} from "../../../utils/formatColors";
+import FilterButton from "./FilterButton";
 
 export default function FiltersSection() {
   const { dropDownOpen, setDropDownOpen } = useGeneralContext();
@@ -10,12 +17,22 @@ export default function FiltersSection() {
 
   const navigate = useNavigate();
 
+  if (!dropDownOpen) return null;
+
+  const handleGenreClick = (genre) => {
+    setSelectedGenre(genre);
+    setDropDownOpen(false);
+    navigate("/browse");
+  };
+
+  const handleGeneralClick = () => {
+    setDropDownOpen(false);
+    navigate("/browse");
+  };
+
   return (
-    <div
-      className={`${
-        dropDownOpen ? "block" : "hidden"
-      } fixed flex bg-primary w-full px-5 md:px-30 py-5 z-50`}
-    >
+    <div className="fixed flex gap-6 bg-primary w-full px-5 md:px-25 py-5 z-50">
+      {/* Genres */}
       <div className="lg:flex-1/2 text-white ">
         <h2 className="font-semibold text-xl">Genres</h2>
         <div className="flex flex-wrap gap-4 pt-3">
@@ -25,47 +42,79 @@ export default function FiltersSection() {
               text: "#000",
               shadow: "#000",
             };
-
             const isSelected = selectedGenre === genre;
 
-            const defaultStyles = {
-              backgroundColor: isSelected ? "#fff" : colors.bg,
-              color: isSelected ? colors.bg : colors.text,
-              boxShadow: isSelected ? `0 6px 20px ${colors.shadow}` : "none",
+            const style = {
+              bgColor: isSelected ? "#fff" : colors.bg,
+              textColor: isSelected ? colors.bg : colors.text,
+              icon: genreIcons[genre] || null,
             };
+
             return (
-              <button
+              <FilterButton
                 key={genre}
-                className={`flex items-center gap-2 px-4 py-2 text-sm rounded-md cursor-pointer transition hover:scale-105 hover:shadow-xl`}
-                style={defaultStyles}
-                onMouseEnter={(e) => {
-                  if (isSelected) return;
-                  e.currentTarget.style.boxShadow = `0 6px 20px ${colors.shadow}`;
-                  e.currentTarget.style.backgroundColor = "#fff";
-                  e.currentTarget.style.color = colors.bg;
-                }}
-                onMouseLeave={(e) => {
-                  if (isSelected) return;
-                  e.currentTarget.style.boxShadow = "none";
-                  e.currentTarget.style.backgroundColor = colors.bg;
-                  e.currentTarget.style.color = colors.text;
-                }}
-                onClick={() => {
-                  setSelectedGenre(genre);
-                  setDropDownOpen(false);
-                  navigate("/browse")
-                }}
-              >
-                <span className="text-md">
-                  {genreIcons[genre] && React.createElement(genreIcons[genre])}
-                </span>
-                {genre}
-              </button>
+                label={genre}
+                icon={style.icon}
+                bgColor={style.bgColor}
+                textColor={style.textColor}
+                onClick={() => handleGenreClick(genre)}
+              />
             );
           })}
         </div>
       </div>
-      <div className="lg:flex-1/2"></div>
+
+      {/* Formats */}
+      <div className="lg:flex-1/2 text-white flex flex-col gap-4">
+        <div>
+          <h2 className="font-semibold text-xl">Formats</h2>
+          <div className="flex flex-wrap gap-4 pt-3">
+            {formats.map((format) => {
+              const style = formatStylesMap[format] || {
+                bgColor: "#ccc",
+                textColor: "#000",
+                icon: null,
+              };
+
+              return (
+                <FilterButton
+                  key={format}
+                  label={format}
+                  bgColor={style.bgColor}
+                  textColor={style.textColor}
+                  icon={style.icon}
+                  onClick={() => handleGeneralClick()}
+                />
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Seasons */}
+        <div>
+          <h2 className="font-semibold text-xl">Seasons</h2>
+          <div className="flex flex-wrap gap-4 pt-3">
+            {seasons.map((season) => {
+              const style = seasonStylesMap[season] || {
+                bgColor: "#ccc",
+                textColor: "#000",
+                icon: null,
+              };
+
+              return (
+                <FilterButton
+                  key={season}
+                  label={season}
+                  bgColor={style.bgColor}
+                  textColor={style.textColor}
+                  icon={style.icon}
+                  onClick={() => handleGeneralClick()}
+                />
+              );
+            })}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

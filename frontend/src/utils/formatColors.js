@@ -11,7 +11,13 @@ import {
   FaFeatherAlt,
   FaGamepad,
   FaRegQuestionCircle,
-  FaPlay, FaStop
+  FaPlay,
+  FaStop,
+  FaStar,
+  FaSnowflake,
+  FaLeaf,
+  FaSun,
+  FaSeedling,
 } from "react-icons/fa";
 import { GiScrollUnfurled } from "react-icons/gi";
 import { MdOutlineAutoStories } from "react-icons/md";
@@ -62,13 +68,45 @@ export const genreTextColorsMap = {
   Shonen: "#000",
 };
 
-export const formatColors = {
-  TV: "#4CAF50", // Green
-  MOVIE: "#2196F3", // Blue
-  OVA: "#FF9800", // Orange
-  ONA: "#9C27B0", // Purple
-  SPECIAL: "#E91E63", // Pink
-  MUSIC: "#795548", // Brown
+export const formats = ["TV", "MOVIE", "OVA", "ONA", "SPECIAL", "MUSIC"];
+
+export const formatStylesMap = {
+  TV: {
+    label: "TV",
+    bgColor: "#4CAF50", // Green
+    textColor: "#ffffff",
+    icon: FaTv,
+  },
+  MOVIE: {
+    label: "Movie",
+    bgColor: "#2196F3", // Blue
+    textColor: "#ffffff",
+    icon: FaFilm,
+  },
+  OVA: {
+    label: "OVA",
+    bgColor: "#FF9800", // Orange
+    textColor: "#000000",
+    icon: FaFeatherAlt,
+  },
+  ONA: {
+    label: "ONA",
+    bgColor: "#9C27B0", // Purple
+    textColor: "#ffffff",
+    icon: FaTv,
+  },
+  SPECIAL: {
+    label: "Special",
+    bgColor: "#E91E63", // Pink
+    textColor: "#ffffff",
+    icon: FaStar, // You can import another icon if preferred
+  },
+  MUSIC: {
+    label: "Music",
+    bgColor: "#795548", // Brown
+    textColor: "#ffffff",
+    icon: FaBroadcastTower,
+  },
 };
 
 export const statusStylesMap = {
@@ -194,3 +232,31 @@ export const dateStylesMap = {
   },
 };
 
+export const seasons = ["Winter", "Spring", "Summer", "Fall"];
+
+export const seasonStylesMap = {
+  Winter: {
+    label: "Winter",
+    bgColor: "#5DADE2", // Cool icy blue
+    textColor: "#ffffff",
+    icon: FaSnowflake,
+  },
+  Spring: {
+    label: "Spring",
+    bgColor: "#58D68D", // Fresh green
+    textColor: "#ffffff",
+    icon: FaSeedling,
+  },
+  Summer: {
+    label: "Summer",
+    bgColor: "#F4D03F", // Bright yellow
+    textColor: "#000000",
+    icon: FaSun,
+  },
+  Fall: {
+    label: "Fall",
+    bgColor: "#DC7633", // Warm orange
+    textColor: "#ffffff",
+    icon: FaLeaf,
+  },
+};

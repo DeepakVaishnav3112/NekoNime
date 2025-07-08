@@ -27,7 +27,7 @@ export default function Navbar() {
   return (
     <nav
       className={`sticky top-0 w-full bg-white/30 backdrop-blur-md text-white shadow-md flex flex-col md:flex-row items-start md:items-center justify-between px-4 z-50 ${
-        !user && "px-4 py-2"
+        !user && "px-4 py-[10px]"
       }`}
     >
       <div className="w-full md:w-auto flex items-center justify-between gap-5">

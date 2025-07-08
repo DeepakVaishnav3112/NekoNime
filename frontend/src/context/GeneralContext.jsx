@@ -10,6 +10,19 @@ export const GeneralProvider = ({ children }) => {
   const [showSideBar, setShowSideBar] = useState(false);
   const [isOffline, setIsOffline] = useState(!navigator.onLine);
 
+  const [alert, setAlert] = useState({
+    show: false,
+    message: "",
+    type: "info",
+  });
+
+  const showAlert = (message, type = "info") => {
+    setAlert({ show: true, message, type });
+
+    // Auto close after 3s
+    setTimeout(() => setAlert((prev) => ({ ...prev, show: false })), 3000);
+  };
+
   useEffect(() => {
     const handleOnline = () => setIsOffline(false);
     const handleOffline = () => setIsOffline(true);
@@ -36,7 +49,9 @@ export const GeneralProvider = ({ children }) => {
         setSearchAnimeList,
         showSideBar,
         setShowSideBar,
-        isOffline
+        isOffline,
+        alert,
+        showAlert,
       }}
     >
       {children}
