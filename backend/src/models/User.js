@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const bcrypt = require("bcryptjs")
+const bcrypt = require("bcryptjs");
 
 const userSchema = new Schema(
   {
@@ -17,7 +17,7 @@ const userSchema = new Schema(
     authProvider: { type: String, enum: ["local", "google"], default: "local" },
     isAdmin: { type: Boolean, default: false },
     isVerified: { type: Boolean, default: false },
-    bio: { type: String },
+    bio: { type: String, default: "" },
     profilePicture: { type: String, default: "images/default-avatar.png" },
     lastLogin: { type: Date },
     isDeleted: { type: Boolean, default: false },
@@ -30,7 +30,7 @@ const userSchema = new Schema(
       },
     ],
 
-    animeLists: {
+    defaultLists: {
       watching: [{ type: Schema.Types.ObjectId, ref: "AnimeListEntry" }],
       completed: [{ type: Schema.Types.ObjectId, ref: "AnimeListEntry" }],
       planToWatch: [{ type: Schema.Types.ObjectId, ref: "AnimeListEntry" }],

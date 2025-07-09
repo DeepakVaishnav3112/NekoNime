@@ -7,6 +7,8 @@ const connectToMongoDB = require("./src/config/db");
 const animeRoutes = require("./src/routes/animeRoutes");
 const youtubeRoutes = require("./src/routes/youtubeRoutes");
 const authRoutes = require("./src/routes/authRoutes");
+const userRoutes = require("./src/routes/userRoutes");
+const listRoutes = require("./src/routes/listRoutes");
 const { errorHandler } = require("./src/middlewares/errorHandler");
 
 const app = express();
@@ -24,6 +26,8 @@ app.get("/", (req, res) => res.send("Hello World!"));
 app.use("/", youtubeRoutes);
 app.use("/anime", animeRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/user", userRoutes);
+app.use("/api/lists", listRoutes);
 
 // Error handling middleware
 app.use(errorHandler);

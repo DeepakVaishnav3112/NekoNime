@@ -104,13 +104,14 @@ export default function AnimeCarousel({ animeList }) {
                         : "border-secondary text-secondary hover:bg-primary hover:border-primary hover:text-white"
                     } rounded-sm cursor-pointer transition hover:scale-110 duration-200`}
                     onClick={() => {
-                      setIsSaved(!isSaved);
                       if (!authChecked || !user) {
                         showAlert(
                           "Please login to add anime to your list!",
                           "warning"
                         );
                         return;
+                      } else {
+                        setIsSaved(!isSaved);
                       }
                     }}
                   >

@@ -62,7 +62,7 @@ export default function AnimeMainInfo({
         </div>
 
         {/* Buttons */}
-        <ActionButtons />
+        <ActionButtons animeDetails={animeDetails} />
 
         {/* NekoNime Summary Box with Neko Girl Image For Desktop */}
         <NekoNimeSloganBox SmallDevice={false} />

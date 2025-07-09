@@ -1,6 +1,4 @@
-import React from "react";
 import { useGeneralContext } from "../../../context/GeneralContext";
-import { useGenreContext } from "../../../context/GenreContext";
 import { animeGenres, genreColors, genreIcons } from "../../../utils/genres";
 import { useNavigate } from "react-router-dom";
 import {
@@ -13,16 +11,13 @@ import FilterButton from "./FilterButton";
 
 export default function FiltersSection() {
   const { dropDownOpen, setDropDownOpen } = useGeneralContext();
-  const { selectedGenre, setSelectedGenre } = useGenreContext();
-
   const navigate = useNavigate();
 
   if (!dropDownOpen) return null;
 
   const handleGenreClick = (genre) => {
-    setSelectedGenre(genre);
+    navigate(`/browse?genre=${genre}`);
     setDropDownOpen(false);
-    navigate("/browse");
   };
 
   const handleGeneralClick = () => {
@@ -42,11 +37,10 @@ export default function FiltersSection() {
               text: "#000",
               shadow: "#000",
             };
-            const isSelected = selectedGenre === genre;
 
             const style = {
-              bgColor: isSelected ? "#fff" : colors.bg,
-              textColor: isSelected ? colors.bg : colors.text,
+              bgColor: colors.bg,
+              textColor: colors.text,
               icon: genreIcons[genre] || null,
             };
 

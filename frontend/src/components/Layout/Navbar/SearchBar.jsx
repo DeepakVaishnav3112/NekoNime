@@ -1,25 +1,24 @@
 import { useEffect, useRef, useState } from "react";
-import { fetchSearchResults } from "../../../services/animeService"
+import { fetchSearchResults } from "../../../services/animeService";
 import { FaSearch } from "react-icons/fa";
 import DropDown from "./DropDown";
 import SearchSuggestions from "./SearchSuggestions";
 import { useGeneralContext } from "../../../context/GeneralContext";
-import { useGenreContext } from "../../../context/GenreContext";
 import { useNavigate } from "react-router-dom";
 
 export default function SearchBar() {
   const {
     search,
     setSearch,
-    setViewAllSection,
     setSearchAnimeList,
-    serachAnimePage,
     setDropDownOpen,
     setShowSideBar,
   } = useGeneralContext();
-  const { setSelectedGenre } = useGenreContext();
 
-  const [searchResults, setSearchResults] = useState({ list: [], pageInfo: {} });
+  const [searchResults, setSearchResults] = useState({
+    list: [],
+    pageInfo: {},
+  });
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -33,7 +32,6 @@ export default function SearchBar() {
         setLoading(true);
         try {
           const res = await fetchSearchResults(search);
-          // console.log({ list: res.data.animeList, pageInfo: res.data.pageInfo });
           setSearchResults({
             list: res.data.animeList,
             pageInfo: res.data.pageInfo,
@@ -86,11 +84,9 @@ export default function SearchBar() {
           }}
           onKeyDown={(e) => {
             if (e.key === "Enter" && search.trim().length > 0) {
-              setSelectedGenre(null);
-              setViewAllSection("SEARCH RESULTS");
-              setSearchAnimeList(searchResults);
               setIsSearchOpen(false);
-              navigate("/browse");
+              setSearchAnimeList(searchResults);
+              navigate(`/search?q=${search}`);
             }
           }}
         />
@@ -99,11 +95,9 @@ export default function SearchBar() {
         <button
           onClick={() => {
             if (search.trim().length > 0) {
-              setSelectedGenre(null);
-              setViewAllSection("SEARCH RESULTS");
-              setSearchAnimeList(searchResults);
               setIsSearchOpen(false);
-              navigate("/browse");
+              setSearchAnimeList(searchResults);
+              navigate(`/search?q=${search}`);
             }
             setShowSideBar(false);
           }}
@@ -116,7 +110,8 @@ export default function SearchBar() {
       {/* Search Suggestions */}
       {isSearchOpen && (searchResults?.list?.length > 0 || loading) && (
         <SearchSuggestions
-          searchResults={searchResults.list}
+          search={search}
+          searchResults={searchResults}
           loading={loading}
           setIsSearchOpen={setIsSearchOpen}
         />

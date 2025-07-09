@@ -1,5 +1,4 @@
 import { useState, useRef } from "react";
-import { useGenreContext } from "../../../context/GenreContext";
 import SearchBar from "./SearchBar";
 import { FaSearch } from "react-icons/fa";
 import { useGeneralContext } from "../../../context/GeneralContext";
@@ -9,7 +8,6 @@ import { useAuthContext } from "../../../context/AuthContext";
 import Sidebar from "../Sidebar";
 
 export default function Navbar() {
-  const { setSelectedGenre } = useGenreContext();
   const { setViewAllSection, showSideBar, setShowSideBar, setDropDownOpen } =
     useGeneralContext();
   const { user, authChecked } = useAuthContext();
@@ -21,7 +19,7 @@ export default function Navbar() {
     setTimeout(() => setIsPressed(false), 200);
   };
 
-  const naviate = useNavigate();
+  const navigate = useNavigate();
   const accountBtnRef = useRef(null);
 
   return (
@@ -35,10 +33,9 @@ export default function Navbar() {
         <h1
           className="text-primary text-2xl sm:text-3xl font-bold cursor-pointer leading-none text-shadow-lg"
           onClick={() => {
-            setSelectedGenre("");
             setViewAllSection(null);
             setDropDownOpen(false);
-            naviate("/");
+            navigate("/");
           }}
         >
           Neko<span className="text-secondary">Nime</span>

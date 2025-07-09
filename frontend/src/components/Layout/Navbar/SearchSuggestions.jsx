@@ -2,17 +2,15 @@ import { MdKeyboardArrowRight } from "react-icons/md";
 import Loader from "../../Common/Loader";
 import { formatAnimeDate } from "../../../utils/dateUtils";
 import { useGeneralContext } from "../../../context/GeneralContext";
-import { useGenreContext } from "../../../context/GenreContext";
 import { useNavigate } from "react-router-dom";
 
 export default function SearchSuggestions({
+  search,
   searchResults,
   loading,
   setIsSearchOpen,
 }) {
-
-  const { setSelectedGenre } = useGenreContext();
-  const { setViewAllSection, setSearchAnimeList, } = useGeneralContext();
+  const { setSearchAnimeList } = useGeneralContext();
 
   const navigate = useNavigate();
 
@@ -22,7 +20,7 @@ export default function SearchSuggestions({
         <Loader />
       ) : (
         <>
-          {searchResults.slice(0, 6).map((anime, index) => (
+          {searchResults.list.slice(0, 6).map((anime, index) => (
             <div
               key={index}
               className={`flex gap-2 p-2 border-b-2 border-primary-hover-bg hover:bg-secondary transition cursor-pointer w-full ${
@@ -30,7 +28,7 @@ export default function SearchSuggestions({
               }`}
               onClick={() => {
                 navigate(`/anime/${anime.id}`);
-                setIsSearchOpen(false)
+                setIsSearchOpen(false);
               }}
             >
               <img
@@ -43,7 +41,9 @@ export default function SearchSuggestions({
                 <p className="font-medium truncate overflow-hidden whitespace-nowrap">
                   {anime.title.english || anime.title.romaji}
                 </p>
-                <span className="text-[#ffffff4a] text-[12px]">{formatAnimeDate(anime.startDate)}</span>
+                <span className="text-[#ffffff4a] text-[12px]">
+                  {formatAnimeDate(anime.startDate)}
+                </span>
               </div>
             </div>
           ))}
@@ -52,11 +52,9 @@ export default function SearchSuggestions({
           <div
             className="flex items-center text-white justify-center bg-primary-hover-bg rounded-b-md py-4 cursor-pointer hover:bg-secondary transition"
             onClick={() => {
-              setSelectedGenre(null);
-              setViewAllSection("SEARCH RESULTS");
+              navigate(`/search?q=${search}`);
               setSearchAnimeList(searchResults);
               setIsSearchOpen(false);
-              navigate("/browse");
             }}
           >
             View All Results <MdKeyboardArrowRight className="text-xl mt-0.5" />

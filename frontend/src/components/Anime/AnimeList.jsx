@@ -21,7 +21,7 @@ export default function AnimeList({
   }, [viewAllSection]);
 
   return (
-    <div className="w-fit pb-5 mb-5 mx-auto mt-4">
+    <div className="w-fit pb-5 mb-5 mx-auto">
       {/* Title and Show Less Button */}
       <div className="flex justify-between pb-2 px-1 pe-4">
         <h2 className="text-xl font-bold text-secondary">{title}</h2>

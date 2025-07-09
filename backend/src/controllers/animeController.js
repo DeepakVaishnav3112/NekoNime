@@ -27,8 +27,20 @@ const postRequest = async (query) => {
     });
     return response;
   } catch (error) {
-    // Give custom error to controller
-    const message = error?.response?.data?.message || "External API failure";
+    // Log full Axios error info
+    console.error("❌ Axios POST Request Failed:");
+    console.error("➡️ URL:", API_URL);
+    console.error("📦 Query Variables:", query?.variables);
+    console.error("⚠️ Error Code:", error.code);
+    console.error("🧾 Status:", error?.response?.status);
+    console.error("📨 Response Data:", error?.response?.data);
+    console.error("🌐 Axios Config URL:", error?.config?.url);
+    console.error("⏱ Timeout:", error?.config?.timeout);
+    // console.error("💀 Raw Error:", error);
+
+    // Forward minimal error to middleware
+    const message =
+      error?.response?.data?.message || error.message || "External API failure";
     const status = error?.response?.status || 503;
     const err = new Error(message);
     err.status = status;
@@ -96,6 +108,8 @@ exports.getTrendingAnime = async (req, res, next) => {
     if (cached) return res.json(cached);
   }
 
+  console.log("[getTrendingAnime] Requesting trending anime page:", page);
+
   trendingAnimeQuery.variables.page = page;
   const response = await postRequest(trendingAnimeQuery);
   const pageData = response.data.data.Page;
@@ -121,6 +135,8 @@ exports.getUpcomingAnime = async (req, res, next) => {
     if (cached) return res.json(cached);
   }
 
+  console.log("[getUpcomingAnime] Requesting upcoming anime page:", page);
+
   upcomingAnimeQuery.variables = { season, seasonYear: year, page };
   const response = await postRequest(upcomingAnimeQuery);
   const pageData = response.data.data.Page;
@@ -145,6 +161,8 @@ exports.getLatestAnime = async (req, res, next) => {
     const cached = getCache(cacheKey);
     if (cached) return res.json(cached);
   }
+
+  console.log("[getLatestAnime] Requesting latest anime page:", page);
 
   latestAnimeQuery.variables.page = page;
   const response = await postRequest(latestAnimeQuery);

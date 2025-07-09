@@ -1,0 +1,35 @@
+import axios from "axios";
+
+const BASE_URL = "http://localhost:3000/api/lists";
+
+export const addToDefaultList = async ({ animeDetails, listTitle }) => {
+  const payload = {
+    animeId: animeDetails.id,
+    coverImage: animeDetails.coverImage?.extraLarge,
+    title: animeDetails.title?.english || animeDetails.title?.romaji,
+    format: animeDetails.format,
+    episodes: animeDetails.episodes,
+    duration: animeDetails.duration,
+    listTitle,
+  };
+
+  return axios.post(`${BASE_URL}/add-to-default`, payload, {
+    withCredentials: true,
+  });
+};
+
+export const getAnimeListStatus = async (animeId) => {
+  return axios.get(`${BASE_URL}/status/${animeId}`, {
+    withCredentials: true,
+  });
+};
+
+export const removeFromDefaultList = async (animeListEntryId) => {
+  return axios.post(
+    `${BASE_URL}/remove-from-default`,
+    { animeId: animeListEntryId },
+    {
+      withCredentials: true,
+    }
+  );
+};
