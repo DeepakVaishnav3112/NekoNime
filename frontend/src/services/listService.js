@@ -5,7 +5,8 @@ const BASE_URL = "http://localhost:3000/api/lists";
 export const addToDefaultList = async ({ animeDetails, listTitle }) => {
   const payload = {
     animeId: animeDetails.id,
-    coverImage: animeDetails.coverImage?.extraLarge,
+    coverImage:
+      animeDetails.coverImage?.extraLarge || animeDetails.coverImage?.large,
     title: animeDetails.title?.english || animeDetails.title?.romaji,
     format: animeDetails.format,
     episodes: animeDetails.episodes,
@@ -32,4 +33,10 @@ export const removeFromDefaultList = async (animeListEntryId) => {
       withCredentials: true,
     }
   );
+};
+
+export const getDefaultListEntries = async (listTitle) => {
+  return axios.get(`${BASE_URL}/default/${listTitle}`, {
+    withCredentials: true,
+  });
 };

@@ -1,7 +1,5 @@
-import { Navigate, NavLink, Outlet, useNavigate } from "react-router-dom";
+import { Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
-import { useState, useEffect } from "react";
-import { fetchUserProfileData } from "../services/userService";
 import { CiBoxList } from "react-icons/ci";
 import { MdOutlineSettings } from "react-icons/md";
 import { MdOutlineAccountCircle } from "react-icons/md";
@@ -9,13 +7,30 @@ import { MdOutlineAccountCircle } from "react-icons/md";
 export default function UserLayout() {
   const { user, authChecked } = useAuthContext();
 
-  // if (!user || !authChecked) return <Navigate to="/" replace />;
+  if (!user || !authChecked) return <Navigate to="/" replace />;
 
-  const [selectedTab, setSelectedTab] = useState("Profile");
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const getTabFromPath = () => {
+    const path = location.pathname.split("/")[2];
+    switch (path) {
+      case "profile":
+        return "Profile";
+      case "watchlists":
+        return "Watchlists";
+      case "settings":
+        return "Settings";
+      default:
+        return "Profile";
+    }
+  };
+
+  const selectedTab = getTabFromPath();
 
   return (
     <div className="relative">
+      {/* User Page Tabs */}
       <div className="sticky top-16 z-10 w-full bg-primary flex justify-center gap-10">
         {[
           { label: "Profile", Icon: MdOutlineAccountCircle },
@@ -30,7 +45,6 @@ export default function UserLayout() {
                 : "text-white border-transparent"
             }`}
             onClick={() => {
-              setSelectedTab(tab.label);
               navigate(`/user/${tab.label.toLowerCase()}`);
             }}
           >
@@ -39,8 +53,6 @@ export default function UserLayout() {
           </button>
         ))}
       </div>
-
-      {/* {selectedTab} */}
 
       <Outlet />
     </div>

@@ -5,10 +5,13 @@ import Navbar from "./Navbar/Navbar";
 import { MdCancel } from "react-icons/md";
 import { useRef, useState } from "react";
 import AppAlert from "../Common/AppAlert";
+import AddToListContainer from "../Common/AddToListContainer";
+import { useListContext } from "../../context/listContext";
 
 export default function MainLayout({ children }) {
   const location = useLocation();
   const { dropDownOpen, isOffline, alert, showAlert } = useGeneralContext();
+  const { showListContainer, setShowListContainer } = useListContext();
 
   return (
     <div className="relative font-primary">
@@ -25,6 +28,7 @@ export default function MainLayout({ children }) {
           }
         />
       )}
+      {showListContainer && <AddToListContainer />}
     </div>
   );
 }

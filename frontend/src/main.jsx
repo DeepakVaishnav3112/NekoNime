@@ -5,17 +5,23 @@ import { BrowserRouter } from "react-router-dom";
 import { GeneralProvider } from "./context/GeneralContext.jsx";
 import { AnimeDetailsProvider } from "./context/AnimeDetailsContext.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
+import { ListProvider } from "./context/listContext.jsx";
+import { UserProvider } from "./context/userContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
-      <AuthProvider>
-        <GeneralProvider>
-            <AnimeDetailsProvider>
-              <App />
-            </AnimeDetailsProvider>
-        </GeneralProvider>
-      </AuthProvider>
+      <UserProvider>
+        <ListProvider>
+          <AuthProvider>
+            <GeneralProvider>
+              <AnimeDetailsProvider>
+                <App />
+              </AnimeDetailsProvider>
+            </GeneralProvider>
+          </AuthProvider>
+        </ListProvider>
+      </UserProvider>
     </BrowserRouter>
   </StrictMode>
 );

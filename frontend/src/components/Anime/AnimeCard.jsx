@@ -8,8 +8,11 @@ import GenreTag from "../Common/GenreTag";
 import { formatAnimeDate } from "../../utils/dateUtils";
 import CircleButton from "../Common/CircleButton";
 import { Link } from "react-router-dom";
+import { useListContext } from "../../context/listContext";
 
 export default function AnimeCard({ anime }) {
+  const { showListContainer, setShowListContainer, setAnimeDetails } =
+    useListContext();
   const [isHoverd, setIsHovered] = useState(false);
 
   return (
@@ -48,7 +51,10 @@ export default function AnimeCard({ anime }) {
           <CircleButton
             icon={BsFillBookmarkPlusFill}
             title="Add to List"
-            onClick={() => console.log("Added to List")}
+            onClick={() => {
+              setShowListContainer(!showListContainer);
+              setAnimeDetails(anime);
+            }}
           />
           <CircleButton
             icon={FaStar}
@@ -71,12 +77,12 @@ export default function AnimeCard({ anime }) {
       <div className="flex flex-col px-1">
         {/* Title */}
         <Link to={`/anime/${anime.id}`}>
-        <h3
-          title={anime.title.english || anime.title.romaji}
-          className="w-[175px] md:w-[200px] text-primary text-md font-bold cursor-pointer truncate overflow-hidden whitespace-nowrap hover:text-secondary"
-        >
-          {anime.title.english || anime.title.romaji}
-        </h3>
+          <h3
+            title={anime.title.english || anime.title.romaji}
+            className="w-[175px] md:w-[200px] text-primary text-md font-bold cursor-pointer truncate overflow-hidden whitespace-nowrap hover:text-secondary"
+          >
+            {anime.title.english || anime.title.romaji}
+          </h3>
         </Link>
 
         {/* Genres */}
@@ -96,12 +102,20 @@ export default function AnimeCard({ anime }) {
           {/* Format and Episodes */}
           <div className="flex gap-1 items-center font-medium text-white">
             {anime.format && (
-              <span className={`bg-secondary px-2 py-1 pt-[5px] ${anime.episodes ? "rounded-s-md" : "rounded-md"}`}>
+              <span
+                className={`bg-secondary px-2 py-1 pt-[5px] ${
+                  anime.episodes ? "rounded-s-md" : "rounded-md"
+                }`}
+              >
                 {anime.format}
               </span>
             )}
             {anime.episodes && (
-              <span className={`bg-primary px-2 py-1 pt-[5px] ${anime.format ? "rounded-e-md" : "rounded-md"}`}>
+              <span
+                className={`bg-primary px-2 py-1 pt-[5px] ${
+                  anime.format ? "rounded-e-md" : "rounded-md"
+                }`}
+              >
                 {anime.episodes}
               </span>
             )}

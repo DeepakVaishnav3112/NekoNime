@@ -19,5 +19,10 @@ router.post(
   verifyToken,
   asyncHandler(listController.removeFromDefaultList)
 );
+router.get(
+  "/default/:listTitle",
+  verifyToken,
+  asyncHandler(listController.getDefaultListEntries)
+);
 
 module.exports = router;

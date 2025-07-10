@@ -7,12 +7,14 @@ import { IoIosArrowDroprightCircle } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../../context/AuthContext";
 import { useGeneralContext } from "../../context/GeneralContext";
+import { useListContext } from "../../context/listContext";
 
 export default function AnimeCarousel({ animeList }) {
   const { user, authChecked } = useAuthContext();
   const { showAlert } = useGeneralContext();
+  const { showListContainer, setShowListContainer, setAnimeDetails } =
+    useListContext();
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isSaved, setIsSaved] = useState(false);
   const [progress, setProgress] = useState(0);
 
   const carouselAnime = useMemo(() => {
@@ -99,7 +101,7 @@ export default function AnimeCarousel({ animeList }) {
                   {/* Save Button */}
                   <div
                     className={`p-2 border-3 ${
-                      isSaved
+                      showListContainer
                         ? "bg-primary border-primary text-white hover:bg-secondary hover:border-secondary hover:text-white"
                         : "border-secondary text-secondary hover:bg-primary hover:border-primary hover:text-white"
                     } rounded-sm cursor-pointer transition hover:scale-110 duration-200`}
@@ -111,11 +113,12 @@ export default function AnimeCarousel({ animeList }) {
                         );
                         return;
                       } else {
-                        setIsSaved(!isSaved);
+                        setShowListContainer(!showListContainer);
+                        setAnimeDetails(anime);
                       }
                     }}
                   >
-                    {isSaved ? (
+                    {showListContainer ? (
                       <FaBookmark className="text-[22px]" />
                     ) : (
                       <FaRegBookmark className="text-[22px]" />

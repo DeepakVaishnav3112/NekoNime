@@ -92,7 +92,7 @@ export default function ActionButtons({ animeDetails }) {
 
     const listKey = status
       .toLowerCase()
-      .replace("Plan To Watch", "planToWatch");
+      .replace("plan to watch", "planToWatch");
 
     setIsLoading(true);
     setShowDropdown(false);
@@ -164,7 +164,7 @@ export default function ActionButtons({ animeDetails }) {
             ].map((status) => {
               const listKey = status
                 .toLowerCase()
-                .replace("Plan To Watch", "planToWatch");
+                .replace("plan to watch", "planToWatch");
 
               return (
                 <button

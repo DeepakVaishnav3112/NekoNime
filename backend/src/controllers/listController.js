@@ -110,3 +110,30 @@ exports.removeFromDefaultList = async (req, res, next) => {
     return res.status(500).json({ message: "Server error" });
   }
 };
+
+// Get all entries from a default list
+exports.getDefaultListEntries = async (req, res, next) => {
+  const { listTitle } = req.params;
+
+  if (
+    !["watching", "completed", "planToWatch", "dropped", "onHold"].includes(
+      listTitle
+    )
+  ) {
+    return res.status(400).json({ message: "Invalid default list title." });
+  }
+
+  try {
+    const user = await User.findById(req.user.id).populate(
+      `defaultLists.${listTitle}`
+    );
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    const listEntries = user.defaultLists[listTitle];
+
+    res.status(200).json({ listTitle, listEntries });
+  } catch (err) {
+    console.error("Error fetching default list:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
