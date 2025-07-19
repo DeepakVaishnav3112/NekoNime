@@ -11,6 +11,7 @@ export const addToDefaultList = async ({ animeDetails, listTitle }) => {
     format: animeDetails.format,
     episodes: animeDetails.episodes,
     duration: animeDetails.duration,
+    genres: animeDetails.genres,
     listTitle,
   };
 

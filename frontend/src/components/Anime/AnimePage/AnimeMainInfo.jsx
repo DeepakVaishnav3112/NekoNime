@@ -48,7 +48,7 @@ export default function AnimeMainInfo({
                   color={genreColorsMap[genre] || "#999"}
                   textColor={genreTextColorsMap[genre] || "#fff"}
                   padding={[4, 2]}
-                  textSize="10"
+                  textSize="text-[8px] md:text-xs"
                 />
               ))}
             </div>

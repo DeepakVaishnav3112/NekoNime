@@ -67,7 +67,7 @@ export default function Navbar() {
                 btnText="Sign Up"
                 mode="signup"
                 buttonStyle="rounded-s-full text-primary border-3 border-primary hover:bg-primary hover:text-white"
-                textStyle="group-hover:scale-110"
+                textStyle="group-hover:scale-110 ps-4"
               />
 
               <AuthTriggerButton

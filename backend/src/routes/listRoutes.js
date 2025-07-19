@@ -3,6 +3,7 @@ const router = express.Router();
 const asyncHandler = require("express-async-handler");
 const verifyToken = require("../middlewares/verifyToken");
 const listController = require("../controllers/listController");
+const customListController = require("../controllers/customListController");
 
 router.post(
   "/add-to-default",
@@ -23,6 +24,16 @@ router.get(
   "/default/:listTitle",
   verifyToken,
   asyncHandler(listController.getDefaultListEntries)
+);
+router.post(
+  "/custom/create",
+  verifyToken,
+  asyncHandler(customListController.createUserCustomList)
+);
+router.post(
+  "/custom/delete",
+  verifyToken,
+  asyncHandler(customListController.deleteUserCustomList)
 );
 
 module.exports = router;

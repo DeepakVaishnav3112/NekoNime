@@ -5,6 +5,7 @@ const listContext = createContext();
 export const ListProvider = ({ children }) => {
   const [showListContainer, setShowListContainer] = useState(false);
   const [animeDetails, setAnimeDetails] = useState(null);
+  const [showCreateListContainer, setShowCreateListContainer] = useState(false);
 
   return (
     <listContext.Provider
@@ -13,6 +14,8 @@ export const ListProvider = ({ children }) => {
         setShowListContainer,
         animeDetails,
         setAnimeDetails,
+        showCreateListContainer,
+        setShowCreateListContainer,
       }}
     >
       {children}

@@ -21,6 +21,10 @@ export default function AnimeCarousel({ animeList }) {
     return animeList?.filter((anime) => anime.bannerImage).slice(0, 10);
   }, [animeList]);
 
+  // useEffect(() => {
+  //   console.log(animeList);
+  // }, [animeList]);
+
   const goToNext = () => {
     setCurrentIndex((prev) =>
       prev === carouselAnime?.length - 1 ? 0 : prev + 1

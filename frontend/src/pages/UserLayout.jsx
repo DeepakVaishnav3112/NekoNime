@@ -3,9 +3,12 @@ import { useAuthContext } from "../context/AuthContext";
 import { CiBoxList } from "react-icons/ci";
 import { MdOutlineSettings } from "react-icons/md";
 import { MdOutlineAccountCircle } from "react-icons/md";
+import CreateListContainer from "../components/UserLayout/CreateListContainer";
+import { useListContext } from "../context/listContext";
 
 export default function UserLayout() {
   const { user, authChecked } = useAuthContext();
+  const { showCreateListContainer } = useListContext();
 
   if (!user || !authChecked) return <Navigate to="/" replace />;
 
@@ -31,7 +34,7 @@ export default function UserLayout() {
   return (
     <div className="relative">
       {/* User Page Tabs */}
-      <div className="sticky top-16 z-10 w-full bg-primary flex justify-center gap-10">
+      <div className="sticky top-[62px] z-10 w-full bg-primary flex justify-center max-xs:gap-2 gap-10">
         {[
           { label: "Profile", Icon: MdOutlineAccountCircle },
           { label: "Watchlists", Icon: CiBoxList },
@@ -48,13 +51,15 @@ export default function UserLayout() {
               navigate(`/user/${tab.label.toLowerCase()}`);
             }}
           >
-            <tab.Icon className="text-2xl" />
+            <tab.Icon className="text-2xl max-sm:text-xl" />
             {tab.label}
           </button>
         ))}
       </div>
 
       <Outlet />
+
+      {showCreateListContainer && <CreateListContainer />}
     </div>
   );
 }

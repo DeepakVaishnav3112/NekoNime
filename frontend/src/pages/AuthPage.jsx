@@ -12,7 +12,7 @@ export default function AuthPage() {
   if (user) return <Navigate to="/" replace />;
 
   return (
-    <div className="flex items-center h-[90vh]">
+    <div className="flex items-center justify-center h-[90.9vh]">
       <div className="w-full max-w-lg rounded-md px-12 py-4">
         <h3 className="text-2xl text-primary font-bold w-fit mx-auto pb-2 border-b-4 border-primary">
           {authMode === "login" ? "Login" : "Sign Up"}

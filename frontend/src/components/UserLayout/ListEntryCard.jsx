@@ -3,8 +3,9 @@ import { GoDotFill } from "react-icons/go";
 import { MdCancel } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { removeFromDefaultList } from "../../services/listService";
+import GenreTag from "../Common/GenreTag";
 
-export default function ListEntryCard({ anime, onRemove }) {
+export default function ListEntryCard({ anime, onRemove, setRemoving }) {
   const [isHoverd, setIsHovered] = useState(false);
 
   const navigate = useNavigate();
@@ -14,18 +15,23 @@ export default function ListEntryCard({ anime, onRemove }) {
   };
 
   const handleRemoveClick = async (animeListEntryId) => {
+    setRemoving();
+
     try {
       const res = await removeFromDefaultList(animeListEntryId);
       console.log(res.data);
-      if (onRemove) onRemove(animeListEntryId); // 👈 Notify parent
+      if (onRemove) onRemove(animeListEntryId, true); // 👈 Notify parent
     } catch (err) {
       console.error("Failed to remove from list:", err);
+      if (onRemove) onRemove(animeListEntryId, false);
     }
   };
 
   return (
     <div
-      className={`flex items-center justify-between px-4 ${isHoverd && "border-r-4 border-primary"}`}
+      className={`flex items-center justify-between mx-2 pe-2 border-r-4 transition ${
+        isHoverd ? "border-primary" : "border-transparent"
+      }`}
       onMouseOver={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -34,17 +40,31 @@ export default function ListEntryCard({ anime, onRemove }) {
         <img
           src={anime.coverImage}
           alt={anime.title}
-          className="w-18 rounded-md shadow-[0_0_15px_rgba(0,0,0,0.3)] cursor-pointer"
+          className="w-18 rounded-md cursor-pointer"
           onClick={handleCardClick}
         />
-        <div>
+        <div className="w-full">
           {/* Title */}
           <div
-            className="text-lg font-semibold text-primary text-center cursor-pointer"
+            title={anime.title}
+            className="text-lg font-semibold text-primary cursor-pointer w-[240px] xs:w-[300px] sm:w-[400px] whitespace-nowrap overflow-hidden overflow-ellipsis"
             onClick={handleCardClick}
           >
             {anime.title}
           </div>
+
+          {/* Genres */}
+          <div className="flex flex-wrap gap-2 max-sm:hidden">
+            {anime.genres.map((genre) => (
+              <GenreTag
+                key={genre}
+                genre={genre}
+                padding={[2, 1]}
+                textSize="text-[6px] xs:text-[10px]"
+              />
+            ))}
+          </div>
+
           <div className="flex items-center max-xs:text-[8px] text-[10px] xs:mt-2">
             {/* Format and Episodes */}
             <div className="flex gap-1 items-center font-medium text-white">
@@ -82,12 +102,13 @@ export default function ListEntryCard({ anime, onRemove }) {
         </div>
       </div>
 
-      <div
-        className={`h-fit ${isHoverd ? "opacity-100" : "opacity-0"}`}
+      <button
+        className={`h-fit transition ${isHoverd ? "opacity-100" : "opacity-0"}`}
         onClick={() => handleRemoveClick(anime._id)}
+        disabled={!isHoverd}
       >
         <MdCancel className="text-secondary text-2xl cursor-pointer hover:text-red-400 hover:scale-120 transition-all duration-200 ease-in-out" />
-      </div>
+      </button>
     </div>
   );
 }

@@ -71,6 +71,10 @@ const seasonalTopRatedAnimeQuery = {
         romaji
         english
       }
+      coverImage {
+        large
+      }
+      genres
       description(asHtml: false)
       format
       episodes

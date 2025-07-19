@@ -60,7 +60,9 @@ export default function AnimePage() {
   return (
     <div>
       {/* Banner Image */}
-      <BannerImage src={animeDetails.bannerImage || animeDetails.bannerImageTMDB} />
+      <BannerImage
+        src={animeDetails.bannerImage || animeDetails.bannerImageTMDB}
+      />
       <div
         className={`${
           animeDetails.bannerImage ? "relative z-10 -mt-10 " : "pt-4"
@@ -97,23 +99,29 @@ export default function AnimePage() {
             />
           )}
 
-        <div className="row-span-2">Data</div>
-        
-        {/* Related Anime like mpvies and next or previous seasons */}
-        {animeDetails.relations?.edges?.length > 0 && (
-          <RelatedAnimeSection
-            animeTitle={animeDetails.title.english || animeDetails.title.romaji}
-            relations={animeDetails.relations.edges}
-          />
-        )}
+        {/* <div className="row-span-2">Data</div> */}
 
-        {/* Recommended Anime or Similar Anime */}
-        {animeDetails.recommendations?.edges?.length > 0 && (
-          <RecommendedAnimeSection
-            animeTitle={animeDetails.title.english || animeDetails.title.romaji}
-            recommendedAnime={animeDetails.recommendations.edges}
-          />
-        )}
+        <div>
+          {/* Related Anime like mpvies and next or previous seasons */}
+          {animeDetails.relations?.edges?.length > 0 && (
+            <RelatedAnimeSection
+              animeTitle={
+                animeDetails.title.english || animeDetails.title.romaji
+              }
+              relations={animeDetails.relations.edges}
+            />
+          )}
+
+          {/* Recommended Anime or Similar Anime */}
+          {animeDetails.recommendations?.edges?.length > 0 && (
+            <RecommendedAnimeSection
+              animeTitle={
+                animeDetails.title.english || animeDetails.title.romaji
+              }
+              recommendedAnime={animeDetails.recommendations.edges}
+            />
+          )}
+        </div>
       </div>
     </div>
   );

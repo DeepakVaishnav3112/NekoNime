@@ -6,4 +6,6 @@ const DEFAULT_PROFILE_PICTURES = [
   "https://res.cloudinary.com/dsxxxxlpf/image/upload/v1751734343/download_oq3b5b.jpg",
 ];
 
-module.exports = { DEFAULT_PROFILE_PICTURES };
+const validDefaultLists = ["watching", "completed", "planToWatch", "dropped", "onHold"];
+
+module.exports = { DEFAULT_PROFILE_PICTURES, validDefaultLists };

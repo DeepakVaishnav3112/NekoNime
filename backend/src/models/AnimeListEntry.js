@@ -8,6 +8,7 @@ const animeListEntrySchema = new Schema({
   format: { type: String },
   episodes: { type: Number },
   duration: { type: Number },
+  genres: [String],
 });
 
 module.exports = mongoose.model("AnimeListEntry", animeListEntrySchema);

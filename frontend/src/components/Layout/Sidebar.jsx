@@ -18,6 +18,7 @@ export default function Sidebar({ accountBtnRef }) {
   const sidebarRef = useRef(null);
 
   useEffect(() => {
+    let timeOutId;
     const handleClickOutside = (e) => {
       if (
         sidebarRef.current &&
@@ -28,9 +29,14 @@ export default function Sidebar({ accountBtnRef }) {
       }
     };
 
-    if (showSideBar) window.addEventListener("click", handleClickOutside);
+    if (showSideBar) {
+      timeOutId = setTimeout(() => {
+        window.addEventListener("click", handleClickOutside);
+      }, 0);
+    }
 
     return () => {
+      clearTimeout(timeOutId);
       window.removeEventListener("click", handleClickOutside);
     };
   }, [showSideBar]);
