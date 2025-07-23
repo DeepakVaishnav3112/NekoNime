@@ -9,6 +9,7 @@ import AnimeMainInfo from "../components/Anime/AnimePage/AnimeMainInfo";
 import RelatedAnimeSection from "../components/Anime/AnimePage/RelatedAnimeSection";
 import RecommendedAnimeSection from "../components/Anime/AnimePage/RecommendedAnimeSection";
 import NekoNimeSloganBox from "../components/Common/NekoNimeSloganBox";
+import ReviewSection from "../components/Anime/AnimePage/RatingSection/ReviewSection";
 
 export default function AnimePage() {
   const [animeDetails, setAnimeDetails] = useState(null);
@@ -121,7 +122,12 @@ export default function AnimePage() {
               recommendedAnime={animeDetails.recommendations.edges}
             />
           )}
+
+          {/* Rating Section */}
+          <ReviewSection animeId={animeDetails.id} />
         </div>
+
+        <div>Next Section</div>
       </div>
     </div>
   );

@@ -9,6 +9,7 @@ const youtubeRoutes = require("./src/routes/youtubeRoutes");
 const authRoutes = require("./src/routes/authRoutes");
 const userRoutes = require("./src/routes/userRoutes");
 const listRoutes = require("./src/routes/listRoutes");
+const reviewRoutes = require("./src/routes/reviewRoutes");
 const { errorHandler } = require("./src/middlewares/errorHandler");
 
 const app = express();
@@ -28,6 +29,7 @@ app.use("/anime", animeRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/user", userRoutes);
 app.use("/api/lists", listRoutes);
+app.use("/api/review", reviewRoutes);
 
 // Error handling middleware
 app.use(errorHandler);

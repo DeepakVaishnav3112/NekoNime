@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const ratingStatsSchema = new Schema({
+const reviewStatsSchema = new Schema({
   animeId: { type: String, required: true, unique: true },
   stats: {
     Trash: { type: Number, default: 0 },
@@ -15,8 +15,8 @@ const ratingStatsSchema = new Schema({
     GOAT: { type: Number, default: 0 },
   },
   totalVotes: { type: Number, default: 0 },
-  averageTierValue: { type: Number, default: 0 },
+  // averageTierValue: { type: Number, default: 0 },
   lastUpdated: { type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model("RatingStats", ratingStatsSchema);
+module.exports = mongoose.model("ReviewStats", reviewStatsSchema);

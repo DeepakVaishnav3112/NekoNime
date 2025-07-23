@@ -26,7 +26,7 @@ export default function HorizontalScrollSection({ children }) {
     <div className="relative">
       <div
         ref={scrollRef}
-        className="snap-x snap-mandatory flex gap-2 mt-1 overflow-x-auto custom-scrollbar pb-2"
+        className="snap-x snap-mandatory flex gap-2 mt-1 overflow-x-auto custom-scrollbar scrollbar-hide pb-2"
       >
         {children}
       </div>

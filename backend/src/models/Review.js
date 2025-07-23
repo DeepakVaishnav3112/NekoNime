@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const ratingSchema = new Schema(
+const reviewSchema = new Schema(
   {
     userId: {
       type: Schema.Types.ObjectId,
@@ -25,13 +25,12 @@ const ratingSchema = new Schema(
       ],
       required: true,
     },
-    comment: { type: String, required: true },
     votedAt: { type: Date, default: Date.now },
   },
   { timestamps: true }
 );
 
 // Unique index to prevent duplicate ratings from the same user for same anime
-ratingSchema.index({ userId: 1, animeId: 1 }, { unique: true });
+reviewSchema.index({ userId: 1, animeId: 1 }, { unique: true });
 
-module.exports = mongoose.model("Rating", ratingSchema);
+module.exports = mongoose.model("Review", reviewSchema);
