@@ -10,6 +10,7 @@ import RelatedAnimeSection from "../components/Anime/AnimePage/RelatedAnimeSecti
 import RecommendedAnimeSection from "../components/Anime/AnimePage/RecommendedAnimeSection";
 import NekoNimeSloganBox from "../components/Common/NekoNimeSloganBox";
 import ReviewSection from "../components/Anime/AnimePage/RatingSection/ReviewSection";
+import CommentSection from "../components/Anime/AnimePage/CommentSection/CommentSection";
 
 export default function AnimePage() {
   const [animeDetails, setAnimeDetails] = useState(null);
@@ -89,7 +90,7 @@ export default function AnimePage() {
       </div>
 
       {/* Anime Episodes */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-4">
+      <div className="columns-1 lg:columns-2 gap-4 p-4">
         {(animeDetails.status === "RELEASING" || animeDetails.episodes) &&
           animeDetails.format !== "MOVIE" && (
             <AnimeEpisodes
@@ -100,9 +101,9 @@ export default function AnimePage() {
             />
           )}
 
-        {/* <div className="row-span-2">Data</div> */}
+        <CommentSection animeId={animeDetails.id} />
 
-        <div>
+        <div className="break-inside-avoid">
           {/* Related Anime like mpvies and next or previous seasons */}
           {animeDetails.relations?.edges?.length > 0 && (
             <RelatedAnimeSection
@@ -126,8 +127,6 @@ export default function AnimePage() {
           {/* Rating Section */}
           <ReviewSection animeId={animeDetails.id} />
         </div>
-
-        <div>Next Section</div>
       </div>
     </div>
   );

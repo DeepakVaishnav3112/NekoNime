@@ -42,7 +42,7 @@ export default function SharedTabContainer({
   }, []);
 
   return (
-    <div className="relative group ">
+    <div className="relative group h-fit break-inside-avoid">
       <TabHeader
         heading={heading}
         showBtn={showBtn}
@@ -63,18 +63,19 @@ export default function SharedTabContainer({
 
       {/* Top and Bottom Blend */}
       {blendPosition && (
-        <div
-          className={`absolute top-[44px] w-full h-15 bg-gradient-to-b from-white to-transparent transition-opacity duration-300 pointer-events-none z-10 ${
-            showTopBlend ? "opacity-100" : "opacity-0"
-          }`}
-        ></div>
-      )}
-      {blendPosition && (
-        <div
-          className={`absolute bottom-[-2px] w-full h-15 bg-gradient-to-t from-white to-transparent transition-opacity duration-300 pointer-events-none z-10 ${
-            showBottomBlend ? "opacity-100" : "opacity-0"
-          }`}
-        ></div>
+        <>
+          <div
+            className={`absolute top-[44px] w-full h-15 bg-gradient-to-b from-white to-transparent transition-opacity duration-300 pointer-events-none z-10 ${
+              showTopBlend ? "opacity-100" : "opacity-0"
+            }`}
+          ></div>
+
+          <div
+            className={`absolute bottom-[-2px] w-full h-15 bg-gradient-to-t from-white to-transparent transition-opacity duration-300 pointer-events-none z-10 ${
+              showBottomBlend ? "opacity-100" : "opacity-0"
+            }`}
+          ></div>
+        </>
       )}
     </div>
   );

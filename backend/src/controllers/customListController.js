@@ -1,4 +1,4 @@
-const Uset = require("../models/User")
+const User = require("../models/User")
 const CustomList = require("../models/CustomList");
 
 // Create Custom List

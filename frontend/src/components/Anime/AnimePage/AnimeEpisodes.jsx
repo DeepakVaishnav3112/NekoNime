@@ -135,7 +135,6 @@ export default function AnimeEpisodes({ idMal, animeTitle }) {
       dropDownOptions={episodeRanges}
       selectedOption={selectedRange}
       setSelectedOption={setSelectedRange}
-      isHeight={false}
     >
       <div className="py-2 rounded-b-md">
         {/* Episode Legend */}
