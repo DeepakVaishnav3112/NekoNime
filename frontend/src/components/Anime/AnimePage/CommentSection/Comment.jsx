@@ -45,7 +45,7 @@ export default function Comment({ comment, handleCommentDelete }) {
             Icon={FaRegHeart}
             style="flex items-center gap-1 text-secondary hover:text-black cursor-pointer"
           />
-          {comment?.userId?._id.toString() === user?._id.toString() && (
+          {comment?.userId?._id?.toString() === user?._id.toString() && (
             <>
               <CommentActionBtn Icon={FaEdit} style="text-xl" />
               <CommentActionBtn

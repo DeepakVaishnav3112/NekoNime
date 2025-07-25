@@ -102,20 +102,37 @@ exports.deleteComment = async (req, res) => {
   const { commentId } = req.body;
   const userId = req.user.id;
 
-  const comment = await Comment.findById(commentId);
+  try {
+    const comment = await Comment.findById(commentId);
 
-  if (!comment) {
-    return res.status(404).json({ message: "Comment not found!" });
+    if (!comment) {
+      return res.status(404).json({ message: "Comment not found!" });
+    }
+
+    if (comment.userId.toString() !== userId) {
+      return res
+        .status(403)
+        .json({ message: "You can only delete your own comments!" });
+    }
+
+    // Delete the comment
+    const deletedComment = await Comment.findByIdAndDelete(commentId);
+    if (!deletedComment) {
+      return res.status(500).json({ message: "Failed to delete comment!" });
+    }
+
+    // Remove commentId from AnimeEntry's comments array
+    await AnimeEntry.updateOne(
+      { animeId: comment.animeId },
+      { $pull: { comments: commentId } }
+    );
+
+    // Remove commentId from User's comments array
+    await User.updateOne({ _id: userId }, { $pull: { comments: commentId } });
+
+    return res.status(200).json({ message: "Comment deleted successfully!" });
+  } catch (err) {
+    console.error("Delete Comment Error:", err);
+    return res.status(500).json({ message: "Something went wrong!" });
   }
-
-  if (comment.userId.toString() !== userId) {
-    return res
-      .status(403)
-      .json({ message: "You can only delete your own comments!" });
-  }
-
-  comment.isDeleted = true;
-  await comment.save();
-
-  res.status(200).json({ message: "Comment deleted successfully!" });
 };

@@ -30,6 +30,7 @@ export default function CommentSection({ animeId }) {
       const newComment = {
         ...res.data.newComment,
         userId: {
+          _id: user._id,
           username: user.username, // If you have it in auth context
           profilePicture: user.profilePicture,
         },
