@@ -20,4 +20,44 @@ export const deleteComment = (commentId) => {
     { commentId },
     { withCredentials: true }
   );
-}
+};
+
+export const getReplies = (commentId, page = 1) => {
+  return axios.get(`${BASE_URL}/${commentId}?page=${page}`);
+};
+
+export const addReply = (commentId, reply) => {
+  return axios.post(
+    `${BASE_URL}/reply`,
+    { commentId, reply },
+    { withCredentials: true }
+  );
+};
+
+export const deleteReply = (replyId) => {
+  return axios.post(
+    `${BASE_URL}/reply/delete`,
+    { replyId },
+    { withCredentials: true }
+  );
+};
+
+export const toggleLikeComment = (commentId) => {
+  return axios.post(
+    `${BASE_URL}/${commentId}/like`,
+    {},
+    {
+      withCredentials: true,
+    }
+  );
+};
+
+export const toggleLikeReply = (replyId) => {
+  return axios.post(
+    `${BASE_URL}/reply/${replyId}/like`,
+    {},
+    {
+      withCredentials: true,
+    }
+  );
+};

@@ -17,4 +17,18 @@ router.post(
   asyncHandler(commentController.deleteComment)
 );
 
+router.post(
+  "/reply",
+  verifyToken,
+  asyncHandler(commentController.addReplyToComment)
+);
+router.post(
+  "/reply/delete",
+  verifyToken,
+  asyncHandler(commentController.deleteReply)
+);
+router.get("/:commentId", asyncHandler(commentController.getReplies));
+router.post("/:commentId/like", verifyToken, asyncHandler(commentController.toggleLikeComment));
+router.post("/reply/:replyId/like", verifyToken, asyncHandler(commentController.toggleLikeReply));
+
 module.exports = router;

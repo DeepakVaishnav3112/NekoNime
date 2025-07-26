@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { fetchAnimeDetails } from "../services/animeService";
+
 import Loader from "../components/Common/Loader";
 import BannerImage from "../components/Anime/AnimePage/BannerImage";
 import AnimeTabs from "../components/Anime/AnimePage/AnimeTabs";

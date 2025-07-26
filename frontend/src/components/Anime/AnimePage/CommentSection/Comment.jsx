@@ -1,22 +1,81 @@
-import { FaEdit } from "react-icons/fa";
-import { MdDelete } from "react-icons/md";
+import { useState } from "react";
+import { FaHeart } from "react-icons/fa";
+import { MdDelete, MdInsertComment } from "react-icons/md";
 import { GoDotFill } from "react-icons/go";
 import { FaRegHeart } from "react-icons/fa";
-import { MdInsertComment } from "react-icons/md";
 import { formatDate } from "../../../../utils/dateUtils";
-import CommentActionBtn from "./CommentActionBtn";
-import { useState } from "react";
-import Reply from "./Reply";
 import { useAuthContext } from "../../../../context/AuthContext";
-import { deleteComment } from "../../../../services/commentService";
+import { deleteReply } from "../../../../services/commentService";
+import {
+  getReplies,
+  toggleLikeComment,
+} from "../../../../services/commentService";
+
+import Reply from "./Reply";
+import AddReplyField from "./AddReplyField";
+import CommentActionBtn from "./CommentActionBtn";
 
 export default function Comment({ comment, handleCommentDelete }) {
   const { user } = useAuthContext();
 
-  const [showReplyField, setShowReplyField] = useState(false);
-  const [replyText, setReplyText] = useState("");
+  const [replies, setReplies] = useState([]);
+  const [repliesPage, setRepliesPage] = useState(1);
+  const [showReplies, setShowReplies] = useState(false);
+  const [hasMoreReplies, setHasMoreReplies] = useState(false);
+  const [loadingReplies, setLoadingReplies] = useState(false);
 
-  
+  const [likes, setLikes] = useState(comment.likes || []);
+  const [showReplyField, setShowReplyField] = useState(false);
+
+  const isLiked = likes.includes(user._id);
+
+  // Function to fetch replies for the comment
+  const fetchReplies = async () => {
+    setLoadingReplies(true);
+    try {
+      const res = await getReplies(comment._id, repliesPage);
+      if (repliesPage === 1) {
+        setReplies(res.data.replies);
+      } else {
+        setReplies((prev) => [...prev, ...res.data.replies]);
+      }
+      console.log(res.data);
+      setHasMoreReplies(res.data.hasMore);
+      setRepliesPage((prev) => prev + 1);
+      setShowReplies(true);
+    } catch (err) {
+      console.error("Failed to fetch replies:", err);
+    } finally {
+      setLoadingReplies(false);
+    }
+  };
+
+  // Function to handle deleting a reply
+  const handleDeleteReply = async (replyId) => {
+    try {
+      await deleteReply(replyId);
+      setReplies((prev) => prev.filter((r) => r._id !== replyId));
+      console.log("Reply deleted successfully");
+    } catch (error) {
+      console.error("Failed to delete reply:", error);
+    }
+  };
+
+  // Function to toggle like on the comment
+  const handleLikeToggle = async () => {
+    try {
+      const res = await toggleLikeComment(comment._id);
+      const isLiked = res.data.liked;
+
+      setLikes((prevLikes) =>
+        isLiked
+          ? [...prevLikes, user._id]
+          : prevLikes.filter((id) => id !== user._id)
+      );
+    } catch (err) {
+      console.error("Failed to toggle like:", err);
+    }
+  };
 
   return (
     <div className="mt-5 px-4 pb-5 border-b-1 border-secondary/20">
@@ -25,44 +84,52 @@ export default function Comment({ comment, handleCommentDelete }) {
         <div className="flex items-center gap-4">
           <div className="flex gap-2 items-center">
             <div className="w-7 h-7 rounded-full">
+              {/* profile picture */}
               <img
                 src={comment.userId.profilePicture}
                 alt="profile picture"
                 className="rounded-full"
               />
             </div>
+            {/* username */}
             <span className="text-md text-primary font-semibold">
               {comment.userId.username}
             </span>
           </div>
+          {/* date */}
           <span className="text-xs text-secondary">
             <GoDotFill className="inline-block -mt-[2px]" />{" "}
             {formatDate(comment.createdAt)}
           </span>
         </div>
+
+        {/* Delete button */}
         <div className="flex gap-4 text-secondary">
-          <CommentActionBtn
-            Icon={FaRegHeart}
-            style="flex items-center gap-1 text-secondary hover:text-black cursor-pointer"
-          />
           {comment?.userId?._id?.toString() === user?._id.toString() && (
-            <>
-              <CommentActionBtn Icon={FaEdit} style="text-xl" />
-              <CommentActionBtn
-                Icon={MdDelete}
-                style="text-xl"
-                onClick={() => handleCommentDelete(comment._id)}
-              />
-            </>
+            <CommentActionBtn
+              Icon={MdDelete}
+              style="text-xl"
+              onClick={() => handleCommentDelete(comment._id)}
+            />
           )}
         </div>
       </div>
 
-      {/* Comment Content */}
       <div className="px-1">
+        {/* Comment Content */}
         <p className="mt-2 text-black/70 text-md">{comment.comment}</p>
 
         <div className="flex items-center gap-2">
+          {/* Like button */}
+          <CommentActionBtn
+            Icon={isLiked ? FaHeart : FaRegHeart}
+            style={`flex items-center mt-2 gap-1 cursor-pointer ${
+              isLiked ? "text-red-500" : "text-secondary"
+            } hover:text-black`}
+            onClick={handleLikeToggle}
+            text={likes.length}
+          />
+          {/* Reply button */}
           <CommentActionBtn
             Icon={MdInsertComment}
             text="Reply"
@@ -72,17 +139,51 @@ export default function Comment({ comment, handleCommentDelete }) {
         </div>
       </div>
 
-      <div className="ps-15 mt-5">
-        <Reply />
-      </div>
+      {/* Show Replies button */}
+      {!showReplies && (
+        <button
+          className="text-primary text-sm underline mt-3 cursor-pointer hover:text-secondary"
+          onClick={fetchReplies}
+        >
+          View replies
+        </button>
+      )}
 
-      {/* Comment Reply */}
-      {comment.replies ||
-        (comment.replies.length > 0 && (
-          <div className="ps-15 mt-5">
-            <Reply />
-          </div>
-        ))}
+      {/* Field to add a reply */}
+      {showReplyField && (
+        <AddReplyField
+          setReplies={setReplies}
+          commentId={comment._id}
+          user={user}
+          setShowReplies={setShowReplies}
+          setShowReplyField={setShowReplyField}
+        />
+      )}
+
+      {/* Replies Section */}
+      {showReplies && (
+        <div className="ps-15 mt-4">
+          {replies.map((reply) => (
+            <Reply
+              key={reply._id}
+              reply={reply}
+              handleDeleteReply={handleDeleteReply}
+              showReplyField={showReplyField}
+              setShowReplyField={setShowReplyField}
+            />
+          ))}
+
+          {hasMoreReplies && (
+            <button
+              onClick={fetchReplies}
+              disabled={loadingReplies}
+              className="text-primary text-sm underline mt-2"
+            >
+              {loadingReplies ? "Loading..." : "Load more replies"}
+            </button>
+          )}
+        </div>
+      )}
     </div>
   );
 }

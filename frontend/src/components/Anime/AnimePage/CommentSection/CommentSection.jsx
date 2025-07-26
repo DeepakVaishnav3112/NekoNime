@@ -1,13 +1,17 @@
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { fetchComments, addComment, deleteComment } from "../../../../services/commentService";
-import Comment from "./Comment";
-import "../../../../styles/scrollbar.css";
-import { useEffect, useRef, useState } from "react";
-import Loader from "../../../Common/Loader";
 import { useAuthContext } from "../../../../context/AuthContext";
+import "../../../../styles/scrollbar.css";
+import {
+  fetchComments,
+  addComment,
+  deleteComment,
+} from "../../../../services/commentService";
+
+import Comment from "./Comment";
+import Loader from "../../../Common/Loader";
 
 export default function CommentSection({ animeId }) {
-
   const { user } = useAuthContext();
 
   const { register, handleSubmit, reset } = useForm();
@@ -15,9 +19,7 @@ export default function CommentSection({ animeId }) {
   const [commentData, setCommentData] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const [replyTo, setReplyTo] = useState(null); // holds comment object to reply to
-  const textAreaRef = useRef(null); // for focusing the textarea when replying
-
+  // Function to handle comment submission
   const onSubmit = async (data) => {
     if (!animeId) return;
     setSubmitting(true);
@@ -31,7 +33,7 @@ export default function CommentSection({ animeId }) {
         ...res.data.newComment,
         userId: {
           _id: user._id,
-          username: user.username, // If you have it in auth context
+          username: user.username,
           profilePicture: user.profilePicture,
         },
         replies: [],
@@ -49,6 +51,7 @@ export default function CommentSection({ animeId }) {
     }
   };
 
+  // Function to fetch comments for the anime
   const fetchAnimeComments = async (page) => {
     setLoading(true);
     try {
@@ -66,6 +69,7 @@ export default function CommentSection({ animeId }) {
     fetchAnimeComments(1);
   }, [animeId]);
 
+  // Function to handle comment deletion
   const handleCommentDelete = async (commentId) => {
     try {
       const res = await deleteComment(commentId);
@@ -89,6 +93,7 @@ export default function CommentSection({ animeId }) {
           Discussion (20)
         </h3>
 
+        {/* Comment input field */}
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mt-2 border border-secondary/50 rounded-md px-4 py-2">
             <textarea
@@ -108,12 +113,18 @@ export default function CommentSection({ animeId }) {
           </button>
         </form>
       </div>
+
+      {/* Show comments */}
       <div className="h-[560px] overflow-y-auto custom-scrollbar">
         {loading || !commentData?.comments ? (
           <Loader />
         ) : (
           commentData.comments.map((comment) => (
-            <Comment key={comment._id} comment={comment} handleCommentDelete={handleCommentDelete} />
+            <Comment
+              key={comment._id}
+              comment={comment}
+              handleCommentDelete={handleCommentDelete}
+            />
           ))
         )}
       </div>
