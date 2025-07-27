@@ -1,10 +1,12 @@
+import { useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
+import { useGeneralContext } from "../../../context/GeneralContext";
 import { fetchSearchResults } from "../../../services/animeService";
+
 import { FaSearch } from "react-icons/fa";
+
 import DropDown from "./DropDown";
 import SearchSuggestions from "./SearchSuggestions";
-import { useGeneralContext } from "../../../context/GeneralContext";
-import { useNavigate } from "react-router-dom";
 
 export default function SearchBar() {
   const {
@@ -49,6 +51,7 @@ export default function SearchBar() {
     return () => clearTimeout(delayDebounce);
   }, [search]);
 
+  // Close search suggestions when clicking outside
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (searchRef.current && !searchRef.current.contains(e.target)) {

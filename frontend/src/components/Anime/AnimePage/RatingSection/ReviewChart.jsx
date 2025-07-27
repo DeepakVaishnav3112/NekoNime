@@ -1,5 +1,3 @@
-import { SlArrowRight } from "react-icons/sl";
-
 const COLORS = {
   Trash: { bgColor: "bg-gray-800", textColor: "text-gray-800" },
   Mid: { bgColor: "bg-zinc-700", textColor: "text-zinc-800" },
@@ -18,13 +16,20 @@ export default function ReviewChart({ data, totalReviews }) {
       {data.map((stat, index) => (
         <div key={`stat-${index}`} className="flex gap-2">
           <div className="max-sm:w-[40%] w-[22%] flex justify-between">
-            <span className={`text-lg font-bold ${COLORS[stat.tier].textColor}`}>{stat.tier}</span>
+            {/* Review tier name */}
+            <span
+              className={`text-lg font-bold ${COLORS[stat.tier].textColor}`}
+            >
+              {stat.tier}
+            </span>
             <div className="flex items-center gap-1">
-                <span className="text-sm text-secondary/60">{stat.count}</span>
-            {/* <SlArrowRight /> */}
+              {/* Review count of a tier */}
+              <span className="text-sm text-secondary/60">{stat.count}</span>
             </div>
           </div>
+
           <div className="group relative flex-1 rounded-md bg-secondary/20">
+            {/* Tier review percentage bar */}
             <div
               className={`h-full rounded-md ${COLORS[stat.tier].bgColor}`}
               style={{
@@ -33,6 +38,8 @@ export default function ReviewChart({ data, totalReviews }) {
                 }%`,
               }}
             ></div>
+
+            {/* tier reviews percentage */}
             <div className="absolute top-0 h-full w-full bg-secondary rounded-sm items-center pl-2 text-white hidden group-hover:flex transition-all duration-200">
               {stat.count === 0
                 ? 0

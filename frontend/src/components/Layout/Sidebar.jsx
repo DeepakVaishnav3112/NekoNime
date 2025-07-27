@@ -1,14 +1,16 @@
+import { useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { logout } from "../../services/authService";
 import { useAuthContext } from "../../context/AuthContext";
 import { useGeneralContext } from "../../context/GeneralContext";
+
+import { FaEdit } from "react-icons/fa";
 import { TbLogout } from "react-icons/tb";
-import { logout } from "../../services/authService";
-import { useRef, useEffect } from "react";
 import { CiBoxList } from "react-icons/ci";
 import { MdOutlineSettings } from "react-icons/md";
 import { MdOutlineAccountCircle } from "react-icons/md";
+
 import SidebarBtn from "./SidebarBtn";
-import { FaEdit } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
 
 export default function Sidebar({ accountBtnRef }) {
   const { showSideBar, setShowSideBar } = useGeneralContext();
@@ -17,6 +19,7 @@ export default function Sidebar({ accountBtnRef }) {
 
   const sidebarRef = useRef(null);
 
+  // Close sidebar when clicking outside
   useEffect(() => {
     let timeOutId;
     const handleClickOutside = (e) => {
@@ -60,6 +63,7 @@ export default function Sidebar({ accountBtnRef }) {
         showSideBar ? "block" : "hidden"
       }`}
     >
+      {/* User pfp, username and email */}
       {user && (
         <div className="flex flex-col items-center gap-1 p-4 rounded-t-md">
           <div
@@ -82,6 +86,7 @@ export default function Sidebar({ accountBtnRef }) {
         </div>
       )}
 
+      {/* Sidebar buttons */}
       <SidebarBtn
         Icon={MdOutlineAccountCircle}
         label="Profile"

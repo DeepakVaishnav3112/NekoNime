@@ -1,11 +1,11 @@
-import { useParams } from "react-router-dom";
-import Characters from "./AnimeTabs/CharacterTab/Characters";
-import MusicTab from "./AnimeTabs/MusicTab";
-import Previews from "./AnimeTabs/Previews";
-import StaffTab from "./AnimeTabs/StaffTab/StaffTab";
-import ReviewsTab from "./AnimeTabs/ReviewsTab";
-import MoreInfoTab from "./AnimeTabs/MoreInfoTab/MoreInfoTab";
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+
+import Previews from "./AnimeTabs/Previews";
+import MusicTab from "./AnimeTabs/MusicTab";
+import StaffTab from "./AnimeTabs/StaffTab/StaffTab";
+import Characters from "./AnimeTabs/CharacterTab/Characters";
+import MoreInfoTab from "./AnimeTabs/MoreInfoTab/MoreInfoTab";
 
 export default function AnimeTabs({ selectedTab, handleTabChange, idMal }) {
   const animeId = parseInt(useParams().id);
@@ -44,7 +44,6 @@ export default function AnimeTabs({ selectedTab, handleTabChange, idMal }) {
           "Previews",
           "Music",
           "Staff",
-          "Reviews",
           "More Info",
         ].map((tab) => (
           <button
@@ -108,12 +107,6 @@ export default function AnimeTabs({ selectedTab, handleTabChange, idMal }) {
               loading={loadingStaff}
               setLoading={setLoadingStaff}
             />
-          </div>
-        )}
-
-        {visitedTabs.includes("Reviews") && (
-          <div className={selectedTab === "Reviews" ? "block" : "hidden"}>
-            <ReviewsTab />
           </div>
         )}
 

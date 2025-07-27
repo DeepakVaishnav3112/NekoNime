@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from "react";
 import axios from "axios";
+import { useEffect, useRef, useState } from "react";
 import { fetchAnimeMusic } from "../../../../services/animeService";
-import SharedTabContainer from "./Common/SharedTabContainer";
+
 import Loader from "../../../Common/Loader";
+import SharedTabContainer from "./Common/SharedTabContainer";
 
 export default function MusicTab({
   idMal,
@@ -12,7 +13,6 @@ export default function MusicTab({
   setEndings,
 }) {
   const [loading, setLoading] = useState(true);
-  // console.log(idMal);
 
   const hasFetched = useRef(false);
 
@@ -31,7 +31,7 @@ export default function MusicTab({
         const openingTitles = data?.openings || [];
         const endingTitles = data?.endings || [];
 
-        // To fetch YouTube videos for title
+        // Function to fetch YouTube videos for title
         const fetchYouTubeVideo = async (title) => {
           try {
             const res = await fetchAnimeMusic(title);
@@ -51,6 +51,7 @@ export default function MusicTab({
           endingTitles.map((title) => fetchYouTubeVideo(title))
         );
 
+        // Set the openings and endings state with titles and video IDs
         setOpenings(
           openingTitles.map((title, idx) => ({
             title,

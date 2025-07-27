@@ -1,6 +1,7 @@
-import { useEffect, useRef, useState } from "react";
-import { IoIosArrowDown } from "react-icons/io";
 import "../../../../../styles/scrollbar.css";
+import { useEffect, useRef, useState } from "react";
+
+import { IoIosArrowDown } from "react-icons/io";
 
 export default function DropDownMenu({
   options = [],
@@ -15,6 +16,7 @@ export default function DropDownMenu({
   const buttonRef = useRef(null);
   const dropdownRef = useRef(null);
 
+  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (
@@ -40,6 +42,7 @@ export default function DropDownMenu({
     setShowDropdown((prev) => !prev);
   };
 
+  // Calculate the position of the dropdown based on available space
   const calculateDropdownPosition = () => {
     const rect = buttonRef.current.getBoundingClientRect();
     const dropdownHeight = 160;

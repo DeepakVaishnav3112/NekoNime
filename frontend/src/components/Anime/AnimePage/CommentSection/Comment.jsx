@@ -1,8 +1,5 @@
 import { useState } from "react";
 import { FaHeart } from "react-icons/fa";
-import { MdDelete, MdInsertComment } from "react-icons/md";
-import { GoDotFill } from "react-icons/go";
-import { FaRegHeart } from "react-icons/fa";
 import { formatDate } from "../../../../utils/dateUtils";
 import { useAuthContext } from "../../../../context/AuthContext";
 import { deleteReply } from "../../../../services/commentService";
@@ -10,6 +7,10 @@ import {
   getReplies,
   toggleLikeComment,
 } from "../../../../services/commentService";
+
+import { GoDotFill } from "react-icons/go";
+import { FaRegHeart } from "react-icons/fa";
+import { MdDelete, MdInsertComment } from "react-icons/md";
 
 import Reply from "./Reply";
 import AddReplyField from "./AddReplyField";
@@ -27,7 +28,7 @@ export default function Comment({ comment, handleCommentDelete }) {
   const [likes, setLikes] = useState(comment.likes || []);
   const [showReplyField, setShowReplyField] = useState(false);
 
-  const isLiked = likes.includes(user._id);
+  const isLiked = user?._id && likes.includes(user._id);
 
   // Function to fetch replies for the comment
   const fetchReplies = async () => {
@@ -103,12 +104,12 @@ export default function Comment({ comment, handleCommentDelete }) {
           </span>
         </div>
 
-        {/* Delete button */}
         <div className="flex gap-4 text-secondary">
+        {/* Delete button */}
           {comment?.userId?._id?.toString() === user?._id.toString() && (
             <CommentActionBtn
               Icon={MdDelete}
-              style="text-xl"
+              style="text-xl cursor-pointer hover:text-red-500 hover:scale-110 transition-all duration-200"
               onClick={() => handleCommentDelete(comment._id)}
             />
           )}

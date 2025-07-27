@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import "../../styles/scrollbar.css"
+import { useMemo, useEffect, useState } from "react";
+import { ListFilterSection } from "./ListFilterSection";
 import { defaultListSections } from "../../utils/sections";
 import { getDefaultListEntries } from "../../services/listService";
+
 import ListEntryCard from "./ListEntryCard";
-import { useMemo } from "react";
 import ListEntryCardSkeleton from "../Loaders/ListEntryCardSkeleton";
-import { ListFilterSection } from "./ListFilterSection";
-import "../../styles/scrollbar.css"
 
 export default function Watchlists() {
   const [selectedDefaulList, setSelectedDefaultList] = useState("completed");
@@ -27,7 +27,6 @@ export default function Watchlists() {
       try {
         const res = await getDefaultListEntries(selectedDefaulList);
         setEntries(res.data.listEntries || []);
-        // console.log(res.data);
       } catch (err) {
         console.error("Failed to fetch list entries:", err);
         setEntries([]);
@@ -39,6 +38,7 @@ export default function Watchlists() {
     fetchListEntries();
   }, [selectedDefaulList]);
 
+  // Handle removal of entries
   const handleRemove = (removeId, success) => {
     setRemovingIds((prev) => prev.filter((id) => id !== removeId));
     if (success) {
@@ -46,6 +46,7 @@ export default function Watchlists() {
     }
   };
 
+  // Filter and sort entries based on user input
   const filteredEntries = useMemo(() => {
     return entries
       .filter((anime) =>

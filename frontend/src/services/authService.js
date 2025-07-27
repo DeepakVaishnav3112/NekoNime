@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:3000/api/auth";
+const BASE_URL = `${import.meta.env.VITE_BACKEND_URL}/api/auth`;
 
 export const signup = (userData) => {
   return axios.post(`${BASE_URL}/signup`, userData, {

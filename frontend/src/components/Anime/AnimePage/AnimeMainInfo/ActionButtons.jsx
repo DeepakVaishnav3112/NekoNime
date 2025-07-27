@@ -1,8 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { IoIosArrowDown } from "react-icons/io";
-import { LuPlus } from "react-icons/lu";
-import CircleButton from "../../../Common/CircleButton";
-import { IoShareSocial } from "react-icons/io5";
+import { infiniteRetry } from "../../../../utils/retry";
 import { useAuthContext } from "../../../../context/AuthContext";
 import { useGeneralContext } from "../../../../context/GeneralContext";
 import {
@@ -10,9 +7,14 @@ import {
   getAnimeListStatus,
   removeFromDefaultList,
 } from "../../../../services/listService";
+
+import { LuPlus } from "react-icons/lu";
 import { FaCheck } from "react-icons/fa";
+import { IoIosArrowDown } from "react-icons/io";
+import { IoShareSocial } from "react-icons/io5";
+
 import Loader from "../../../Common/Loader";
-import { infiniteRetry } from "../../../../utils/retry";
+import CircleButton from "../../../Common/CircleButton";
 
 export default function ActionButtons({ animeDetails }) {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -26,6 +28,7 @@ export default function ActionButtons({ animeDetails }) {
   const buttonRef = useRef(null);
   const dropdownRef = useRef(null);
 
+  // Fetch current list status
   useEffect(() => {
     const checkCurrentList = async () => {
       if (!authChecked || !user) return;

@@ -8,9 +8,11 @@ export default function AnimeInfoHeader({
   return (
     <>
       <div className={`${!isBig && "max-xs:flex max-xs:flex-col max-xs:justify-start max-xs:gap-1"}`}>
+        {/* Anime Title */}
         <h1 className={`text-primary ${!isBig ? "max-xs:text-sm text-xl xl:text-2xl font-bold leading-5" : "text-xl md:text-4xl font-semibold text-shadow-2xs"}`}>
           {animeDetails.title.english || animeDetails.title.romaji}
         </h1>
+        {/* Anime alt title */}
         <span className="max-xs:text-[8px] text-[10px] sm:text-xs text-primary-hover-bg">
           {animeDetails.title.english === animeDetails.title.romaji
             ? ""

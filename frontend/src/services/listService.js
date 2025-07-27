@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:3000/api/lists";
+const BASE_URL = `${import.meta.env.VITE_BACKEND_URL}/api/lists`;
 
 export const addToDefaultList = async ({ animeDetails, listTitle }) => {
   const payload = {

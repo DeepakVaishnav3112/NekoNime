@@ -1,4 +1,5 @@
 import TabHeader from "./TabHeader";
+
 import "../../../../../styles/scrollbar.css";
 import { useEffect, useRef, useState } from "react";
 
@@ -11,11 +12,14 @@ export default function SharedTabContainer({
   children,
   isHeight = true,
   blendPosition = true,
+  marginBottom = false,
+  marginTop = false,
 }) {
   const scrollRef = useRef(null);
   const [showTopBlend, setShowTopBlend] = useState(false);
   const [showBottomBlend, setShowBottomBlend] = useState(true);
 
+  // Function to update the visibility of the blend effects based on scroll position
   const updateBlendVisibility = () => {
     const el = scrollRef.current;
     if (!el) return;
@@ -25,6 +29,7 @@ export default function SharedTabContainer({
     setShowBottomBlend(scrollTop + clientHeight < scrollHeight - 1);
   };
 
+  // Effect to handle scroll and resize events for blend visibility
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
@@ -42,7 +47,7 @@ export default function SharedTabContainer({
   }, []);
 
   return (
-    <div className="relative group h-fit break-inside-avoid">
+    <div className={`relative group h-fit break-inside-avoid ${marginBottom && "mb-5"} ${marginTop && "mt-5"}`}>
       <TabHeader
         heading={heading}
         showBtn={showBtn}

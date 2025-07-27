@@ -1,5 +1,4 @@
 const axios = require("axios");
-const { getCache, setCache } = require("../services/cacheService.js");
 const YoutubeCache = require("../models/YoutubeCache.js");
 
 const YOUTUBE_API_URL = "https://www.googleapis.com/youtube/v3/search";
@@ -15,7 +14,7 @@ exports.searchYoutube = async (req, res) => {
   console.log(`🔍 Searching YouTube for: ${query}`);
 
   try {
-    // Check MongoDB cache first
+    // Check if exist in MongoDB first
     const cached = await YoutubeCache.findOne({
       query: query.trim().toLowerCase(),
     });
@@ -25,7 +24,7 @@ exports.searchYoutube = async (req, res) => {
       return res.json(cached.noResult ? null : cached.videoId);
     }
 
-    // Not in DB, fetch from YouTube
+    // Not in MongoDB, fetch from YouTube
     const ytRes = await axios.get(YOUTUBE_API_URL, {
       params: {
         part: "snippet",

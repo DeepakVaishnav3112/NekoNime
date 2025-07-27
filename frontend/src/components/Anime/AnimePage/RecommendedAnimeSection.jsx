@@ -1,6 +1,6 @@
+import AnimeSuggestionCard from "../../Common/AnimeSuggestionCard";
 import SharedTabContainer from "./AnimeTabs/Common/SharedTabContainer";
 import HorizontalScrollSection from "../../Common/HorizontalScrollSection";
-import AnimeSuggestionCard from "../../Common/AnimeSuggestionCard";
 
 export default function RecommendedAnimeSection({
   animeTitle,

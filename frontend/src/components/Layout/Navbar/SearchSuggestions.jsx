@@ -1,8 +1,9 @@
+import { useNavigate } from "react-router-dom";
 import { MdKeyboardArrowRight } from "react-icons/md";
-import Loader from "../../Common/Loader";
 import { formatAnimeDate } from "../../../utils/dateUtils";
 import { useGeneralContext } from "../../../context/GeneralContext";
-import { useNavigate } from "react-router-dom";
+
+import Loader from "../../Common/Loader";
 
 export default function SearchSuggestions({
   search,
@@ -21,6 +22,7 @@ export default function SearchSuggestions({
       ) : (
         <>
           {searchResults.list.slice(0, 6).map((anime, index) => (
+            // Search Result Item
             <div
               key={index}
               className={`flex gap-2 p-2 border-b-2 border-primary-hover-bg hover:bg-secondary transition cursor-pointer w-full ${

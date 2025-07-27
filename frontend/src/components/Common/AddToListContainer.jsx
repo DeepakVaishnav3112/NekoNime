@@ -1,17 +1,17 @@
 import { FaCheck } from "react-icons/fa";
+import { listOptions } from "../../utils/sections";
+import { useEffect, useRef, useState } from "react";
 import { IoIosArrowDroprightCircle } from "react-icons/io";
 import { useListContext } from "../../context/listContext";
-import { useEffect, useRef, useState } from "react";
 import { useAuthContext } from "../../context/AuthContext";
-import { infiniteRetry } from "../../utils/retry";
+import { useGeneralContext } from "../../context/GeneralContext";
+import { removeFromDefaultList } from "../../services/listService";
 import {
   addToDefaultList,
   getAnimeListStatus,
 } from "../../services/listService";
-import { removeFromDefaultList } from "../../services/listService";
-import { useGeneralContext } from "../../context/GeneralContext";
+
 import Loader from "./Loader";
-import { listOptions } from "../../utils/sections";
 
 export default function AddToListContainer() {
   const { showListContainer, setShowListContainer, animeDetails } =
@@ -27,6 +27,7 @@ export default function AddToListContainer() {
 
   const containerRef = useRef(null);
 
+  // Fetch current list status when component mounts or animeDetails changes
   useEffect(() => {
     const checkCurrentList = async () => {
       if (!authChecked || !user) return;
@@ -77,6 +78,7 @@ export default function AddToListContainer() {
     }
   };
 
+  // Handle click outside to close the container
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (containerRef.current && !containerRef.current.contains(e.target)) {

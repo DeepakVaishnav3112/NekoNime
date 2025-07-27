@@ -24,12 +24,14 @@ export default function HorizontalScrollSection({ children }) {
 
   return (
     <div className="relative">
+      {/* Horizontal Scroll Content Section */}
       <div
         ref={scrollRef}
         className="snap-x snap-mandatory flex gap-2 mt-1 overflow-x-auto custom-scrollbar scrollbar-hide pb-2"
       >
         {children}
       </div>
+
       {/* Scroll Blends */}
       <div
         className={`absolute top-0 left-0 w-10 h-full bg-gradient-to-r from-white to-transparent z-10 transition-opacity duration-300 pointer-events-none ${
@@ -42,7 +44,7 @@ export default function HorizontalScrollSection({ children }) {
         }`}
       />
 
-      {/* Arrows */}
+      {/* Left and Right Scroll Buttons */}
       <div
         className={`absolute top-1/2 left-0 transform -translate-y-[100%] translate-x-[100%] z-20 bg-primary p-2 rounded-full text-white text-2xl cursor-pointer hover:bg-secondary hover:scale-120 transition-all duration-200 ${
           showLeftBlend ? "opacity-100" : "opacity-0"

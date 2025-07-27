@@ -1,9 +1,10 @@
 import { useEffect } from "react";
 import { fetchAnimeMoreInfo } from "../../../../../services/animeService";
-import Loader from "../../../../Common/Loader";
+
 import InfoItem from "./InfoItem";
-import SharedTabContainer from "../Common/SharedTabContainer";
+import Loader from "../../../../Common/Loader";
 import InfoItemContainer from "./InfoItemContainer";
+import SharedTabContainer from "../Common/SharedTabContainer";
 
 export default function MoreInfoTab({
   animeId,
@@ -34,16 +35,12 @@ export default function MoreInfoTab({
     startDate,
     endDate,
     nextAiringEpisode,
-    favourites,
     studios,
     rankings,
     tags,
     externalLinks,
-    hashtag,
-    siteUrl,
     isAdult,
     countryOfOrigin,
-    updatedAt,
   } = moreInfo;
 
   const formatDate = (date) => {

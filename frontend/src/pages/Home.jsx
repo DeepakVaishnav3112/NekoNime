@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
+import { useGeneralContext } from "../context/GeneralContext";
+import { SECTION_TYPES } from "../utils/sections";
+
 import useAnimeData from "../hooks/useAnimeData";
 import AnimeSection from "../components/Anime/AnimeSection";
 import AnimeList from "../components/Anime/AnimeList";
-import { useGeneralContext } from "../context/GeneralContext";
-import { SECTION_TYPES } from "../utils/sections";
 import AnimeCarousel from "../components/Common/AnimeCarousel";
 import CarouselSkeleton from "../components/Loaders/CarouselSkeleton";
+import TrendingData from "../components/Layout/TrendingData";
 
 export default function Home() {
-  const { viewAllSection, setViewAllSection } = useGeneralContext();
+  const { viewAllSection } = useGeneralContext();
   const {
     sesaonTopRated,
     trending,
@@ -53,8 +55,6 @@ export default function Home() {
     return () => window.removeEventListener("resize", updateCardCounter);
   }, []);
 
-  // console.log(sesaonTopRated);
-
   return (
     <div>
       {!sesaonTopRated || loadingSesaonTopRated ? (
@@ -68,14 +68,7 @@ export default function Home() {
           sesaonTopRated && "lg:mt-[-140px] z-40"
         }`}
       >
-        <div className="sticky top-22 hidden lg:flex gap-4 flex-col sm:flex-row lg:flex-col m-1 lg:w-1/3 2xl:w-1/4 h-fit px-1 sm:px-2">
-          <div className="flex-1 w-full border-2 border-primary text-primary p-4 rounded-md">
-            <h2 className="text-md font-bold">YOUR LISTS</h2>
-          </div>
-          <div className="flex-1 w-full bg-primary p-4 rounded-md">
-            <h2 className="text-md font-bold text-white">YOUR LISTS</h2>
-          </div>
-        </div>
+        <TrendingData style="sticky top-22 hidden lg:flex gap-4 flex-col sm:flex-row lg:flex-col m-1 lg:w-1/3 2xl:w-1/4 h-fit px-1 sm:px-2" />
 
         <div className="lg:m-auto px-1 sm:px-2 py-2 sm:py-4 lg:mt-[-20px]">
           {viewAllSection === SECTION_TYPES.TRENDING ? (
@@ -126,14 +119,7 @@ export default function Home() {
           )}
         </div>
 
-        <div className="flex gap-4 flex-col sm:flex-row lg:flex-col m-1 lg:w-1/3 lg:hidden">
-          <div className="flex-1 w-full border-2 border-primary text-primary p-4 rounded-md">
-            <h2 className="text-md font-bold">YOUR LISTS</h2>
-          </div>
-          <div className="flex-1 w-full bg-primary p-4 rounded-md">
-            <h2 className="text-md font-bold text-white">YOUR LISTS</h2>
-          </div>
-        </div>
+        <TrendingData style="flex gap-4 flex-col sm:flex-row lg:flex-col m-1 lg:w-1/3 lg:hidden" />
       </div>
     </div>
   );

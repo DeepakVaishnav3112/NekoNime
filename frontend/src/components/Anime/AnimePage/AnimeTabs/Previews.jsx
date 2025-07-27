@@ -1,5 +1,6 @@
-import { useEffect } from "react";
 import axios from "axios";
+import { useEffect } from "react";
+
 import Loader from "../../../Common/Loader";
 import SharedTabContainer from "./Common/SharedTabContainer";
 
@@ -11,14 +12,13 @@ export default function Previews({
   setLoading,
 }) {
   const promoAndImagesAPI = `https://api.jikan.moe/v4/anime/${idMal}/videos`;
-  // console.log(idMal)
 
+  // Fetch promo videos and images for the anime
   useEffect(() => {
     const loadAnimePromoAndImages = async () => {
       try {
         setLoading(true);
         const res = await axios.get(promoAndImagesAPI);
-        // console.log(res.data.data);
         setPreviews(res.data.data);
       } catch (error) {
         console.log("Error fetching images: ", error);

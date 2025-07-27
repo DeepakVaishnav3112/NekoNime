@@ -1,5 +1,5 @@
-import AnimeCardSkeleton from "../Loaders/AnimeCardSkeleton";
 import AnimeCard from "./AnimeCard";
+import AnimeCardSkeleton from "../Loaders/AnimeCardSkeleton";
 
 export default function AnimeGrid({ animeList, visibleCards, loading }) {
   return (

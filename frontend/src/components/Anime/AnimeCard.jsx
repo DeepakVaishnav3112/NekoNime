@@ -1,14 +1,14 @@
-import { FaStar } from "react-icons/fa";
-import { BsFillBookmarkPlusFill } from "react-icons/bs";
-import { FaShare } from "react-icons/fa";
-import { FaPlay } from "react-icons/fa";
-import { genreColorsMap, genreTextColorsMap } from "../../utils/formatColors";
 import { useState } from "react";
-import GenreTag from "../Common/GenreTag";
-import { formatAnimeDate } from "../../utils/dateUtils";
-import CircleButton from "../Common/CircleButton";
 import { Link } from "react-router-dom";
+import { formatAnimeDate } from "../../utils/dateUtils";
 import { useListContext } from "../../context/listContext";
+import { genreColorsMap, genreTextColorsMap } from "../../utils/formatColors";
+
+import { BsFillBookmarkPlusFill } from "react-icons/bs";
+import { FaShare, FaPlay, FaStar } from "react-icons/fa";
+
+import GenreTag from "../Common/GenreTag";
+import CircleButton from "../Common/CircleButton";
 
 export default function AnimeCard({ anime }) {
   const { showListContainer, setShowListContainer, setAnimeDetails } =

@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { fetchSearchResults } from "../services/animeService";
-import AnimeList from "../components/Anime/AnimeList";
 import { useGeneralContext } from "../context/GeneralContext";
+
+import AnimeList from "../components/Anime/AnimeList";
 
 export default function Search() {
   const { searchAnimeList } = useGeneralContext();
@@ -18,6 +19,7 @@ export default function Search() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    // Function to load anime based on search query and page
     const loadAnime = async () => {
       if (!searchQuery) {
         return navigate("/");
@@ -47,15 +49,15 @@ export default function Search() {
 
   return (
     <div className="mt-4">
-    <AnimeList
-      title={searchQuery && `SEARCH RESULT FOR ${searchQuery.toUpperCase()}`}
-      animeList={
-        (searchAnimeList?.list?.length > 0 && searchAnimeList) || animeData
-      }
-      loading={loading}
-      page={page}
-      setPage={setPage}
-    />
+      <AnimeList
+        title={searchQuery && `SEARCH RESULT FOR ${searchQuery.toUpperCase()}`}
+        animeList={
+          (searchAnimeList?.list?.length > 0 && searchAnimeList) || animeData
+        }
+        loading={loading}
+        page={page}
+        setPage={setPage}
+      />
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import UserReview from "./UserReview";
 import { fetchAnimeReviewData } from "../../../../services/reviewServices";
+
+import UserReview from "./UserReview";
 import ReviewChart from "./ReviewChart";
 
 export default function ReviewSection({ animeId }) {
@@ -9,11 +10,11 @@ export default function ReviewSection({ animeId }) {
   const [reviewStats, setReviewStats] = useState(null);
   const [isupdating, setIsUpdating] = useState(false);
 
+  // Function to fetch review data
   const getAnimeReviewData = async () => {
     setIsUpdating(true);
     try {
       const res = await fetchAnimeReviewData(animeId);
-      // console.log(res.data);
       setSelectedTier(res.data.tier);
       setTotalReviews(res.data.totalReviews);
       setReviewStats(res.data.reviewData);
@@ -29,7 +30,7 @@ export default function ReviewSection({ animeId }) {
   }, [animeId]);
 
   return (
-    <div className="mt-2">
+    <div className="mt-2 max-lg:mt-5">
       {/* Rating Section Heading */}
       <h3 className="flex items-center gap-2">
         <div className="flex gap-[2px]">
@@ -44,10 +45,12 @@ export default function ReviewSection({ animeId }) {
         </div>
       </h3>
 
+      {/* Review stats bar chart */}
       {reviewStats && (
         <ReviewChart data={reviewStats} totalReviews={totalReviews} />
       )}
 
+      {/* User Review Section */}
       <UserReview
         animeId={animeId}
         selectedTier={selectedTier}

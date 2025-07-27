@@ -1,8 +1,9 @@
-import { MdKeyboardArrowRight, MdKeyboardArrowLeft } from "react-icons/md";
-import AnimeCard from "../Anime/AnimeCard";
-import { useGeneralContext } from "../../context/GeneralContext";
-import { SECTION_TYPES } from "../../utils/sections";
 import { useEffect } from "react";
+import { SECTION_TYPES } from "../../utils/sections";
+import { useGeneralContext } from "../../context/GeneralContext";
+import { MdKeyboardArrowRight, MdKeyboardArrowLeft } from "react-icons/md";
+
+import AnimeCard from "../Anime/AnimeCard";
 import AnimeCardSkeleton from "../Loaders/AnimeCardSkeleton";
 
 export default function AnimeList({

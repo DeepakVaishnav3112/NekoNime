@@ -1,8 +1,9 @@
+import { animeGenres } from "../../utils/genres";
+import { useListContext } from "../../context/listContext";
+
+import { GoPlus } from "react-icons/go";
 import { FaSearch } from "react-icons/fa";
 import { FaArrowRightLong } from "react-icons/fa6";
-import { animeGenres } from "../../utils/genres";
-import { GoPlus } from "react-icons/go";
-import { useListContext } from "../../context/listContext";
 
 export function ListFilterSection({
   searchTerm,

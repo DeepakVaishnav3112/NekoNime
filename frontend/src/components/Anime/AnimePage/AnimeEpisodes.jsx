@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
 import axios from "axios";
+import "../../../styles/scrollbar.css";
+import { useEffect, useState } from "react";
+
 import { GoDotFill } from "react-icons/go";
+
 import Loader from "../../Common/Loader";
 import SharedTabContainer from "./AnimeTabs/Common/SharedTabContainer";
-import "../../../styles/scrollbar.css";
 
 const GET_EPISODES_API = (idMal, page) =>
   `https://api.jikan.moe/v4/anime/${idMal}/episodes?page=${page}`;
@@ -16,6 +18,7 @@ const LegendItem = ({ color, label }) => (
   </div>
 );
 
+// Displays the legend for Filler, Recap, and Filler + Recap episodes
 const EpisodeLegend = () => (
   <div className="flex items-center gap-2 mr-2">
     <LegendItem color="text-yellow-500" label="Filler" />
@@ -31,9 +34,9 @@ const getEpisodeStyle = ({ filler, recap }) => {
   return "bg-primary text-white hover:bg-secondary";
 };
 
-// Component for the episode card show full details if isCompact is false otherwise show only the episode number
 const EpisodeCard = ({ episode, isCompact }) => {
   return isCompact ? (
+    // Compact view shows only the episode number
     <div
       title={episode.title}
       className={`${getEpisodeStyle(
@@ -43,6 +46,7 @@ const EpisodeCard = ({ episode, isCompact }) => {
       <span>{episode.mal_id}</span>
     </div>
   ) : (
+    // Full view shows episode number, title, and romanji title
     <div
       title={episode.title}
       className="flex gap-4 text-sm font-semibold text-center bg-secondary border-e-4 border-primary text-white cursor-pointer transition duration-200"
@@ -121,59 +125,62 @@ export default function AnimeEpisodes({ idMal, animeTitle }) {
 
   const isCompact = pages > 1;
 
-  return episodes?.length > 0 && (
-    <SharedTabContainer
-      heading={
-        <>
-          Episodes of{" "}
-          <span className="text-primary-hover-text font-medium">
-            {animeTitle}
-          </span>
-        </>
-      }
-      showBtn={isCompact}
-      dropDownOptions={episodeRanges}
-      selectedOption={selectedRange}
-      setSelectedOption={setSelectedRange}
-    >
-      <div className="py-2 rounded-b-md">
-        {/* Episode Legend */}
-        <div className="flex flex-col sm:flex-row justify-between sm:items-center">
-          <span className="text-sm text-secondary ml-2">
-            {isCompact ? (
-              <>
-                Episodes in range: <strong>{selectedRange}</strong>
-              </>
-            ) : (
-              <>
-                Episodes: <strong>{`1-${episodes?.length}`}</strong>
-              </>
-            )}
-          </span>
-          {isCompact && <EpisodeLegend />}
-        </div>
-
-        {/* Episode List */}
-        {loading ? (
-          <Loader />
-        ) : (
-          <div
-            className={`grid ${
-              isCompact
-                ? "grid-cols-5 xs:grid-cols-8 sm:grid-cols-10"
-                : "grid-cols-1 md:grid-cols-2 lg:grid-cols-1 2xl:grid-cols-2"
-            } gap-2 mt-2`}
-          >
-            {episodes.map((episode) => (
-              <EpisodeCard
-                key={episode.mal_id}
-                episode={episode}
-                isCompact={isCompact}
-              />
-            ))}
+  return (
+    episodes?.length > 0 && (
+      <SharedTabContainer
+        heading={
+          <>
+            Episodes of{" "}
+            <span className="text-primary-hover-text font-medium">
+              {animeTitle}
+            </span>
+          </>
+        }
+        showBtn={isCompact}
+        dropDownOptions={episodeRanges}
+        selectedOption={selectedRange}
+        setSelectedOption={setSelectedRange}
+        marginBottom={true}
+      >
+        <div className="py-2 rounded-b-md">
+          {/* Episode Legend */}
+          <div className="flex flex-col sm:flex-row justify-between sm:items-center">
+            <span className="text-sm text-secondary ml-2">
+              {isCompact ? (
+                <>
+                  Episodes in range: <strong>{selectedRange}</strong>
+                </>
+              ) : (
+                <>
+                  Episodes: <strong>{`1-${episodes?.length}`}</strong>
+                </>
+              )}
+            </span>
+            {isCompact && <EpisodeLegend />}
           </div>
-        )}
-      </div>
-    </SharedTabContainer>
+
+          {/* Episode List */}
+          {loading ? (
+            <Loader />
+          ) : (
+            <div
+              className={`grid ${
+                isCompact
+                  ? "grid-cols-5 xs:grid-cols-8 sm:grid-cols-10"
+                  : "grid-cols-1 md:grid-cols-2 lg:grid-cols-1 2xl:grid-cols-2"
+              } gap-2 mt-2`}
+            >
+              {episodes.map((episode) => (
+                <EpisodeCard
+                  key={episode.mal_id}
+                  episode={episode}
+                  isCompact={isCompact}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+      </SharedTabContainer>
+    )
   );
 }

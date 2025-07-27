@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { fetchAnimeStaff } from "../../../../../services/animeService";
+
 import Loader from "../../../../Common/Loader";
-import SharedTabContainer from "../Common/SharedTabContainer";
 import StaffMemberCard from "./StaffMemberCard";
+import SharedTabContainer from "../Common/SharedTabContainer";
 
 export default function StaffTab({
   animeId,
@@ -21,7 +22,6 @@ export default function StaffTab({
       const newStaff = res.data.staff;
       const pageInfo = res.data.pageInfo;
 
-      // console.log(newStaff);
       setStaff((prev) => {
         const all = [...(prev || []), ...newStaff];
         const seen = new Set();
@@ -40,6 +40,7 @@ export default function StaffTab({
     }
   };
 
+  // Load staff data when animeId changes or when the component mounts
   useEffect(() => {
     if (!animeId || staff.length > 0) return;
     setStaff([]);
@@ -48,6 +49,7 @@ export default function StaffTab({
     loadStaffData(1);
   }, [animeId]);
 
+  // Load more staff data when the page changes
   useEffect(() => {
     if (page > 1) {
       loadStaffData(page);

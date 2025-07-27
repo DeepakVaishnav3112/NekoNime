@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import AnimeList from "../components/Anime/AnimeList";
 import { fetchAnime } from "../services/animeService";
 import { useNavigate, useSearchParams } from "react-router-dom";
+
+import AnimeList from "../components/Anime/AnimeList";
 
 export default function Browse() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -16,6 +17,7 @@ export default function Browse() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    // Function to load anime based on genre and page
     const loadAnime = async () => {
       if (!genre) {
         return navigate("/");

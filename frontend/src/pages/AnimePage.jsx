@@ -26,7 +26,6 @@ export default function AnimePage() {
       try {
         setLoading(true);
         const res = await fetchAnimeDetails(animeId);
-        // console.log(res.data);
         setAnimeDetails(res.data);
       } catch (error) {
         console.log("Error fetching anime details: ", error);
@@ -58,7 +57,9 @@ export default function AnimePage() {
     return <Loader />;
   }
 
-  // console.log(animeDetails);
+  const commentSectionMarginTop =
+    (animeDetails.episodes || animeDetails.status === "RELEASING") &&
+    animeDetails.format !== "MOVIE";
 
   return (
     <div>
@@ -91,7 +92,7 @@ export default function AnimePage() {
       </div>
 
       {/* Anime Episodes */}
-      <div className="columns-1 lg:columns-2 gap-4 p-4">
+      <div className="columns-1 lg:columns-2 gap-4 p-4 mt-5">
         {(animeDetails.status === "RELEASING" || animeDetails.episodes) &&
           animeDetails.format !== "MOVIE" && (
             <AnimeEpisodes
@@ -102,9 +103,13 @@ export default function AnimePage() {
             />
           )}
 
-        <CommentSection animeId={animeDetails.id} />
+        {/* Comment Section */}
+        <CommentSection
+          animeId={animeDetails.id}
+          commentSectionMarginTop={commentSectionMarginTop}
+        />
 
-        <div className="break-inside-avoid">
+        <div className="break-inside-avoid max-lg:mt-5">
           {/* Related Anime like mpvies and next or previous seasons */}
           {animeDetails.relations?.edges?.length > 0 && (
             <RelatedAnimeSection
@@ -125,7 +130,7 @@ export default function AnimePage() {
             />
           )}
 
-          {/* Rating Section */}
+          {/* Review Section */}
           <ReviewSection animeId={animeDetails.id} />
         </div>
       </div>

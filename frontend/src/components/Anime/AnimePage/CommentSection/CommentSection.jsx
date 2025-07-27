@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useAuthContext } from "../../../../context/AuthContext";
 import "../../../../styles/scrollbar.css";
+import { useAuthContext } from "../../../../context/AuthContext";
 import {
   fetchComments,
   addComment,
@@ -11,7 +11,7 @@ import {
 import Comment from "./Comment";
 import Loader from "../../../Common/Loader";
 
-export default function CommentSection({ animeId }) {
+export default function CommentSection({ animeId, commentSectionMarginTop }) {
   const { user } = useAuthContext();
 
   const { register, handleSubmit, reset } = useForm();
@@ -25,7 +25,6 @@ export default function CommentSection({ animeId }) {
     setSubmitting(true);
     try {
       const res = await addComment(animeId, data.comment);
-      console.log(res.data);
       reset();
 
       // Optimistically add new comment to state
@@ -56,7 +55,6 @@ export default function CommentSection({ animeId }) {
     setLoading(true);
     try {
       const res = await fetchComments(animeId, page);
-      console.log(res.data);
       setCommentData(res.data);
     } catch (error) {
       console.error("Error fetching comments!", error);
@@ -73,7 +71,6 @@ export default function CommentSection({ animeId }) {
   const handleCommentDelete = async (commentId) => {
     try {
       const res = await deleteComment(commentId);
-      console.log("Comment deleted successfully");
 
       // Update state to remove the deleted comment
       setCommentData((prev) => ({
@@ -87,7 +84,7 @@ export default function CommentSection({ animeId }) {
   };
 
   return (
-    <div className="break-inside-avoid mt-5">
+    <div className="break-inside-avoid">
       <div className="mb-5">
         <h3 className="text-2xl font-bold text-secondary pb-2 border-b-3 border-primary">
           Discussion (20)
@@ -107,9 +104,9 @@ export default function CommentSection({ animeId }) {
           <button
             type="submit"
             disabled={submitting}
-            className="bg-primary mt-2 px-4 py-2 rounded-md text-sm font-medium text-white"
+            className="bg-primary mt-2 px-4 py-2 rounded-md text-sm font-medium cursor-pointer text-white"
           >
-            {submitting ? "Posting..." : "Post comment"}
+            {submitting ? <Loader isBig={false} /> : "Post comment"}
           </button>
         </form>
       </div>
@@ -118,6 +115,12 @@ export default function CommentSection({ animeId }) {
       <div className="h-[560px] overflow-y-auto custom-scrollbar">
         {loading || !commentData?.comments ? (
           <Loader />
+        ) : commentData.comments.length === 0 ? (
+          <div className="mt-10">
+            <p className="text-2xl text-center font-bold text-secondary">
+              No comments yet.
+            </p>
+          </div>
         ) : (
           commentData.comments.map((comment) => (
             <Comment

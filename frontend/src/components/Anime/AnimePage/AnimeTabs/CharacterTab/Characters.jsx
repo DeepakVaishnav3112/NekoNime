@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { fetchAnimeCharacters } from "../../../../../services/animeService";
+import { useAnimeDetailsContext } from "../../../../../context/AnimeDetailsContext";
+
 import CharacterCard from "./CharacterCard";
 import Loader from "../../../../Common/Loader";
 import SharedTabContainer from "../Common/SharedTabContainer";
-import { useAnimeDetailsContext } from "../../../../../context/AnimeDetailsContext";
 
 export default function Characters({
   animeId,
@@ -16,6 +17,7 @@ export default function Characters({
   const [hasNextPage, setHasNextPage] = useState(true);
   const { selectedLanguage, setSelectedLanguage } = useAnimeDetailsContext();
 
+  // Function to load characters
   const loadCharacters = async (page) => {
     try {
       setLoading(true);
@@ -42,6 +44,7 @@ export default function Characters({
     }
   };
 
+  // Load characters when animeId changes or on initial render
   useEffect(() => {
     if (!animeId || characters.length > 0) return;
     setCharacters([]);
@@ -50,6 +53,7 @@ export default function Characters({
     loadCharacters(1);
   }, [animeId]);
 
+  // Load more characters when page changes
   useEffect(() => {
     if (page > 1) {
       loadCharacters(page);

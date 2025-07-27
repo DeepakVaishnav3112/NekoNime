@@ -23,12 +23,12 @@ export default function useAnimeData() {
   const [latest, setLatest] = useState({ list: [], pageInfo: {} });
   const [loadingLatest, setLoadingLatest] = useState(false);
 
+  // Load season top rated anime data on component mount
   useEffect(() => {
     const loadSeasonTopRated = async () => {
       setLoadingSeasonTopRated(true);
       try {
         const res = await infiniteRetry(() => fetchSesaonTopRated());
-        // console.log(res.data);
         setSeasonTopRated(res.data);
       } catch (err) {
         console.error("Failed to fetch season top rated Anime Data:", err);
@@ -40,12 +40,12 @@ export default function useAnimeData() {
     loadSeasonTopRated();
   }, []);
 
+  // Load trending anime data based on the current page
   useEffect(() => {
     const loadTrending = async () => {
       setLoadingTrending(true);
       try {
         const res = await infiniteRetry(() => fetchTrendingAnime(trendingPage));
-        // console.log("Trending: ",res.data);
         setTrending({
           list: res.data.animeList,
           pageInfo: res.data.pageInfo,
@@ -60,12 +60,12 @@ export default function useAnimeData() {
     loadTrending();
   }, [trendingPage]);
 
+  // Load upcoming anime data based on the current page
   useEffect(() => {
     const loadUpcoming = async () => {
       setLoadingUpcoming(true);
       try {
         const res = await infiniteRetry(() => fetchUpcomingAnime(upcomingPage));
-        // console.log("Upcoming: ",res.data);
         setUpcoming({
           list: res.data.animeList,
           pageInfo: res.data.pageInfo,
@@ -80,12 +80,12 @@ export default function useAnimeData() {
     loadUpcoming();
   }, [upcomingPage]);
 
+  // Load latest anime data based on the current page
   useEffect(() => {
     const loadLatest = async () => {
       setLoadingLatest(true);
       try {
         const res = await infiniteRetry(() => fetchLatestAnime(latestPage));
-        // console.log("Latest: ",res.data);
         setLatest({
           list: res.data.animeList,
           pageInfo: res.data.pageInfo,

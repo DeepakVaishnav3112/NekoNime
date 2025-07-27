@@ -1,8 +1,9 @@
 import { Navigate } from "react-router-dom";
+import { useAuthContext } from "../context/AuthContext";
+
 import Login from "../components/Auth/Login";
 import SignUp from "../components/Auth/SignUp";
 import Loader from "../components/Common/Loader";
-import { useAuthContext } from "../context/AuthContext";
 
 export default function AuthPage() {
   const { user, authChecked, authMode, setAuthMode } = useAuthContext();

@@ -1,8 +1,9 @@
-import { FaCircleCheck } from "react-icons/fa6";
-import { MdStarRate } from "react-icons/md";
+import { useMemo } from "react";
 import { reviewTiers } from "../../../../utils/review";
 import { addOrUpdateRating } from "../../../../services/reviewServices";
-import { useMemo } from "react";
+
+import { MdStarRate } from "react-icons/md";
+import { FaCircleCheck } from "react-icons/fa6";
 
 export default function UserReview({
   animeId,
@@ -15,17 +16,15 @@ export default function UserReview({
 }) {
   const reversedTiers = useMemo(() => [...reviewTiers].reverse(), []);
 
+  // Function to add or update user review
   const updateUserReview = async (tier) => {
     setIsUpdating(true);
     try {
-      // console.log(tier);
       const res = await addOrUpdateRating(animeId, tier.label);
       if (res.status === 201) {
         setTotalReviews((prev) => prev + 1);
       }
       setSelectedTier(tier.label);
-      // console.log(res.data);
-
       await refetchReviewData();
     } catch (error) {
       console.error("Error updating review", error);
@@ -41,6 +40,7 @@ export default function UserReview({
         <span className="text-xl text-secondary/80 font-bold">Your Review</span>
       </h4>
 
+      {/* Review tier buttons */}
       <div className="grid max-sm:grid-cols-2 grid-cols-3 gap-4 mt-2">
         {reversedTiers.map((tier) => (
           <button

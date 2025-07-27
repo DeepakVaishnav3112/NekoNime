@@ -7,6 +7,7 @@ import {
   seasons,
   seasonStylesMap,
 } from "../../../utils/formatColors";
+
 import FilterButton from "./FilterButton";
 
 export default function FiltersSection() {
@@ -15,11 +16,13 @@ export default function FiltersSection() {
 
   if (!dropDownOpen) return null;
 
+  // Handler for genre click
   const handleGenreClick = (genre) => {
     navigate(`/browse?genre=${genre}`);
     setDropDownOpen(false);
   };
 
+  // Handler for general click (formats and seasons)
   const handleGeneralClick = () => {
     setDropDownOpen(false);
     navigate("/browse");

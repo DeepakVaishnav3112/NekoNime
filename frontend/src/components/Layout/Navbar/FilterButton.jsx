@@ -16,20 +16,16 @@ export default function FilterButton({
       className={`flex items-center gap-2 px-4 py-2 text-sm rounded-md cursor-pointer transition hover:scale-105 hover:shadow-xl`}
       style={defaultStyles}
       onMouseEnter={(e) => {
-        // if (isSelected) return;
         e.currentTarget.style.backgroundColor = "#fff";
         e.currentTarget.style.color = bgColor;
       }}
       onMouseLeave={(e) => {
-        // if (isSelected) return;
         e.currentTarget.style.backgroundColor = bgColor;
         e.currentTarget.style.color = textColor;
       }}
       onClick={onClick}
     >
-      <span className="text-md">
-        {icon && React.createElement(icon)}
-      </span>
+      <span className="text-md">{icon && React.createElement(icon)}</span>
       {label}
     </button>
   );

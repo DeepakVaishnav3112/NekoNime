@@ -148,7 +148,7 @@ exports.getReplies = async (req, res) => {
   const limit = 3;
 
   const replies = await Reply.find({ commentId })
-    .populate("userId", "username profilePicture")
+    .populate({path: "userId", select: "username profilePicture"})
     .sort({ createdAt: 1 }) // oldest first (-1 for newest first)
     .skip((page - 1) * limit)
     .limit(limit);

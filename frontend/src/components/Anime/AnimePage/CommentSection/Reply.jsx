@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { formatDate } from "../../../../utils/dateUtils";
 import { useAuthContext } from "../../../../context/AuthContext";
 import { toggleLikeReply } from "../../../../services/commentService";
-import { FaHeart, FaRegHeart } from "react-icons/fa";
+
 import { GoDotFill } from "react-icons/go";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { MdDelete, MdInsertComment } from "react-icons/md";
 
 import CommentActionBtn from "./CommentActionBtn";
@@ -16,8 +17,19 @@ export default function Reply({
 }) {
   const { user } = useAuthContext();
 
-  const [likes, setLikes] = useState(reply.likes || []);
-  const isLiked = likes.includes(user?._id);
+  const [likes, setLikes] = useState([]);
+
+  // Initialize likes from reply data
+  useEffect(() => {
+    if (reply?.likes) {
+      setLikes(reply.likes);
+    }
+    console.log("Reply likes:", reply);
+  }, [reply.likes]);
+
+  // Check if the current user has liked the reply
+  const isLiked =
+    user?._id && likes.some((id) => id?.toString() === user._id.toString());
 
   // Function to handle like toggle
   const handleLikeToggle = async () => {
@@ -66,7 +78,7 @@ export default function Reply({
           {reply?.userId?._id?.toString() === user?._id.toString() && (
             <CommentActionBtn
               Icon={MdDelete}
-              style="text-xl"
+              style="text-xl cursor-pointer hover:text-red-500 hover:scale-110 transition-all duration-200"
               onClick={() => handleDeleteReply(reply._id)}
             />
           )}

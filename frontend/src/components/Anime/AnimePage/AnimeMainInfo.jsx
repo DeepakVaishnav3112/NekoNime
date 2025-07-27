@@ -1,14 +1,15 @@
-import AnimeCoverImage from "./AnimeMainInfo/AnimeCoverImage";
-import AnimeDescription from "./AnimeMainInfo/AnimeDescription";
-import AnimeInfoHeader from "./AnimeMainInfo/AnimeInfoHeader";
 import GenreTag from "../../Common/GenreTag";
+import StatDisplay from "./AnimeMainInfo/StatDisplay";
+import ActionButtons from "./AnimeMainInfo/ActionButtons";
+import AnimeCoverImage from "./AnimeMainInfo/AnimeCoverImage";
+import AnimeInfoHeader from "./AnimeMainInfo/AnimeInfoHeader";
+import NekoNimeSloganBox from "../../Common/NekoNimeSloganBox";
+import AnimeDescription from "./AnimeMainInfo/AnimeDescription";
+
 import {
   genreColorsMap,
   genreTextColorsMap,
 } from "../../../utils/formatColors";
-import StatDisplay from "./AnimeMainInfo/StatDisplay";
-import ActionButtons from "./AnimeMainInfo/ActionButtons";
-import NekoNimeSloganBox from "../../Common/NekoNimeSloganBox";
 
 export default function AnimeMainInfo({
   animeDetails,

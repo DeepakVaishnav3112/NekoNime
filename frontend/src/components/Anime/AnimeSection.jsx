@@ -1,5 +1,6 @@
-import { useGeneralContext } from "../../context/GeneralContext";
 import { MdKeyboardArrowRight } from "react-icons/md";
+import { useGeneralContext } from "../../context/GeneralContext";
+
 import AnimeGrid from "./AnimeGrid";
 
 export default function AnimeSection({

@@ -1,9 +1,8 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:3000/api/review";
+const BASE_URL = `${import.meta.env.VITE_BACKEND_URL}/api/review`;
 
 export const addOrUpdateRating = async (animeId, tierLabel) => {
-  //   console.log(tierLabel);
   return axios.post(
     `${BASE_URL}/add-update`,
     { animeId, tier: tierLabel },

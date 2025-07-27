@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { useAuthContext } from "../../context/AuthContext";
 import { FaArrowRight } from "react-icons/fa6";
+import { useAuthContext } from "../../context/AuthContext";
+
 import Loader from "../Common/Loader";
 
 export default function AuthFormWrapper({ children, onSubmit, isSubmitting }) {

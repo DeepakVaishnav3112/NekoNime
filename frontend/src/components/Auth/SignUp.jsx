@@ -1,14 +1,16 @@
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { signup } from "../../services/authService";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useAuthContext } from "../../context/AuthContext";
 import { signupSchema } from "../../utils/validation/signupSchema";
-import { FiAtSign } from "react-icons/fi";
-import { MdEmail } from "react-icons/md";
+
 import { FaLock } from "react-icons/fa";
+import { MdEmail } from "react-icons/md";
+import { FiAtSign } from "react-icons/fi";
+
 import FormInput from "./FormInput";
 import AuthFormWrapper from "./AuthFormWrapper";
-import { signup } from "../../services/authService";
-import { useNavigate } from "react-router-dom";
-import { useAuthContext } from "../../context/AuthContext";
 
 export default function SignUp() {
   const {

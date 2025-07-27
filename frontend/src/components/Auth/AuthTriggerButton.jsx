@@ -13,10 +13,11 @@ export default function AuthTriggerButton({
   const [isPressed, setIsPressed] = useState(false);
   const navigate = useNavigate();
 
+  // Function to handle button click and set auth mode (login/signup)
   const handleToggleAuth = () => {
     setIsPressed(true);
     setTimeout(() => setIsPressed(false), 200);
-    setAuthMode(mode); // ← use passed mode!
+    setAuthMode(mode);
     navigate("/auth");
   };
 

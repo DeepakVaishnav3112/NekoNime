@@ -1,6 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { fetchUserProfileData } from "../../services/userService";
-import { FaCheckCircle, FaTimesCircle, FaEdit, FaSave } from "react-icons/fa";
+import { FaCheckCircle, FaTimesCircle, FaEdit } from "react-icons/fa";
+
 import Loader from "../Common/Loader";
 
 export default function Profile() {
@@ -14,7 +15,6 @@ export default function Profile() {
       try {
         let res = await fetchUserProfileData();
         setUserData(res.data);
-        console.log(res.data);
       } catch (err) {
         console.error("Error fetching user profile data:", err);
       } finally {
@@ -64,6 +64,7 @@ export default function Profile() {
         </div>
       </div>
 
+      {/* Bio Section */}
       <div className="bg-secondary/10 border border-secondary/30 rounded-lg p-4 w-full shadow-inner">
         <p className="text-gray-300 text-sm">
           {userData.bio || "This user hasn’t added a bio yet."}

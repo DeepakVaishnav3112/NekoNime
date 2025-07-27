@@ -1,11 +1,12 @@
 import { useState, useRef } from "react";
-import SearchBar from "./SearchBar";
 import { FaSearch } from "react-icons/fa";
-import { useGeneralContext } from "../../../context/GeneralContext";
 import { useNavigate } from "react-router-dom";
-import AuthTriggerButton from "../../Auth/AuthTriggerButton";
 import { useAuthContext } from "../../../context/AuthContext";
+import { useGeneralContext } from "../../../context/GeneralContext";
+
 import Sidebar from "../Sidebar";
+import SearchBar from "./SearchBar";
+import AuthTriggerButton from "../../Auth/AuthTriggerButton";
 
 export default function Navbar() {
   const { setViewAllSection, showSideBar, setShowSideBar, setDropDownOpen } =

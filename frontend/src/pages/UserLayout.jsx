@@ -3,8 +3,9 @@ import { useAuthContext } from "../context/AuthContext";
 import { CiBoxList } from "react-icons/ci";
 import { MdOutlineSettings } from "react-icons/md";
 import { MdOutlineAccountCircle } from "react-icons/md";
-import CreateListContainer from "../components/UserLayout/CreateListContainer";
 import { useListContext } from "../context/listContext";
+
+import CreateListContainer from "../components/UserLayout/CreateListContainer";
 
 export default function UserLayout() {
   const { user, authChecked } = useAuthContext();
@@ -57,6 +58,7 @@ export default function UserLayout() {
         ))}
       </div>
 
+      {/* Outlet for nested routes */}
       <Outlet />
 
       {showCreateListContainer && <CreateListContainer />}

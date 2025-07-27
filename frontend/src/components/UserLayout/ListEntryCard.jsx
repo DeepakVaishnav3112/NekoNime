@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { GoDotFill } from "react-icons/go";
 import { MdCancel } from "react-icons/md";
+import { GoDotFill } from "react-icons/go";
 import { useNavigate } from "react-router-dom";
 import { removeFromDefaultList } from "../../services/listService";
+
 import GenreTag from "../Common/GenreTag";
 
 export default function ListEntryCard({ anime, onRemove, setRemoving }) {
@@ -102,6 +103,7 @@ export default function ListEntryCard({ anime, onRemove, setRemoving }) {
         </div>
       </div>
 
+      {/* Remove Button */}
       <button
         className={`h-fit transition ${isHoverd ? "opacity-100" : "opacity-0"}`}
         onClick={() => handleRemoveClick(anime._id)}

@@ -1,13 +1,15 @@
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { loginSchema } from "../../utils/validation/loginSchema";
-import { FiAtSign } from "react-icons/fi";
-import { FaLock } from "react-icons/fa";
-import AuthFormWrapper from "./AuthFormWrapper";
-import FormInput from "./FormInput";
-import { login } from "../../services/authService";
 import { useNavigate } from "react-router-dom";
+import { login } from "../../services/authService";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuthContext } from "../../context/AuthContext";
+import { loginSchema } from "../../utils/validation/loginSchema";
+
+import { FaLock } from "react-icons/fa";
+import { FiAtSign } from "react-icons/fi";
+
+import FormInput from "./FormInput";
+import AuthFormWrapper from "./AuthFormWrapper";
 
 export default function Login() {
   const {
@@ -40,7 +42,6 @@ export default function Login() {
       onSubmit={handleSubmit(onSubmit)}
       isSubmitting={isSubmitting}
     >
-
       {errors.root && (
         <p className="text-red-500 bg-red-100 text-sm mt-4 py-2 text-center">
           {errors.root.message}

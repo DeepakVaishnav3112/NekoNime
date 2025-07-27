@@ -1,13 +1,15 @@
-import { useEffect, useMemo, useState } from "react";
-import AnimeInfoHeader from "../Anime/AnimePage/AnimeMainInfo/AnimeInfoHeader";
-import AnimeDescription from "../Anime/AnimePage/AnimeMainInfo/AnimeDescription";
-import { FaArrowLeft, FaArrowRight, FaBookmark } from "react-icons/fa";
-import { FaRegBookmark } from "react-icons/fa6";
-import { IoIosArrowDroprightCircle } from "react-icons/io";
 import { Link } from "react-router-dom";
+import { useEffect, useMemo, useState } from "react";
+import { useListContext } from "../../context/listContext";
 import { useAuthContext } from "../../context/AuthContext";
 import { useGeneralContext } from "../../context/GeneralContext";
-import { useListContext } from "../../context/listContext";
+
+import { FaRegBookmark } from "react-icons/fa6";
+import { IoIosArrowDroprightCircle } from "react-icons/io";
+import { FaArrowLeft, FaArrowRight, FaBookmark } from "react-icons/fa";
+
+import AnimeInfoHeader from "../Anime/AnimePage/AnimeMainInfo/AnimeInfoHeader";
+import AnimeDescription from "../Anime/AnimePage/AnimeMainInfo/AnimeDescription";
 
 export default function AnimeCarousel({ animeList }) {
   const { user, authChecked } = useAuthContext();
@@ -17,13 +19,10 @@ export default function AnimeCarousel({ animeList }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [progress, setProgress] = useState(0);
 
+  // Memoize the filtered anime list to avoid unnecessary recalculations
   const carouselAnime = useMemo(() => {
     return animeList?.filter((anime) => anime.bannerImage).slice(0, 10);
   }, [animeList]);
-
-  // useEffect(() => {
-  //   console.log(animeList);
-  // }, [animeList]);
 
   const goToNext = () => {
     setCurrentIndex((prev) =>
@@ -37,6 +36,7 @@ export default function AnimeCarousel({ animeList }) {
     );
   };
 
+  // Automatically change the anime every 8 seconds
   useEffect(() => {
     const intervalTime = 8000;
     let startTime = Date.now();

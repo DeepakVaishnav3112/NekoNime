@@ -1,7 +1,8 @@
 import { FaArrowLeft, FaArrowRight, FaRegBookmark } from "react-icons/fa";
+import { IoIosArrowDroprightCircle } from "react-icons/io";
+
 import DescriptionSkeleton from "./DescriptionSkeleton";
 import InfoHeaderSkeleton from "./InfoHeaderSkeleton";
-import { IoIosArrowDroprightCircle } from "react-icons/io";
 
 export default function CarouselSkeleton() {
   return (

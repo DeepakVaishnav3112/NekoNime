@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:3000/api/comment";
+const BASE_URL = `${import.meta.env.VITE_BACKEND_URL}/api/comment`;
 
 export const fetchComments = (animeId, page = 1) => {
   return axios.get(`${BASE_URL}/anime?animeId=${animeId}&page=${page}`);
