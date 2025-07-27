@@ -28,15 +28,17 @@ const postRequest = async (query) => {
     return response;
   } catch (error) {
     // Log full Axios error info
-    console.error("❌ Axios POST Request Failed:");
-    console.error("➡️ URL:", API_URL);
-    console.error("📦 Query Variables:", query?.variables);
-    console.error("⚠️ Error Code:", error.code);
-    console.error("🧾 Status:", error?.response?.status);
-    console.error("📨 Response Data:", error?.response?.data);
-    console.error("🌐 Axios Config URL:", error?.config?.url);
-    console.error("⏱ Timeout:", error?.config?.timeout);
-    // console.error("💀 Raw Error:", error);
+    if (process.env.NODE_ENV !== "production") {
+      console.error("❌ Axios POST Request Failed:");
+      console.error("➡️ URL:", API_URL);
+      console.error("📦 Query Variables:", query?.variables);
+      console.error("⚠️ Error Code:", error.code);
+      console.error("🧾 Status:", error?.response?.status);
+      console.error("📨 Response Data:", error?.response?.data);
+      console.error("🌐 Axios Config URL:", error?.config?.url);
+      console.error("⏱ Timeout:", error?.config?.timeout);
+      // console.error("💀 Raw Error:", error);
+    }
 
     // Forward minimal error to middleware
     const message =
@@ -49,7 +51,7 @@ const postRequest = async (query) => {
 };
 
 // Get anime from all genre or a single genre
-exports.getAnime = async (req, res, next) => {
+exports.getAnime = async (req, res) => {
   const page = parseInt(req.query.page) || 1;
 
   const genre = req.query.genre;
@@ -69,7 +71,7 @@ exports.getAnime = async (req, res, next) => {
 };
 
 // Get spotlight anime
-exports.getSeasonalTopRatedAnime = async (req, res, next) => {
+exports.getSeasonalTopRatedAnime = async (req, res) => {
   const cacheKey = `season-top-rated`;
 
   const cached = getCache(cacheKey);
@@ -99,7 +101,7 @@ exports.getSeasonalTopRatedAnime = async (req, res, next) => {
 };
 
 // Get trending anime
-exports.getTrendingAnime = async (req, res, next) => {
+exports.getTrendingAnime = async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const cacheKey = `trending-${page}`;
 
@@ -108,7 +110,8 @@ exports.getTrendingAnime = async (req, res, next) => {
     if (cached) return res.json(cached);
   }
 
-  console.log("[getTrendingAnime] Requesting trending anime page:", page);
+  process.env.NODE_ENV !== "production" &&
+    console.log("[getTrendingAnime] Requesting trending anime page:", page);
 
   trendingAnimeQuery.variables.page = page;
   const response = await postRequest(trendingAnimeQuery);
@@ -126,7 +129,7 @@ exports.getTrendingAnime = async (req, res, next) => {
 };
 
 // Get upcoming anime
-exports.getUpcomingAnime = async (req, res, next) => {
+exports.getUpcomingAnime = async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const cacheKey = `upcoming-${page}`;
 
@@ -135,7 +138,8 @@ exports.getUpcomingAnime = async (req, res, next) => {
     if (cached) return res.json(cached);
   }
 
-  console.log("[getUpcomingAnime] Requesting upcoming anime page:", page);
+  process.env.NODE_ENV !== "production" &&
+    console.log("[getUpcomingAnime] Requesting upcoming anime page:", page);
 
   upcomingAnimeQuery.variables = { season, seasonYear: year, page };
   const response = await postRequest(upcomingAnimeQuery);
@@ -153,7 +157,7 @@ exports.getUpcomingAnime = async (req, res, next) => {
 };
 
 // Get latest anime
-exports.getLatestAnime = async (req, res, next) => {
+exports.getLatestAnime = async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const cacheKey = `latest-${page}`;
 
@@ -162,7 +166,8 @@ exports.getLatestAnime = async (req, res, next) => {
     if (cached) return res.json(cached);
   }
 
-  console.log("[getLatestAnime] Requesting latest anime page:", page);
+  process.env.NODE_ENV !== "production" &&
+    console.log("[getLatestAnime] Requesting latest anime page:", page);
 
   latestAnimeQuery.variables.page = page;
   const response = await postRequest(latestAnimeQuery);
@@ -202,7 +207,7 @@ exports.searchAnime = async (req, res, next) => {
 };
 
 // Get anime details
-exports.getAnimeById = async (req, res, next) => {
+exports.getAnimeById = async (req, res) => {
   animeDetailsQuery.variables.id = parseInt(req.params.id);
   const response = await postRequest(animeDetailsQuery);
   const media = response.data.data.Media;
@@ -228,7 +233,7 @@ exports.getAnimeById = async (req, res, next) => {
 };
 
 // Get anime characters
-exports.getAnimeCharacters = async (req, res, next) => {
+exports.getAnimeCharacters = async (req, res) => {
   animeCharacterQuery.variables.id = parseInt(req.params.id);
   animeCharacterQuery.variables.page = parseInt(req.query.page) || 1;
 
@@ -248,7 +253,7 @@ exports.getAnimeCharacters = async (req, res, next) => {
 };
 
 // Get anime staff
-exports.getAnimeStaff = async (req, res, next) => {
+exports.getAnimeStaff = async (req, res) => {
   animeStaffQuery.variables.page = parseInt(req.query.page) || 1;
 
   animeStaffQuery.variables.id = parseInt(req.params.id);
@@ -263,7 +268,7 @@ exports.getAnimeStaff = async (req, res, next) => {
 };
 
 // Get anime more info
-exports.getMoreInfo = async (req, res, next) => {
+exports.getMoreInfo = async (req, res) => {
   animeMoreInfoQuery.variables.id = parseInt(req.params.id);
   const response = await postRequest(animeMoreInfoQuery);
   res.json(response.data.data.Media);
