@@ -1,11 +1,15 @@
-import github_logo from "../assets/github.png";
-import linkedin_logo from "../assets/linkedin.png";
-import email_icon from "../assets/email_icon.svg";
-import email_icon_2 from "../assets/email_icon_2.svg";
+import linkedin_logo from "../assets/icons8-linkedin.svg";
+import github_logo from "../assets/icons8-github.svg";
+import instagram_logo from "../assets/icons8-instagram.svg";
+import pinterest_logo from "../assets/icons8-pinterest.svg";
+import fiverr_logo from "../assets/icons8-fiverr.svg";
+import email_logo from "../assets/email.svg";
 
 export const assets = {
-    github_logo,
-    linkedin_logo,
-    email_icon,
-    email_icon_2,
-}
+  linkedin_logo,
+  github_logo,
+  instagram_logo,
+  pinterest_logo,
+  fiverr_logo,
+  email_logo,
+};

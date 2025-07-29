@@ -114,6 +114,7 @@ export default function Home() {
                 animeList={latest}
                 loading={loadingLatest}
                 visibleCards={visibleCards}
+                bottomBorder={false}
               />
             </>
           )}

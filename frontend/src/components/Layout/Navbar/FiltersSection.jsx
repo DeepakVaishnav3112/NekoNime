@@ -29,7 +29,7 @@ export default function FiltersSection() {
   };
 
   return (
-    <div className="fixed flex gap-6 bg-primary w-full px-5 md:px-25 py-5 z-50">
+    <div className="fixed flex max-lg:flex-col flex-row gap-6 bg-primary w-full px-5 md:px-25 py-5 z-50">
       {/* Genres */}
       <div className="lg:flex-1/2 text-white ">
         <h2 className="font-semibold text-xl">Genres</h2>
@@ -88,7 +88,7 @@ export default function FiltersSection() {
         </div>
 
         {/* Seasons */}
-        <div>
+        {/* <div>
           <h2 className="font-semibold text-xl">Seasons</h2>
           <div className="flex flex-wrap gap-4 pt-3">
             {seasons.map((season) => {
@@ -110,7 +110,7 @@ export default function FiltersSection() {
               );
             })}
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

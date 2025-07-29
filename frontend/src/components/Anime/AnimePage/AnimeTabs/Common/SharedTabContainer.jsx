@@ -70,7 +70,7 @@ export default function SharedTabContainer({
       {blendPosition && (
         <>
           <div
-            className={`absolute top-[44px] w-full h-15 bg-gradient-to-b from-white to-transparent transition-opacity duration-300 pointer-events-none z-10 ${
+            className={`absolute top-[36px] xs:top-[38px] sm:top-[44px] w-full h-15 bg-gradient-to-b from-white to-transparent transition-opacity duration-300 pointer-events-none z-10 ${
               showTopBlend ? "opacity-100" : "opacity-0"
             }`}
           ></div>

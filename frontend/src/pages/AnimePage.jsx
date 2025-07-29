@@ -69,7 +69,7 @@ export default function AnimePage() {
       />
       <div
         className={`${
-          animeDetails.bannerImage ? "relative z-10 -mt-10 " : "pt-4"
+          animeDetails.bannerImage ? "relative z-10 max-xs:-mt-5 -mt-10 " : "pt-4"
         } grid grid-cols-1 lg:grid-cols-2 gap-4 px-4`}
       >
         {/* Main Info */}

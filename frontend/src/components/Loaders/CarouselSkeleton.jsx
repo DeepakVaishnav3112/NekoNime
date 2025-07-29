@@ -13,7 +13,7 @@ export default function CarouselSkeleton() {
           <div className="w-full h-full flex">
             {/* Info Box */}
             <div className="absolute bottom-5 lg:bottom-40 z-20 m-10 flex flex-col gap-4 max-w-[250px] md:max-w-[500px]">
-              <span className="w-35 h-6 rounded-md bg-secondary"></span>
+              <span className="max-sm:w-25 max-sm:h-4 w-35 h-6 rounded-md bg-secondary"></span>
               <InfoHeaderSkeleton isBig={true} />
               <div className="hidden md:block">
                 <DescriptionSkeleton />
@@ -38,7 +38,7 @@ export default function CarouselSkeleton() {
       </div>
 
       {/* Navigation Buttons */}
-      <div className="absolute bottom-[52%] translate-y-[100%] right-0 mx-5 mb-10 flex flex-col gap-2 text-white z-30">
+      <div className="max-sm:hidden absolute bottom-[52%] translate-y-[100%] right-0 mx-5 mb-10 flex flex-col gap-2 text-white z-30">
         <div className="bg-secondary rounded-md p-3 shadow-md">
           <FaArrowLeft className="text-2xl font-extrabold" />
         </div>
@@ -48,7 +48,7 @@ export default function CarouselSkeleton() {
       </div>
 
       {/* Indicator Progress Bar */}
-      <div className="absolute bottom-5 lg:bottom-42 left-10 z-30 flex gap-2">
+      <div className="max-sm:hidden absolute bottom-5 lg:bottom-42 left-10 z-30 flex gap-2">
         {Array(10)
           .fill(0)
           .map((_, idx) => (

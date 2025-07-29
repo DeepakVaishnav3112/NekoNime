@@ -9,7 +9,7 @@ export default function AnimeDescription({
   const previewText = stripHtml(description).slice(0, 250) + "...";
 
   return (
-    <div className="text-xs xl:text-sm text-secondary leading-relaxed">
+    <div className="text-xs xl:text-sm text-secondary leading-relaxed max-xs:text-center">
       {!showMore && previewText.length > 100 ? (
         <div
           className="relative overflow-hidden cursor-pointer group"

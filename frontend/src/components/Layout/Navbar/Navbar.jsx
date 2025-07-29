@@ -67,7 +67,7 @@ export default function Navbar() {
               <AuthTriggerButton
                 btnText="Sign Up"
                 mode="signup"
-                buttonStyle="rounded-s-full text-primary border-3 border-primary hover:bg-primary hover:text-white"
+                buttonStyle="max-md:hidden rounded-s-full text-primary border-3 border-primary hover:bg-primary hover:text-white"
                 textStyle="group-hover:scale-110 ps-4"
               />
 
@@ -75,7 +75,7 @@ export default function Navbar() {
                 btnText="Login"
                 mode="login"
                 buttonStyle="text-sm px-4 py-2 bg-secondary text-primary-hover-text hover:bg-primary hover:text-white hover:shadow-[0_0_15px_rgba(160,247,255)]"
-                textStyle="text-sm font-semibold ps-4"
+                textStyle="text-sm font-semibold"
               />
             </div>
           )}
@@ -110,7 +110,7 @@ export default function Navbar() {
           <AuthTriggerButton
             btnText="Sign Up"
             mode="signup"
-            buttonStyle="rounded-s-full text-primary border-3 border-primary hover:bg-primary hover:text-white"
+            buttonStyle=" max-lg:hidden rounded-s-full text-primary border-3 border-primary hover:bg-primary hover:text-white"
             textStyle="text-sm ps-4"
           />
 

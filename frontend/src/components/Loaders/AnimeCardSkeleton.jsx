@@ -1,12 +1,12 @@
 export default function AnimeCardSkeleton() {
   return (
-    <div className={"md:min-w-[206px] w-fit animate-pulse"}>
+    <div className={"max-xs:max-w-[140px] md:min-w-[206px] w-fit animate-pulse"}>
       <div className="flex w-full p-1 pr-0 cursor-pointer">
         {/* Cover Image */}
         <div className="w-[140px] md:w-[150px] h-[200px] md:h-[220px] rounded-md bg-secondary shadow-[0_0_15px_rgba(0,0,0,0.3)]"></div>
 
         {/* Action Buttons */}
-        <div className="flex flex-col items-center flex-1/6 gap-4 py-2 px-2">
+        <div className="max-xs:hidden flex flex-col items-center flex-1/6 gap-4 py-2 px-2">
           <div className="flex items-center rounded-full bg-secondary w-8 h-8"></div>
           <div className="flex items-center rounded-full bg-secondary w-8 h-8"></div>
           <div className="flex items-center rounded-full bg-secondary w-8 h-8"></div>
@@ -16,7 +16,7 @@ export default function AnimeCardSkeleton() {
 
       <div className="flex flex-col px-1">
         {/* Title */}
-        <h3 className="w-[175px] md:w-[200px] h-5 rounded-md bg-secondary"></h3>
+        <h3 className="max-xs:max-w-[140px] w-[175px] md:w-[200px] h-5 rounded-md bg-secondary"></h3>
 
         {/* Genres */}
         <div className="flex flex-wrap gap-1 mt-1 text-[9px]">

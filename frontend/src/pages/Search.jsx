@@ -19,6 +19,7 @@ export default function Search() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log(searchAnimeList);
     // Function to load anime based on search query and page
     const loadAnime = async () => {
       if (!searchQuery) {
@@ -36,7 +37,6 @@ export default function Search() {
           list: res.data.animeList,
           pageInfo: res.data.pageInfo,
         });
-        // console.log(res.data);
       } catch (error) {
         console.error("Error fetching anime:", error);
       } finally {
@@ -50,7 +50,7 @@ export default function Search() {
   return (
     <div className="mt-4">
       <AnimeList
-        title={searchQuery && `SEARCH RESULT FOR ${searchQuery.toUpperCase()}`}
+        title={searchQuery && <>SEARCH RESULT FOR <span className="text-primary max-xs:block">"{searchQuery.toUpperCase()}"</span></>}
         animeList={
           (searchAnimeList?.list?.length > 0 && searchAnimeList) || animeData
         }

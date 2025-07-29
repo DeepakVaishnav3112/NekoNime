@@ -17,7 +17,7 @@ export default function AnimeCard({ anime }) {
 
   return (
     <div
-      className={`md:min-w-[206px] w-fit ${
+      className={`max-xs:max-w-[140px] md:min-w-[206px] w-fit ${
         isHoverd ? "scale-102" : ""
       } transition`}
       onMouseOver={() => setIsHovered(true)}
@@ -47,7 +47,7 @@ export default function AnimeCard({ anime }) {
         </div>
 
         {/* Action Buttons */}
-        <div className="flex flex-col items-center flex-1/6 gap-4 py-2 px-2">
+        <div className="max-xs:hidden flex flex-col items-center flex-1/6 gap-4 py-2 px-2">
           <CircleButton
             icon={BsFillBookmarkPlusFill}
             title="Add to List"
@@ -79,7 +79,7 @@ export default function AnimeCard({ anime }) {
         <Link to={`/anime/${anime.id}`}>
           <h3
             title={anime.title.english || anime.title.romaji}
-            className="w-[175px] md:w-[200px] text-primary text-md font-bold cursor-pointer truncate overflow-hidden whitespace-nowrap hover:text-secondary"
+            className="max-xs:max-w-[140px] w-[175px] md:w-[200px] text-primary text-md font-bold cursor-pointer truncate overflow-hidden whitespace-nowrap hover:text-secondary"
           >
             {anime.title.english || anime.title.romaji}
           </h3>

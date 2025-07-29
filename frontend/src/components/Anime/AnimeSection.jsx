@@ -8,16 +8,23 @@ export default function AnimeSection({
   animeList,
   loading,
   visibleCards,
+  bottomBorder = true,
 }) {
   const { setViewAllSection } = useGeneralContext();
 
   return (
-    <div className="w-fit pb-5 mb-5 border-b-2 border-primary border-dotted mx-auto">
-      <div className="flex justify-between pb-2 px-1 pe-4">
-        <h2 className="text-xl font-bold text-secondary">{title}</h2>
-        {(!loading && animeList?.list?.length > 0) && (
+    <div
+      className={`w-fit mx-auto ${
+        bottomBorder ? "border-b-2 border-primary border-dotted mb-5 pb-5" : "mb-0 pb-0"
+      }`}
+    >
+      <div className="flex justify-between pb-2 px-1 xs:pe-4">
+        <h2 className="text-xl font-bold text-secondary whitespace-nowrap">
+          {title}
+        </h2>
+        {!loading && animeList?.list?.length > 0 && (
           <button
-            className="flex gap-1 items-center text-white bg-primary px-2 py-1 rounded-full font-medium text-xs cursor-pointer hover:text-secondary transition"
+            className="flex gap-1 items-center text-white bg-primary px-2 py-1 rounded-full font-medium text-xs whitespace-nowrap cursor-pointer hover:text-secondary transition"
             onClick={() => {
               setViewAllSection(title);
               window.scrollTo({ top: 0, behavior: "smooth" });

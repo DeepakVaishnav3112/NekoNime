@@ -20,7 +20,7 @@ export default function AnimeMainInfo({
   return (
     <>
       <div className="flex flex-col">
-        <div className="flex gap-4">
+        <div className="flex max-xs:flex-col gap-4">
           {/* Cover Image */}
           <AnimeCoverImage
             src={animeDetails.coverImage.extraLarge}
@@ -41,7 +41,7 @@ export default function AnimeMainInfo({
             )}
 
             {/* Genres */}
-            <div className="flex flex-wrap gap-2 mt-3 text-xs">
+            <div className="flex flex-wrap max-xs:justify-center gap-2 mt-3 text-xs">
               {animeDetails.genres.map((genre) => (
                 <GenreTag
                   key={genre}

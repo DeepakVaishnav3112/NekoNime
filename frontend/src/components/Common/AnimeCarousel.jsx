@@ -61,7 +61,7 @@ export default function AnimeCarousel({ animeList }) {
   return (
     <div className="relative w-full mx-auto overflow-hidden">
       {/* Fade Carousel Container */}
-      <div className="relative w-full h-[450px] sm:h-[550px] md:h-[600px] lg:h-[651px] xl:h-[701px]">
+      <div className="relative w-full max-xs:h-[400px] h-[453px] sm:h-[549px] md:h-[599px] lg:h-[650px] xl:h-[694px]">
         {carouselAnime.map((anime, idx) => (
           <div
             key={anime.id}
@@ -123,17 +123,17 @@ export default function AnimeCarousel({ animeList }) {
                     }}
                   >
                     {showListContainer ? (
-                      <FaBookmark className="text-[22px]" />
+                      <FaBookmark className="max-xs:text-lg text-[22px]" />
                     ) : (
-                      <FaRegBookmark className="text-[22px]" />
+                      <FaRegBookmark className="max-xs:text-lg text-[22px]" />
                     )}
                   </div>
 
                   {/* Details Button */}
                   <Link to={`/anime/${anime.id}`} className="w-fit">
-                    <div className="group flex items-center bg-secondary w-fit px-4 py-2 text-primary-hover-text text-xl rounded-s-md rounded-e-full cursor-pointer hover:bg-primary hover:text-lg hover:text-white hover:rounded-full transition-all duration-200">
+                    <div className="group flex items-center bg-secondary w-fit max-xs:px-3 max-xs:py-[6px] px-4 py-2 text-primary-hover-text text-xl rounded-s-md rounded-e-full cursor-pointer hover:bg-primary hover:text-lg hover:text-white hover:rounded-full transition-all duration-200">
                       <span>Details</span>
-                      <IoIosArrowDroprightCircle className="text-2xl font-extrabold ml-2 mt-[2px] group-hover:scale-110 transition duration-200" />
+                      <IoIosArrowDroprightCircle className="max-xs:text-lg text-2xl font-extrabold ml-2 mt-[2px] group-hover:scale-110 transition duration-200" />
                     </div>
                   </Link>
                 </div>
@@ -144,18 +144,18 @@ export default function AnimeCarousel({ animeList }) {
       </div>
 
       {/* Navigation Buttons */}
-      <div className="absolute bottom-[52%] translate-y-[100%] right-0 mx-5 mb-10 flex flex-col gap-2 text-primary-hover-text z-30">
+      <div className="absolute max-xs:bottom-[25%] bottom-[52%] translate-y-[100%] right-0 mx-5 mb-10 flex flex-col gap-2 text-primary-hover-text z-30">
         <button
           onClick={goToPrev}
           className="bg-secondary hover:bg-primary hover:text-white hover:scale-110 rounded-md p-3 shadow-md cursor-pointer transition duration-200"
         >
-          <FaArrowLeft className="text-2xl font-extrabold" />
+          <FaArrowLeft className="max-xs:text-xl text-2xl font-extrabold" />
         </button>
         <button
           onClick={goToNext}
           className="bg-secondary hover:bg-primary hover:text-white hover:scale-110 rounded-md p-3 shadow-md cursor-pointer transition duration-200"
         >
-          <FaArrowRight className="text-2xl font-extrabold" />
+          <FaArrowRight className="max-xs:text-xl text-2xl font-extrabold" />
         </button>
       </div>
 

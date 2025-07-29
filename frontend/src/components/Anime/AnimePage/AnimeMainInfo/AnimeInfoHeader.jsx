@@ -7,9 +7,9 @@ export default function AnimeInfoHeader({
 }) {
   return (
     <>
-      <div className={`${!isBig && "max-xs:flex max-xs:flex-col max-xs:justify-start max-xs:gap-1"}`}>
+      <div className={`max-xs:text-center ${!isBig && "max-xs:flex max-xs:flex-col max-xs:justify-start max-xs:gap-1"}`}>
         {/* Anime Title */}
-        <h1 className={`text-primary ${!isBig ? "max-xs:text-sm text-xl xl:text-2xl font-bold leading-5" : "text-xl md:text-4xl font-semibold text-shadow-2xs"}`}>
+        <h1 className={`text-primary ${!isBig ? "max-xs:text-2xl text-xl xl:text-2xl font-bold xs:leading-5" : "text-xl md:text-4xl font-semibold text-shadow-2xs"}`}>
           {animeDetails.title.english || animeDetails.title.romaji}
         </h1>
         {/* Anime alt title */}
@@ -19,7 +19,7 @@ export default function AnimeInfoHeader({
             : animeDetails.title.romaji}
         </span>
 
-        <div className="flex items-center max-xs:text-[8px] text-[10px] xs:mt-2">
+        <div className="max-xs:w-fit max-xs:mx-auto flex items-center max-xs:text-[8px] text-[10px] xs:mt-2">
           {/* Format and Episodes */}
           <div className="flex gap-1 items-center font-medium text-white">
             {animeDetails.format && (

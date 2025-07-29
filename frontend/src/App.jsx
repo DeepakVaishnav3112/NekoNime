@@ -9,6 +9,7 @@ import Profile from "./components/UserLayout/Profile";
 import Watchlists from "./components/UserLayout/Watchlists";
 import Search from "./pages/Search";
 import Settings from "./components/UserLayout/Settings";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="watchlists" element={<Watchlists />} />
           <Route path="settings" element={<Settings />} />
         </Route>
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </MainLayout>
   );

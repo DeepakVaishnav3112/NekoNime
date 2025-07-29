@@ -10,11 +10,11 @@ export default function InfoHeaderSkeleton({ isBig = false }) {
         }`}
       >
         {/* Title */}
-        <div className="w-100 h-10 rounded-md bg-secondary"></div>
+        <div className="max-sm:w-60 max-sm:h-7 w-100 h-10 rounded-md bg-secondary"></div>
         {/* Alt Title */}
         <div className="w-50 h-4 rounded-md bg-secondary mt-2"></div>
 
-        <div className="flex items-center xs:mt-2">
+        <div className="flex items-center mt-2">
           {/* Format and Episodes */}
           <div className="flex gap-1 items-center">
             <span className="bg-secondary w-7 h-6 rounded-s-md"></span>

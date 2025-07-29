@@ -3,7 +3,7 @@ import { FaPeopleGroup } from "react-icons/fa6";
 
 export default function StatDisplay({ averageScore, popularity }) {
   return (
-    <div className="flex gap-4 items-center text-secondary">
+    <div className="max-xs:hidden flex gap-4 items-center text-secondary">
       {/* Rating */}
       <div className="text-center">
         <span className=" max-xs:text-[10px] text-sm font-semibold">RATING</span>

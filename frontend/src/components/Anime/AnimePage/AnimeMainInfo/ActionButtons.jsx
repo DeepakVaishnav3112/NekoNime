@@ -120,7 +120,7 @@ export default function ActionButtons({ animeDetails }) {
   };
 
   return (
-    <div className="flex items-center gap-4 mt-2">
+    <div className="flex max-xs:justify-center items-center gap-4 mt-2">
       {/* Add to List Button */}
       <div ref={buttonRef} className="relative w-40 md:w-60">
         <button
