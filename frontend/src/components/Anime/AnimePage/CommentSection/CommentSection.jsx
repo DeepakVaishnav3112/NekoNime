@@ -112,7 +112,7 @@ export default function CommentSection({ animeId, commentSectionMarginTop }) {
       </div>
 
       {/* Show comments */}
-      <div className="h-[560px] overflow-y-auto custom-scrollbar">
+      <div className={`${commentData?.comments?.length > 0 ? "h-[560px]" : "h-[110px]"} overflow-y-auto custom-scrollbar`}>
         {loading || !commentData?.comments ? (
           <Loader />
         ) : commentData.comments.length === 0 ? (

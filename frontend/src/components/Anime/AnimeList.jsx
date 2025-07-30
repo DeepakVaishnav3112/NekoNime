@@ -24,7 +24,7 @@ export default function AnimeList({
   return (
     <div className="w-fit pb-5 mb-5 mx-auto">
       {/* Title and Show Less Button */}
-      <div className="flex justify-between pb-2 px-1 pe-4">
+      <div className="flex justify-between pb-2 px-1 xs:pe-4">
         <h2 className="text-xl font-bold text-secondary">{title}</h2>
 
         {title === SECTION_TYPES.TRENDING ||

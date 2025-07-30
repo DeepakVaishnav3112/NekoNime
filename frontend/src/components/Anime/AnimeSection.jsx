@@ -18,7 +18,7 @@ export default function AnimeSection({
         bottomBorder ? "border-b-2 border-primary border-dotted mb-5 pb-5" : "mb-0 pb-0"
       }`}
     >
-      <div className="flex justify-between pb-2 px-1 xs:pe-4">
+      <div className="flex justify-between pb-2 px-1 pe-0 xs:pe-4">
         <h2 className="text-xl font-bold text-secondary whitespace-nowrap">
           {title}
         </h2>

@@ -39,7 +39,7 @@ export default function FormInput({
           name={name}
           id={id}
           placeholder={placeholder}
-          className="grow px-3 py-2 text-md bg-white text-secondary rounded-md outline-0 transition-all duration-200 focus:text-primary"
+          className="grow px-3 max-xs:w-[170px] py-2 text-md bg-white text-secondary rounded-md outline-0 transition-all duration-200 focus:text-primary"
           {...register(name)}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}

@@ -4,7 +4,7 @@ import { assets } from "../../utils/assets";
 export default function Footer() {
   return (
     <footer className="border-1 border-secondary/30 py-10 mt-5">
-      <div className="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
+      <div className="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-y-8 xl:gap-8">
         {/* Brand */}
         <div className="xl:place-items-center">
           <h2 className="text-4xl font-bold text-primary">
@@ -81,7 +81,7 @@ export default function Footer() {
           <h3 className="font-semibold mb-2 text-secondary text-xl ms-2">Contact</h3>
           <div className="flex flex-col space-x-4 mt-2">
             {/* Email */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 ms-2">
               <img src={assets.email_logo} alt="email_icon" className="w-8" />
               <span className="text-md text-secondary">
                 vaishnavdeepak3112@gmail.com

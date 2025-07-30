@@ -49,7 +49,9 @@ export default function HorizontalScrollSection({ children }) {
         className={`absolute top-1/2 left-0 transform -translate-y-[100%] translate-x-[100%] z-20 bg-primary p-2 rounded-full text-white text-2xl cursor-pointer hover:bg-secondary hover:scale-120 transition-all duration-200 ${
           showLeftBlend ? "opacity-100" : "opacity-0"
         }`}
-        onClick={() => (scrollRef.current.scrollLeft -= 200)}
+        onClick={() =>
+          scrollRef.current.scrollBy({ left: -200, behavior: "smooth" })
+        }
       >
         <MdKeyboardArrowLeft />
       </div>
@@ -57,7 +59,9 @@ export default function HorizontalScrollSection({ children }) {
         className={`absolute top-1/2 right-0 transform -translate-y-[100%] -translate-x-[100%] z-20 bg-primary p-2 rounded-full text-white text-2xl cursor-pointer hover:bg-secondary hover:scale-120 transition-all duration-200 ${
           showRightBlend ? "opacity-100" : "opacity-0"
         }`}
-        onClick={() => (scrollRef.current.scrollLeft += 200)}
+        onClick={() =>
+          scrollRef.current.scrollBy({ left: 200, behavior: "smooth" })
+        }
       >
         <MdKeyboardArrowRight />
       </div>

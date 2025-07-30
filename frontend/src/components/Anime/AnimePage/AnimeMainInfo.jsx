@@ -29,7 +29,7 @@ export default function AnimeMainInfo({
 
           {/* Title and Description and Info */}
           <div className="flex flex-col justify-around">
-            <AnimeInfoHeader animeDetails={animeDetails} />
+            <AnimeInfoHeader animeDetails={animeDetails} textCenter={true} />
 
             {/* Description for large devices */}
             {!showDescription && (

@@ -136,6 +136,7 @@ export default function AnimeEpisodes({ idMal, animeTitle }) {
             </span>
           </>
         }
+        isHeight={episodes?.length > 10}
         showBtn={isCompact}
         dropDownOptions={episodeRanges}
         selectedOption={selectedRange}
